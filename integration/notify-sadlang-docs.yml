@@ -1,0 +1,48 @@
+# ============================================================================
+# قالب سير عمل — يُركَّب في **مستودع اللغة** (sadlang/s-programming-language) تحت
+# .github/workflows/ — يُشعِر مستودع التوثيق (sadlang-docs) عند تقدّم مصدر الحقيقة
+# فيُعيد التوثيقُ بناءَ قناتيه (المستقرّ/القادم) ومزامنةَ لقطته فورًا.
+#
+# يتطلّب سرًّا: DOCS_DISPATCH_TOKEN = PAT بصلاحية الكتابة على sadlang-docs
+#   (classic: repo) أو (fine-grained: Contents=Read and write على sadlang-docs).
+#   أضِفه في: Settings → Secrets and variables → Actions بمستودع اللغة.
+#   (GITHUB_TOKEN الافتراضيّ لا يكفي — لا يَعبُر إلى مستودع آخر.)
+#
+# ملاحظة حوكمة: إضافة هذا الملف إلى مستودع اللغة تغييرٌ في CI — مرّره عبر مسار
+# الفرق/المراجعة المعتاد (RFC/PR إلى dev) لا دفعًا مباشرًا.
+# ============================================================================
+name: إشعار التوثيق (sadlang-docs)
+
+on:
+  push:
+    branches: [sadlang, dev]   # تقدّم القناة المستقرّة (sadlang) أو القادمة (dev)
+    paths: ["language-truth/**"]  # يكفي تتبّع SoT — قلّل الإطلاقات غير اللازمة
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: إرسال repository_dispatch إلى sadlang-docs
+        env:
+          TOKEN: ${{ secrets.DOCS_DISPATCH_TOKEN }}
+        run: |
+          # إصدار منشور أو دفع إلى sadlang ⇒ القناة المستقرّة تغيّرت.
+          # دفع إلى dev ⇒ القناة القادمة تغيّرت.
+          EVENT="language-update"
+          if [ "${{ github.event_name }}" = "release" ] || [ "${{ github.ref_name }}" = "sadlang" ]; then
+            EVENT="language-release"
+          fi
+          REF="${{ github.event.release.tag_name }}"
+          [ -z "$REF" ] && REF="${{ github.ref_name }}"
+          curl -sf -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/sadlang/sadlang-docs/dispatches \
+            -d "{\"event_type\":\"$EVENT\",\"client_payload\":{\"tag\":\"$REF\"}}"
+          echo "أُرسل الحدث $EVENT (ref=$REF) إلى sadlang-docs."
