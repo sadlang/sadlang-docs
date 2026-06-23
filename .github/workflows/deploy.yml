@@ -1,8 +1,11 @@
 # ============================================================================
-# نشر التوثيق التقنيّ للغة ص آليًّا على GitHub Pages عند كل دفع إلى main
-# المصدر: mdBook + mdbook-mermaid  →  /book  →  GitHub Pages
+# نشر التوثيق التقنيّ للغة ص — **قناتان** على GitHub Pages عند كل دفع إلى main:
+#   • المستقرّ (sadlang)  →  الجذر /            (الافتراضيّ للمستخدم)
+#   • القادم  (dev)       →  /next/             (يكتبه المطوّر وقت التطوير)
+# لكلّ قناة تُعاد توليد صفحات المرجع من language-truth/ في فرعها، فتبقى متّسقة.
+# المصدر: mdBook + mdbook-mermaid  →  site/  +  site/next/  →  Pages
 # ============================================================================
-name: نشر التوثيق (mdBook → Pages)
+name: نشر التوثيق (قناتان → Pages)
 
 on:
   push:
@@ -14,7 +17,6 @@ permissions:
   pages: write
   id-token: write
 
-# نشر واحد في كل مرة؛ لا تُلغِ عمليّة نشر جارية
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -22,8 +24,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BASE: /sadlang-docs/        # مسار جذر صفحات المشروع (للروابط بين القناتين)
     steps:
-      - name: جلب المستودع
+      - name: جلب مستودع التوثيق
         uses: actions/checkout@v4
 
       - name: تثبيت mdBook
@@ -36,13 +40,57 @@ jobs:
           cargo install mdbook-mermaid --locked
           mdbook-mermaid install .
 
-      - name: البناء
-        run: mdbook build
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
 
-      - name: رفع أثر Pages
+      # ── القناة المستقرّة: من فرع sadlang إلى الجذر ──────────────────────────
+      - name: جلب language-truth/ (sadlang)
+        uses: actions/checkout@v4
+        with:
+          repository: sadlang/s-programming-language
+          ref: sadlang
+          path: _lang-stable
+          sparse-checkout: language-truth
+          sparse-checkout-cone-mode: true
+
+      - name: بناء القناة المستقرّة
+        run: |
+          python scripts/gen_reference.py --source-dir _lang-stable --source-ref sadlang
+          cat > theme/channel-banner.js <<EOF
+          (function(){var b=document.createElement("div");b.dir="rtl";
+          b.style.cssText="background:#2b8a3e;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";
+          b.innerHTML='📕 الإصدار <b>المستقرّ</b> · <a style="color:#fff;text-decoration:underline" href="${BASE}next/">الإصدار القادم (dev) ←</a>';
+          document.body.insertBefore(b,document.body.firstChild);})();
+          EOF
+          mdbook build -d site
+
+      # ── القناة القادمة: من فرع dev إلى /next/ ───────────────────────────────
+      - name: جلب language-truth/ (dev)
+        uses: actions/checkout@v4
+        with:
+          repository: sadlang/s-programming-language
+          ref: dev
+          path: _lang-next
+          sparse-checkout: language-truth
+          sparse-checkout-cone-mode: true
+
+      - name: بناء القناة القادمة
+        run: |
+          python scripts/gen_reference.py --source-dir _lang-next --source-ref dev
+          cat > theme/channel-banner.js <<EOF
+          (function(){var b=document.createElement("div");b.dir="rtl";
+          b.style.cssText="background:#e8590c;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";
+          b.innerHTML='🚧 الإصدار <b>القادم</b> (dev) — قد يحوي ميزات غير منشورة · <a style="color:#fff;text-decoration:underline" href="${BASE}">→ الإصدار المستقرّ</a>';
+          document.body.insertBefore(b,document.body.firstChild);})();
+          EOF
+          mdbook build -d site/next
+
+      - name: رفع أثر Pages (القناتان)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./book
+          path: ./site
 
   deploy:
     needs: build

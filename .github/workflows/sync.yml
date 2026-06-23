@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "فرع/وسم مستودع اللغة لتوليد المرجع منه (افتراضيًّا sadlang)"
+        description: "فرع مستودع اللغة لمزامنة لقطة المرجع معه (افتراضيًّا dev)"
         required: false
-        default: "sadlang"
+        default: "dev"
   repository_dispatch:
     types: [language-release]   # يطلقه مستودع اللغة عند نشر إصدار
 
@@ -37,7 +37,7 @@ jobs:
         run: |
           REF="${{ github.event.client_payload.tag }}"
           [ -z "$REF" ] && REF="${{ github.event.inputs.ref }}"
-          [ -z "$REF" ] && REF="sadlang"
+          [ -z "$REF" ] && REF="dev"
           echo "ref=$REF" >> "$GITHUB_OUTPUT"
           echo "نقيس المزامنة تجاه: $REF"
 
@@ -56,7 +56,7 @@ jobs:
       - run: pip install pyyaml
 
       - name: إعادة توليد صفحات المرجع
-        run: python scripts/gen_reference.py --source-dir _lang-src
+        run: python scripts/gen_reference.py --source-dir _lang-src --source-ref "${{ steps.ref.outputs.ref }}"
 
       - name: كشف الانجراف (هل تغيّرت الصفحات المُولَّدة؟)
         id: diff

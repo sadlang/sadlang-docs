@@ -19,7 +19,7 @@ preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/sadlang/sadlang-docs"
 edit-url-template = "https://github.com/sadlang/sadlang-docs/edit/main/{path}"
 additional-css = ["theme/rtl.css", "theme/custom.css"]
-additional-js = ["theme/font-zoom.js"]
+additional-js = ["theme/font-zoom.js", "theme/channel-banner.js"]
 mathjax-support = false
 
 [output.html.fold]

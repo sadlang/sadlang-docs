@@ -5,13 +5,14 @@
 #      يقرأ keywords.yaml / operators.yaml / types.yaml في المستودع الأساسيّ
 #      للغة ص، ويُنتج src/reference/{keywords,operators,types}.md آليًّا.
 #      الهدف: منع تباعد التوثيق عن SoT — تُعاد كتابة هذه الصفحات ولا تُحرَّر يدويًّا.
+#      يدعم القنوات: يُمرَّر --source-ref (sadlang للمستقرّ، dev للقادم) فتُضبَط
+#      روابط المصدر، وتُشتقّ رموز أمان العدم من العوامل الفعليّة للفرع.
 # (EN) Generates the derived reference pages from the Single Source of Truth.
-#      Reads language-truth/{keywords,operators,types}.yaml and emits
-#      src/reference/{keywords,operators,types}.md. Do not edit those by hand.
+#      Channel-aware via --source-ref (sadlang=stable, dev=next).
 # ----------------------------------------------------------------------------
 # الاستعمال / Usage:
-#   python scripts/gen_reference.py --source-dir <path-to-language-repo-root>
-#                                   [--out-dir src/reference] [--check]
+#   python scripts/gen_reference.py --source-dir <repo-root>
+#         [--source-ref sadlang] [--out-dir src/reference] [--check]
 #   --check: لا يكتب؛ يفشل (خروج 1) إن اختلف المُولَّد عن الموجود (لفحص CI).
 # ============================================================================
 import argparse
@@ -30,23 +31,23 @@ try:
 except ImportError:
     sys.exit("خطأ: pyyaml غير مثبّت. ثبّته بـ: pip install pyyaml")
 
+REPO = "sadlang/s-programming-language"
+
 # ── لافتة تُوضَع رأس كل ملف مُولَّد ───────────────────────────────────────────
 BANNER = (
     "<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.\n"
-    "     المصدر: language-truth/{src} في sadlang/s-programming-language.\n"
-    "     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo>\n"
+    "     المصدر: language-truth/{src} في {repo} (فرع: {ref}).\n"
+    "     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref {ref}\n"
     "     يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->\n\n"
 )
 
-# ── ترجمات للعرض ─────────────────────────────────────────────────────────────
 ASSOC_AR = {"left": "يسار", "right": "يمين", "none": "بلا"}
-
+ARITY_AR = {"binary": "ثنائيّ", "unary": "أحاديّ", "ternary": "ثلاثيّ"}
 OP_CATEGORY_AR = {
     "assignment": "إسناد", "ternary": "ثلاثيّ", "null_safety": "أمان العدم",
     "logical": "منطقيّ", "bitwise": "بتّيّ", "comparison": "مقارنة",
     "membership": "عضويّة", "arithmetic": "حسابيّ", "access": "وصول",
 }
-
 KW_SUBCATEGORY_AR = {
     "functions_classes": "الدوال والبنيات والأصناف",
     "control_flow": "التحكّم في التدفّق",
@@ -57,9 +58,13 @@ KW_SUBCATEGORY_AR = {
     "variables": "المتغيّرات",
     "literals": "القيم الحرفيّة",
 }
+TYPE_CATEGORY_AR = {
+    "numeric": "عدديّ", "text": "نصّيّ", "logic": "منطقيّ",
+    "special": "خاصّ", "composite": "مركّب",
+}
 
 
-def md_escape(text: str) -> str:
+def md_escape(text) -> str:
     """تهريب الرموز التي تكسر جداول ماركداون (أهمّها العمود |)."""
     return str(text).replace("|", "\\|")
 
@@ -69,19 +74,34 @@ def load_yaml(path: Path):
         return yaml.safe_load(f)
 
 
+def blob(ref: str, path: str) -> str:
+    return f"https://github.com/{REPO}/blob/{ref}/{path}"
+
+
+def banner(src: str, ref: str) -> str:
+    return BANNER.format(src=src, repo=REPO, ref=ref)
+
+
+def op_symbol(ops: list, op_id: str, default: str) -> str:
+    """رمز عامل بمعرّفه — يُمكّن النثر من تتبّع رمز الفرع الفعليّ (?. مقابل ؟.)."""
+    for op in ops:
+        if op.get("id") == op_id:
+            return op["symbol"]
+    return default
+
+
 # ── توليد keywords.md ────────────────────────────────────────────────────────
-def gen_keywords(src_dir: Path) -> str:
+def gen_keywords(src_dir: Path, ref: str) -> str:
     data = load_yaml(src_dir / "language-truth" / "keywords.yaml")
     cats = data["categories"]
     reserved = cats["reserved"]["keywords"]
     operators = cats["operators"]["keywords"]
     contextual = cats.get("contextual", {}).get("keywords", [])
     builtin = cats.get("builtin_types", {}).get("keywords", [])
+    url = blob(ref, "language-truth/keywords.yaml")
 
-    out = [BANNER.format(src="keywords.yaml"), "# الكلمات المحجوزة الأربعون\n"]
-    out.append(
-        "تُصنِّف لغة ص كلماتها بحسب طريقة معالجة المعجمي (Lexer) لها:\n"
-    )
+    out = [banner("keywords.yaml", ref), "# الكلمات المحجوزة الأربعون\n"]
+    out.append("تُصنِّف لغة ص كلماتها بحسب طريقة معالجة المعجمي (Lexer) لها:\n")
     out.append("| الفئة | العدد | سلوك المعجمي | صالحة كاسم متغيّر؟ |")
     out.append("|------|:----:|---------------|:------------------:|")
     out.append(f"| **محجوزة** (reserved) | {len(reserved)} | يُصدر `KEYWORD_*` | ❌ |")
@@ -89,16 +109,11 @@ def gen_keywords(src_dir: Path) -> str:
     out.append(f"| **سياقيّة** (contextual) | {len(contextual)} | يُصدر `IDENTIFIER` (يقرّره المحلّل) | ✅ |")
     out.append(f"| **أنواع مدمجة** (builtin) | {len(builtin)} | يُصدر `IDENTIFIER` | ✅ |")
     out.append("")
-    out.append(
-        "> **المصدر:** [`language-truth/keywords.yaml`]"
-        "(https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml)"
-        " — المصدر الوحيد المطلق.\n"
-    )
+    out.append(f"> **المصدر:** [`language-truth/keywords.yaml`]({url}) — المصدر الوحيد المطلق.\n")
     out.append("---\n")
     out.append(f"## الكلمات المحجوزة ({len(reserved)})\n")
     out.append("تُصدرها المعجمي رمزًا خاصًّا، ولا يجوز استعمالها أسماءً.\n")
 
-    # تجميع حسب الفئة الفرعيّة مع الحفاظ على ترتيب الورود
     order, groups = [], {}
     for kw in reserved:
         sub = kw.get("subcategory", "أخرى")
@@ -108,9 +123,8 @@ def gen_keywords(src_dir: Path) -> str:
         groups[sub].append(kw)
 
     for sub in order:
-        title = KW_SUBCATEGORY_AR.get(sub, sub)
         items = groups[sub]
-        out.append(f"### {title} ({len(items)})\n")
+        out.append(f"### {KW_SUBCATEGORY_AR.get(sub, sub)} ({len(items)})\n")
         out.append("| الكلمة | الإنجليزيّة | بدائل |")
         out.append("|--------|-------------|------|")
         for kw in items:
@@ -133,10 +147,7 @@ def gen_keywords(src_dir: Path) -> str:
         "كلمات يُصدرها المعجمي **مُعرِّفات**، ويميّزها المحلّل بحسب الموضع — فيجوز "
         "استعمالها أسماءَ متغيّرات خارج سياقها. أمثلة: " + sample + ".\n"
     )
-    out.append(
-        "للقائمة الكاملة راجع [`language-truth/keywords.yaml`]"
-        "(https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml).\n"
-    )
+    out.append(f"للقائمة الكاملة راجع [`language-truth/keywords.yaml`]({url}).\n")
     out.append("## انظر أيضًا\n")
     out.append("- [الأنواع المدمجة](types.md) — الأنواع المدمجة (`رقم`، `نص`...).")
     out.append("- [العوامل والأسبقيّة](operators.md) — العوامل الرمزيّة ودرجاتها.")
@@ -144,58 +155,57 @@ def gen_keywords(src_dir: Path) -> str:
 
 
 # ── توليد operators.md ───────────────────────────────────────────────────────
-def gen_operators(src_dir: Path) -> str:
-    path = src_dir / "language-truth" / "operators.yaml"
-    data = load_yaml(path)
+def gen_operators(src_dir: Path, ref: str) -> str:
+    data = load_yaml(src_dir / "language-truth" / "operators.yaml")
     ops = data["operators"]
-    # ترتيب: الأسبقيّة تصاعديًّا (1 الأعلى)، ثم الحفاظ على ترتيب الملف
     ops_sorted = sorted(enumerate(ops), key=lambda t: (t[1].get("precedence", 99), t[0]))
+    url = blob(ref, "language-truth/operators.yaml")
 
-    out = [BANNER.format(src="operators.yaml"), "# العوامل والأسبقيّة\n"]
+    out = [banner("operators.yaml", ref), "# العوامل والأسبقيّة\n"]
     out.append(
         "جميع عوامل لغة ص مرتّبةً حسب **الأسبقيّة**: الدرجة **1 هي الأعلى** (تُحسَب "
         "أوّلًا) و**15 هي الأدنى**. الترابط يحدّد اتجاه التجميع عند تساوي الأسبقيّة.\n"
     )
-    out.append(
-        "> **المصدر:** [`language-truth/operators.yaml`]"
-        "(https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/operators.yaml)"
-        " — المشتقّ من ترتيب الأسبقيّة الفعليّ في المحلّل.\n"
-    )
+    out.append(f"> **المصدر:** [`language-truth/operators.yaml`]({url})"
+               " — المشتقّ من ترتيب الأسبقيّة الفعليّ في المحلّل.\n")
     out.append("| الأسبقيّة | العامل | الاسم | الترابط | الفئة | النوعيّة |")
     out.append("|:--------:|:------:|------|:-------:|------|:--------:|")
     for _, op in ops_sorted:
         sym = md_escape(op["symbol"])
         if "aliases" in op:
-            sym += " / " + " / ".join(f"{md_escape(a)}" for a in op["aliases"])
+            sym += " / " + " / ".join(md_escape(a) for a in op["aliases"])
         assoc = ASSOC_AR.get(op.get("associativity", ""), op.get("associativity", "—"))
         cat = OP_CATEGORY_AR.get(op.get("category", ""), op.get("category", "—"))
-        arity = op.get("arity", "—")
-        arity_ar = {"binary": "ثنائيّ", "unary": "أحاديّ", "ternary": "ثلاثيّ"}.get(arity, arity)
-        out.append(
-            f"| {op.get('precedence', '—')} | `{sym}` | {op['name_ar']} | {assoc} | {cat} | {arity_ar} |"
-        )
+        arity = ARITY_AR.get(op.get("arity", ""), op.get("arity", "—"))
+        out.append(f"| {op.get('precedence', '—')} | `{sym}` | {op['name_ar']} | {assoc} | {cat} | {arity} |")
     out.append("")
+
+    # رموز أمان العدم من بيانات الفرع الفعليّة (تختلف بين القنوات)
+    chain = op_symbol(ops, "op.optional_chain", "?.")
+    coalesce = op_symbol(ops, "op.null_coalesce", "??")
+    has_assert = any(o.get("id") == "op.null_assert" for o in ops)
     out.append("## ملاحظات\n")
     out.append(
         "- **العوامل المنطقيّة بصيغتين:** كلمات (`و`، `أو`، `ليس`) ورموز "
         "(`&&`، `||`، `!`) بالأسبقيّة نفسها؛ الكلمات هي المفضّلة عربيًّا."
     )
+    assert_note = "، و`مؤكد` تأكيد عدم الفراغ" if has_assert else ""
     out.append(
-        "- **أمان العدم عربيّ حصرًا:** الرمز `؟` هو U+061F (لا `?` اللاتينيّة) — "
-        "`ADR-NS-002`: `؟؟` اندماج فارغ، `؟.` وصول آمن، `مؤكد` تأكيد عدم الفراغ."
+        f"- **أمان العدم:** `{coalesce}` اندماج فارغ، `{chain}` وصول آمن{assert_note} "
+        "(تتبع رموز هذا الفرع تحديدًا)."
     )
     out.append("")
     out.append("## انظر أيضًا\n")
     out.append("- [التعبيرات والعمليات](../language/expressions.md) — أمثلة استعمال.")
-    out.append("- [الأنواع المدمجة](types.md) — الأنواع الاختياريّة `T؟` وأمان العدم.")
+    out.append("- [الأنواع المدمجة](types.md) — الأنواع الاختياريّة وأمان العدم.")
     return "\n".join(out) + "\n"
 
 
 # ── توليد types.md ───────────────────────────────────────────────────────────
-def gen_types(src_dir: Path) -> str:
+def gen_types(src_dir: Path, ref: str) -> str:
     kw = load_yaml(src_dir / "language-truth" / "keywords.yaml")
     builtin = kw["categories"]["builtin_types"]["keywords"]
-    # إثراء الأوصاف من types.yaml عبر مطابقة الكلمة العربيّة
+
     desc_by_word = {}
     types_path = src_dir / "language-truth" / "types.yaml"
     if types_path.exists():
@@ -203,40 +213,41 @@ def gen_types(src_dir: Path) -> str:
             if "word" in t and t.get("description_ar"):
                 desc_by_word[t["word"]] = t["description_ar"]
 
-    cat_ar = {
-        "numeric": "عدديّ", "text": "نصّيّ", "logic": "منطقيّ",
-        "special": "خاصّ", "composite": "مركّب",
-    }
-    out = [BANNER.format(src="keywords.yaml (builtin_types) + types.yaml"),
-           "# الأنواع المدمجة\n"]
+    # رموز أمان العدم من عوامل الفرع (تجعل المثال صحيحًا لكل قناة)
+    ops_path = src_dir / "language-truth" / "operators.yaml"
+    chain, coalesce = "?.", "??"
+    if ops_path.exists():
+        ops = load_yaml(ops_path).get("operators", [])
+        chain = op_symbol(ops, "op.optional_chain", "?.")
+        coalesce = op_symbol(ops, "op.null_coalesce", "??")
+    opt = chain[0]  # رمز اللاحقة الاختياريّة (? أو ؟)
+
+    kw_url = blob(ref, "language-truth/keywords.yaml")
+    ty_url = blob(ref, "language-truth/types.yaml")
+    out = [banner("keywords.yaml (builtin_types) + types.yaml", ref), "# الأنواع المدمجة\n"]
     out.append(
         f"تُقدّم لغة ص **{len(builtin)} أنواع مدمجة**. أسماؤها يُصدرها المعجمي "
         "**مُعرِّفات** (لا كلمات محجوزة)، فيجوز استعمالها أسماءً خارج موضع النوع.\n"
     )
-    out.append(
-        "> **المصدر:** [`language-truth/keywords.yaml`]"
-        "(https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml)"
-        " (فئة `builtin_types`) + "
-        "[`types.yaml`]"
-        "(https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/types.yaml).\n"
-    )
+    out.append(f"> **المصدر:** [`keywords.yaml`]({kw_url}) (فئة `builtin_types`) + "
+               f"[`types.yaml`]({ty_url}).\n")
     out.append("| النوع | الإنجليزيّة | الفئة | الوصف |")
     out.append("|------|-------------|------|-------|")
     for t in builtin:
-        word = t["word"]
-        cat = cat_ar.get(t.get("subcategory", ""), t.get("subcategory", "—"))
-        desc = desc_by_word.get(word, "—")
-        out.append(f"| `{md_escape(word)}` | {t['english']} | {cat} | {md_escape(desc)} |")
+        cat = TYPE_CATEGORY_AR.get(t.get("subcategory", ""), t.get("subcategory", "—"))
+        desc = desc_by_word.get(t["word"], "—")
+        out.append(f"| `{md_escape(t['word'])}` | {t['english']} | {cat} | {md_escape(desc)} |")
     out.append("")
     out.append("## القيم الحرفيّة المحجوزة\n")
     out.append("```sad\nمتغير يعمل = صحيح     # true\nمتغير متوقّف = خطأ    # false\nمتغير قيمة = لاشيء    # null\n```\n")
     out.append("## الأنواع الاختياريّة وأمان العدم\n")
     out.append(
-        "يُكتب النوع الاختياريّ باللاحقة `؟` (العربيّة، U+061F) ليقبل القيمة أو "
-        "`لاشيء`، ويُعالَج بعوامل `؟.` و`؟؟` و`مؤكد`:\n"
+        f"يُكتب النوع الاختياريّ باللاحقة `{opt}` ليقبل القيمة أو `لاشيء`، "
+        f"ويُعالَج بعوامل `{chain}` (وصول آمن) و`{coalesce}` (اندماج فارغ):\n"
     )
-    out.append("```sad\nمتغير الوسط: نص؟ = لاشيء\nمتغير الطول = الوسط؟.الطول\nمتغير قيمة = الوسط ؟؟ \"مجهول\"\n```\n")
-    out.append("راجع [العوامل والأسبقيّة](operators.md) لعوامل أمان العدم.")
+    out.append(f"```sad\nمتغير الوسط: نص{opt} = لاشيء\nمتغير الطول = الوسط{chain}الطول\n"
+               f"متغير قيمة = الوسط {coalesce} \"مجهول\"\n```\n")
+    out.append("راجع [العوامل والأسبقيّة](operators.md) لعوامل أمان العدم ورموزها الدقيقة.")
     return "\n".join(out) + "\n"
 
 
@@ -251,6 +262,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="مولّد صفحات المرجع من language-truth/")
     ap.add_argument("--source-dir", required=True,
                     help="جذر مستودع لغة ص (يحوي language-truth/)")
+    ap.add_argument("--source-ref", default="sadlang",
+                    help="فرع/وسم المصدر — يُستعمل في روابط المصدر (sadlang=مستقرّ، dev=قادم)")
     ap.add_argument("--out-dir", default="src/reference",
                     help="مجلّد إخراج صفحات المرجع")
     ap.add_argument("--check", action="store_true",
@@ -259,13 +272,12 @@ def main() -> int:
 
     src_dir = Path(args.source_dir)
     out_dir = Path(args.out_dir)
-    lt = src_dir / "language-truth"
-    if not lt.is_dir():
-        sys.exit(f"خطأ: لم يُعثر على {lt} — تحقّق من --source-dir")
+    if not (src_dir / "language-truth").is_dir():
+        sys.exit(f"خطأ: لم يُعثر على {src_dir / 'language-truth'} — تحقّق من --source-dir")
 
     drift = False
     for name, fn in GENERATORS.items():
-        content = fn(src_dir)
+        content = fn(src_dir, args.source_ref)
         target = out_dir / name
         existing = target.read_text(encoding="utf-8") if target.exists() else None
         if args.check:

@@ -1,6 +1,6 @@
 <!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.
-     المصدر: language-truth/keywords.yaml (builtin_types) + types.yaml في sadlang/s-programming-language.
-     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo>
+     المصدر: language-truth/keywords.yaml (builtin_types) + types.yaml في sadlang/s-programming-language (فرع: dev).
+     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref dev
      يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->
 
 
@@ -8,7 +8,7 @@
 
 تُقدّم لغة ص **9 أنواع مدمجة**. أسماؤها يُصدرها المعجمي **مُعرِّفات** (لا كلمات محجوزة)، فيجوز استعمالها أسماءً خارج موضع النوع.
 
-> **المصدر:** [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml) (فئة `builtin_types`) + [`types.yaml`](https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/types.yaml).
+> **المصدر:** [`keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/keywords.yaml) (فئة `builtin_types`) + [`types.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/types.yaml).
 
 | النوع | الإنجليزيّة | الفئة | الوصف |
 |------|-------------|------|-------|
@@ -32,7 +32,7 @@
 
 ## الأنواع الاختياريّة وأمان العدم
 
-يُكتب النوع الاختياريّ باللاحقة `؟` (العربيّة، U+061F) ليقبل القيمة أو `لاشيء`، ويُعالَج بعوامل `؟.` و`؟؟` و`مؤكد`:
+يُكتب النوع الاختياريّ باللاحقة `؟` ليقبل القيمة أو `لاشيء`، ويُعالَج بعوامل `؟.` (وصول آمن) و`؟؟` (اندماج فارغ):
 
 ```sad
 متغير الوسط: نص؟ = لاشيء
@@ -40,4 +40,4 @@
 متغير قيمة = الوسط ؟؟ "مجهول"
 ```
 
-راجع [العوامل والأسبقيّة](operators.md) لعوامل أمان العدم.
+راجع [العوامل والأسبقيّة](operators.md) لعوامل أمان العدم ورموزها الدقيقة.
