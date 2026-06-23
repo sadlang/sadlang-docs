@@ -26,6 +26,22 @@
 (ملفّات YAML مُحكَّمة بمخطّطات JSON). هذا المستودع **يعرض ويشرح** تلك الحقيقة بصيغة
 قابلة للقراءة، ولا يخترع قواعد جديدة. عند أيّ تعارض، **`language-truth/` هو الفيصل**.
 
+### مزامنة آليّة (لا تحرّر الصفحات المُولَّدة يدويًّا)
+
+صفحات المرجع التابعة تُولَّد آليًّا من `language-truth/` لمنع التباعد:
+
+| الصفحة | المصدر |
+|--------|--------|
+| `src/reference/keywords.md` | `language-truth/keywords.yaml` |
+| `src/reference/operators.md` | `language-truth/operators.yaml` |
+| `src/reference/types.md` | `language-truth/keywords.yaml` + `types.yaml` |
+
+- **المولّد:** [`scripts/gen_reference.py`](scripts/gen_reference.py) — يقرأ SoT ويُنتج الصفحات.
+- **سير المزامنة:** [`.github/workflows/sync.yml`](.github/workflows/sync.yml) يُعيد التوليد
+  أسبوعيًّا/عند إصدار لغة/يدويًّا، وإن رصد انجرافًا يرفع الصفحات أثرًا ويفتح قضيّة
+  بالتعليمات (نمط `dev-guide`). البيان في [`sync/sources.yaml`](sync/sources.yaml).
+- إعادة التوليد محليًّا: `python scripts/gen_reference.py --source-dir <مسار-مستودع-اللغة>`.
+
 ## البناء محليًّا
 
 ```bash

@@ -1,0 +1,36 @@
+# ============================================================================
+# بيان المزامنة: يوثّق منشأ صفحات المرجع المُولَّدة ويربطها بمصادرها في
+# مستودع اللغة. يستهلكه سير العمل sync.yml لإعادة توليد الصفحات عند تغيّر SoT.
+# (AR) صفحات reference/ التالية تُولَّد آليًّا — لا تُحرَّر يدويًّا.
+# ============================================================================
+repo: sadlang/s-programming-language
+
+# الفرع/الوسم الذي تُولَّد منه الصفحات (الفرع الافتراضيّ المستقرّ).
+# يمكن تجاوزه عند التشغيل اليدويّ عبر مُدخَل workflow_dispatch.
+ref: sadlang
+
+# نسخة اللغة التي تغطّيها هذه الصفحات (تُحدَّث عند مراجعة إصدار).
+covers_version: "1.0.0"
+
+# ربط كل صفحة مُولَّدة بملفّات SoT التي تُشتقّ منها.
+generated:
+  - file: src/reference/keywords.md
+    sources:
+      - language-truth/keywords.yaml
+  - file: src/reference/operators.md
+    sources:
+      - language-truth/operators.yaml
+  - file: src/reference/types.md
+    sources:
+      - language-truth/keywords.yaml
+      - language-truth/types.yaml
+
+# صفحات مكتوبة يدويًّا (نثريّة) لكنّها تابعة لـSoT — تُراجَع عند تغيّر المصدر،
+# ولا يُعيد المولّد كتابتها.
+manual_tracked:
+  - file: src/reference/grammar.md
+    sources:
+      - language-truth/grammar
+  - file: src/reference/sot.md
+    sources:
+      - language-truth/_schemas

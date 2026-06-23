@@ -1,0 +1,124 @@
+# ============================================================================
+# مزامنة صفحات المرجع المُولَّدة مع مصدر الحقيقة (language-truth/) في مستودع اللغة.
+#   1) يجلب language-truth/ من sadlang/s-programming-language عند الـref المطلوب.
+#   2) يُعيد توليد src/reference/{keywords,operators,types}.md عبر المولّد.
+#   3) إن تغيّرت الصفحات: يرفع النسخة المُولَّدة أثرًا (artifact)، ويفتح/يحدّث
+#      قضيّة (issue) بالصفحات المتأثّرة وتعليمات إعادة التوليد للمراجعة والدمج.
+# (نمط dev-guide: قضيّة لا PR — لأنّ المنظمة تمنع إنشاء PR من Actions.)
+# يعمل: أسبوعيًّا، يدويًّا، وعند نشر إصدار لغة جديد (repository_dispatch).
+# ============================================================================
+name: مزامنة المرجع من SoT
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"        # كل اثنين 07:00 UTC
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "فرع/وسم مستودع اللغة لتوليد المرجع منه (افتراضيًّا sadlang)"
+        required: false
+        default: "sadlang"
+  repository_dispatch:
+    types: [language-release]   # يطلقه مستودع اللغة عند نشر إصدار
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: جلب مستودع التوثيق
+        uses: actions/checkout@v4
+
+      - name: تحديد الـref (إصدار > مُدخَل يدويّ > sadlang)
+        id: ref
+        run: |
+          REF="${{ github.event.client_payload.tag }}"
+          [ -z "$REF" ] && REF="${{ github.event.inputs.ref }}"
+          [ -z "$REF" ] && REF="sadlang"
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+          echo "نقيس المزامنة تجاه: $REF"
+
+      - name: جلب language-truth/ من مستودع اللغة (sparse)
+        uses: actions/checkout@v4
+        with:
+          repository: sadlang/s-programming-language
+          ref: ${{ steps.ref.outputs.ref }}
+          path: _lang-src
+          sparse-checkout: language-truth
+          sparse-checkout-cone-mode: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: إعادة توليد صفحات المرجع
+        run: python scripts/gen_reference.py --source-dir _lang-src
+
+      - name: كشف الانجراف (هل تغيّرت الصفحات المُولَّدة؟)
+        id: diff
+        run: |
+          rm -rf _lang-src
+          if git diff --quiet -- src/reference; then
+            echo "drift=0" >> "$GITHUB_OUTPUT"
+            echo "✅ صفحات المرجع متزامنة مع SoT."
+          else
+            echo "drift=1" >> "$GITHUB_OUTPUT"
+            echo "⚠️ رُصد انجراف. الملفّات المتغيّرة:"
+            git diff --name-only -- src/reference
+            git diff --name-only -- src/reference > changed.txt
+          fi
+
+      - name: رفع الصفحات المُولَّدة أثرًا (للتنزيل والدمج)
+        if: steps.diff.outputs.drift == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: regenerated-reference
+          path: src/reference/*.md
+
+      - name: صياغة جسم القضيّة
+        if: steps.diff.outputs.drift == '1'
+        env:
+          MEASURED_REF: ${{ steps.ref.outputs.ref }}
+        run: |
+          {
+            echo "رصد سير المزامنة اختلافًا بين صفحات المرجع المُولَّدة و\`language-truth/\` عند **\`$MEASURED_REF\`**."
+            echo
+            echo "أي أنّ مصدر الحقيقة تغيّر، وصفحات \`src/reference/\` لم تَعُد تطابقه."
+            echo
+            echo "### 📄 صفحات تحتاج إعادة توليد"
+            sed 's/^/- `/; s/$/`/' changed.txt
+            echo
+            echo "---"
+            echo "**لإصلاح المزامنة** شغّل المولّد محليًّا وادفع التغيير:"
+            echo '```bash'
+            echo "python scripts/gen_reference.py --source-dir <مسار-مستودع-لغة-ص>"
+            echo "git add src/reference && git commit -m 'docs(sync): إعادة توليد المرجع من SoT' && git push"
+            echo '```'
+            echo "> أو نزّل الأثر \`regenerated-reference\` من صفحة هذا التشغيل وادمج محتواه."
+            echo
+            echo "<sub>أُنشئت آليًّا بوساطة workflow \`sync\`.</sub>"
+          } > body.md
+
+      - name: فتح/تحديث قضيّة الانجراف
+        if: steps.diff.outputs.drift == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="🔄 انجراف صفحات المرجع عن SoT"
+          NUM=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file body.md
+            gh issue comment "$NUM" --body "أُعيد رصد الانجراف في $(date -u +%F) تجاه \`${{ steps.ref.outputs.ref }}\`."
+            echo "حُدِّثت القضيّة #$NUM"
+          else
+            gh issue create --title "$TITLE" --body-file body.md --label documentation 2>/dev/null \
+              || gh issue create --title "$TITLE" --body-file body.md
+          fi
+
+      - name: لا انجراف
+        if: steps.diff.outputs.drift == '0'
+        run: echo "✅ المرجع متزامن مع ${{ steps.ref.outputs.ref }}."

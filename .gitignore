@@ -6,6 +6,10 @@ book/
 mermaid.min.js
 mermaid-init.js
 
+# نسخة language-truth/ المؤقّتة التي يجلبها سير المزامنة (sync.yml)
+/_lang-src
+_lang-src/
+
 # ملفات النظام
 .DS_Store
 Thumbs.db
