@@ -65,5 +65,7 @@ jobs:
       - name: فحص الروابط الداخليّة (lychee على الإخراج المبنيّ)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress "book/**/*.html"
+          # نستثني 404.html: صفحة يولّدها mdBook بروابط جذريّة مطلقة (href="/")
+          # مقصودة كي تعمل من أيّ عمق مسار عند النشر؛ لا يقدر --offline على حلّها.
+          args: --offline --no-progress --exclude-path book/404.html "book/**/*.html"
           fail: true
