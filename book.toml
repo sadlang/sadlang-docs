@@ -1,0 +1,40 @@
+# ============================================================================
+# إعداد mdBook — التوثيق التقنيّ الرسميّ للغة ص (Sad Language Technical Docs)
+# البناء:   mdbook build           التطوير الحيّ:  mdbook serve --open
+# المتطلبات: cargo install mdbook mdbook-mermaid  ثم  mdbook-mermaid install .
+# ----------------------------------------------------------------------------
+# الفرق عن مستودع dev-guide: هذا مرجعُ *اللغة نفسها* (للمستخدم: النحو، الكلمات،
+# الأنواع، العوامل، الميزات)، بينما dev-guide يوثّق *الأنظمة الداخلية* للمترجم.
+# ============================================================================
+[book]
+title = "التوثيق التقنيّ للغة ص"
+description = "المرجع التقنيّ الرسميّ للغة البرمجة العربية ص (Sad): النحو، الكلمات المحجوزة الأربعون، الأنواع المدمجة، العوامل وأسبقيّتها، والميزات المتقدّمة."
+authors = ["فريق لغة ص (sadlang)"]
+language = "ar"
+src = "src"
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/sadlang/sadlang-docs"
+edit-url-template = "https://github.com/sadlang/sadlang-docs/edit/main/{path}"
+additional-css = ["theme/rtl.css", "theme/custom.css"]
+additional-js = ["theme/font-zoom.js"]
+mathjax-support = false
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true
+limit-results = 30
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output.html.playground]
+runnable = false
+
+# ملاحظة: فحص الروابط يتم في CI عبر lychee على الإخراج المبنيّ (book/) — انظر
+# .github/workflows/ci.yml — لأن mdbook-linkcheck غير متوافق مع mdBook 0.5.x حاليًّا.

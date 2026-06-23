@@ -1,0 +1,41 @@
+# ============================================================================
+# فحص الجودة على كل Pull Request:
+#   1) بناء mdBook (يلتقط أخطاء البناء/المخطّطات)
+#   2) فحص روابط الإخراج المبنيّ بـ lychee (مستقلّ عن إصدار mdBook)
+# لا ينشر — النشر في deploy.yml عند الدمج في main.
+# ============================================================================
+name: فحص التوثيق (بناء + روابط)
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: جلب المستودع
+        uses: actions/checkout@v4
+
+      - name: تثبيت mdBook
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: latest
+
+      - name: تثبيت mdbook-mermaid + أصوله
+        run: |
+          cargo install mdbook-mermaid --locked
+          mdbook-mermaid install .
+
+      - name: البناء
+        run: mdbook build
+
+      - name: فحص الروابط الداخليّة (lychee على الإخراج المبنيّ)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress "book/**/*.html"
+          fail: true
