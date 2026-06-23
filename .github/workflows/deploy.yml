@@ -11,6 +11,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # يطلقه مستودع اللغة عند تقدّم SoT فتُعاد بناء القناتين فورًا:
+  #   • language-release: دمج dev→sadlang / نشر إصدار  ⇒ تتغيّر القناة المستقرّة.
+  #   • language-update : دفع إلى dev                    ⇒ تتغيّر القناة القادمة.
+  repository_dispatch:
+    types: [language-release, language-update]
 
 permissions:
   contents: read

@@ -19,7 +19,7 @@ on:
         required: false
         default: "dev"
   repository_dispatch:
-    types: [language-release]   # يطلقه مستودع اللغة عند نشر إصدار
+    types: [language-release, language-update]   # يطلقه مستودع اللغة عند تقدّم SoT
 
 permissions:
   contents: read
