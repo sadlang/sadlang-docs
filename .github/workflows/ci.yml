@@ -1,10 +1,13 @@
 # ============================================================================
 # فحص الجودة على كل Pull Request:
-#   1) بناء mdBook (يلتقط أخطاء البناء/المخطّطات)
-#   2) فحص روابط الإخراج المبنيّ بـ lychee (مستقلّ عن إصدار mdBook)
+#   1) بوّابة الانجراف: تتأكّد أنّ src/reference/ المودَع يطابق ما يولّده المولّد
+#      من language-truth/ (مصدر الحقيقة) — تحجب أيّ تحرير يدويّ للصفحات المُولَّدة
+#      أو انحدار في المولّد فورًا، لا بعد أيّام عبر قضيّة sync.yml الأسبوعيّة.
+#   2) بناء mdBook (يلتقط أخطاء البناء/المخطّطات)
+#   3) فحص روابط الإخراج المبنيّ بـ lychee (مستقلّ عن إصدار mdBook)
 # لا ينشر — النشر في deploy.yml عند الدمج في main.
 # ============================================================================
-name: فحص التوثيق (بناء + روابط)
+name: فحص التوثيق (انجراف + بناء + روابط)
 
 on:
   pull_request:
@@ -15,6 +18,31 @@ permissions:
   contents: read
 
 jobs:
+  # ── بوّابة الانجراف: المرجع المودَع == المُولَّد من SoT ──────────────────────
+  # اللقطة المودَعة تتبع القناة القادمة (dev)؛ نقيس المطابقة تجاهها.
+  drift-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: جلب مستودع التوثيق
+        uses: actions/checkout@v4
+
+      - name: جلب language-truth/ من مستودع اللغة (sparse @ dev)
+        uses: actions/checkout@v4
+        with:
+          repository: sadlang/s-programming-language
+          ref: dev
+          path: _lang-src
+          sparse-checkout: language-truth
+          sparse-checkout-cone-mode: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: التحقّق من تطابق المرجع المودَع مع SoT (--check)
+        run: python scripts/gen_reference.py --source-dir _lang-src --source-ref dev --check
+
   check:
     runs-on: ubuntu-latest
     steps:
@@ -37,5 +65,7 @@ jobs:
       - name: فحص الروابط الداخليّة (lychee على الإخراج المبنيّ)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress "book/**/*.html"
+          # نستثني 404.html: صفحة يولّدها mdBook بروابط جذريّة مطلقة (href="/")
+          # مقصودة كي تعمل من أيّ عمق مسار عند النشر؛ لا يقدر --offline على حلّها.
+          args: --offline --no-progress --exclude-path book/404.html "book/**/*.html"
           fail: true

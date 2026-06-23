@@ -1,48 +1,131 @@
 # ============================================================================
 # قالب سير عمل — يُركَّب في **مستودع اللغة** (sadlang/s-programming-language) تحت
-# .github/workflows/ — يُشعِر مستودع التوثيق (sadlang-docs) عند تقدّم مصدر الحقيقة
-# فيُعيد التوثيقُ بناءَ قناتيه (المستقرّ/القادم) ومزامنةَ لقطته فورًا.
+# .github/workflows/  — يوصِل مسؤوليّة تحديث التوثيق التقنيّ (sadlang-docs) إلى
+# مَن يغيّر اللغة فعلًا، لا إلى مستودع التوثيق.
+#
+#   • على كل PR إلى dev: إن لمستِ التغييراتُ مصدرًا مسجَّلًا في بيان التوثيق
+#     (sync/sources.yaml)، يعلّق البوت تذكيرًا بالصفحات المتأثّرة (إرشاديّ، لا يحجب).
+#   • عند نشر إصدار أو دفع language-truth/** إلى sadlang/dev: يطلق إعادة بناء
+#     قناتَي التوثيق ومزامنة لقطته فورًا (repository_dispatch).
+#       - sadlang/إصدار ⇒ language-release (تتغيّر القناة المستقرّة)
+#       - dev           ⇒ language-update  (تتغيّر القناة القادمة /next/)
 #
 # يتطلّب سرًّا: DOCS_DISPATCH_TOKEN = PAT بصلاحية الكتابة على sadlang-docs
-#   (classic: repo) أو (fine-grained: Contents=Read and write على sadlang-docs).
+#   (classic: repo) أو (fine-grained: Contents = Read and write على sadlang-docs).
 #   أضِفه في: Settings → Secrets and variables → Actions بمستودع اللغة.
 #   (GITHUB_TOKEN الافتراضيّ لا يكفي — لا يَعبُر إلى مستودع آخر.)
+#   يُتخطّى الإطلاق بأمان إن غاب السرّ (تبقى المزامنة الأسبوعيّة عاملة).
 #
 # ملاحظة حوكمة: إضافة هذا الملف إلى مستودع اللغة تغييرٌ في CI — مرّره عبر مسار
 # الفرق/المراجعة المعتاد (RFC/PR إلى dev) لا دفعًا مباشرًا.
+# (مُركَّب فعلًا عبر PR sadlang/s-programming-language#85 — هذا القالب نسخة مطابقة.)
 # ============================================================================
-name: إشعار التوثيق (sadlang-docs)
+name: notify-sadlang-docs
 
 on:
+  pull_request:
+    branches: [dev]
   push:
-    branches: [sadlang, dev]   # تقدّم القناة المستقرّة (sadlang) أو القادمة (dev)
-    paths: ["language-truth/**"]  # يكفي تتبّع SoT — قلّل الإطلاقات غير اللازمة
+    branches: [sadlang, dev]
+    paths: ["language-truth/**"]
   release:
     types: [published]
-  workflow_dispatch:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
-  notify:
+  # ── تذكير على الـPR بالصفحات المتأثّرة (بلا سرّ) ─────────────────────────────
+  remind:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: إرسال repository_dispatch إلى sadlang-docs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: جلب بيان التوثيق وحساب الصفحات المتأثّرة
+        id: scan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          curl -fsSL -o sources.yaml \
+            https://raw.githubusercontent.com/sadlang/sadlang-docs/main/sync/sources.yaml || {
+              echo "تعذّر جلب البيان — يُتخطّى"; echo "hit=0" >> "$GITHUB_OUTPUT"; exit 0; }
+          gh pr view "$PR" --json files --jq '.files[].path' > changed.txt
+          python - <<'PY'
+          import yaml, os
+          m = yaml.safe_load(open("sources.yaml", encoding="utf-8"))
+          changed = [l.strip() for l in open("changed.txt", encoding="utf-8") if l.strip()]
+          def paths(s): return s if isinstance(s, str) else s["path"]
+          entries = (m.get("generated") or []) + (m.get("manual_tracked") or [])
+          hits = {}  # page -> set(sources)
+          for e in entries:
+              for s in e.get("sources", []):
+                  p = paths(s)
+                  for f in changed:
+                      if f == p or f.startswith(p.rstrip("/") + "/"):
+                          hits.setdefault(e["file"], set()).add(p)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"hit={1 if hits else 0}\n")
+          if hits:
+              lines = ["<!-- sadlang-docs-sync -->",
+                       "📘 **تذكير مزامنة التوثيق التقنيّ**",
+                       "",
+                       "هذا الـPR يلمس مصادر يعرضها "
+                       "[التوثيق التقنيّ](https://github.com/sadlang/sadlang-docs). "
+                       "الصفحات المُولَّدة تُعاد بناؤها آليًّا عند الدمج/الإصدار؛ راجع "
+                       "الصفحات النثريّة إن تغيّر سلوكها:", ""]
+              for pg in sorted(hits):
+                  srcs = "، ".join(sorted(hits[pg]))
+                  lines.append(f"- [`{pg}`](https://github.com/sadlang/sadlang-docs/blob/main/{pg}) "
+                               f"— بسبب: {srcs}")
+              lines += ["", "<sub>تذكيرٌ آليّ — لا يحجب الدمج.</sub>"]
+              open("comment.md", "w", encoding="utf-8").write("\n".join(lines))
+          PY
+
+      - name: نشر/تحديث تعليق التذكير
+        if: steps.scan.outputs.hit == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          HAS=$(gh pr view "$PR" --json comments \
+                --jq '[.comments[] | select(.body | startswith("<!-- sadlang-docs-sync -->"))] | length')
+          if [ "$HAS" -gt 0 ]; then
+            gh pr comment "$PR" --body-file comment.md --edit-last
+          else
+            gh pr comment "$PR" --body-file comment.md
+          fi
+
+  # ── إطلاق إعادة بناء/مزامنة التوثيق (يحتاج DOCS_DISPATCH_TOKEN) ──────────────
+  dispatch:
+    if: github.event_name == 'release' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: إطلاق التوثيق (repository_dispatch)
         env:
           TOKEN: ${{ secrets.DOCS_DISPATCH_TOKEN }}
         run: |
-          # إصدار منشور أو دفع إلى sadlang ⇒ القناة المستقرّة تغيّرت.
-          # دفع إلى dev ⇒ القناة القادمة تغيّرت.
+          if [ -z "$TOKEN" ]; then
+            echo "ℹ️ لا يوجد DOCS_DISPATCH_TOKEN — يُتخطّى الإطلاق (تبقى المزامنة الأسبوعيّة)."
+            exit 0
+          fi
+          # sadlang/إصدار ⇒ القناة المستقرّة؛ dev ⇒ القناة القادمة.
           EVENT="language-update"
           if [ "${{ github.event_name }}" = "release" ] || [ "${{ github.ref_name }}" = "sadlang" ]; then
             EVENT="language-release"
           fi
           REF="${{ github.event.release.tag_name }}"
           [ -z "$REF" ] && REF="${{ github.ref_name }}"
-          curl -sf -X POST \
+          curl -fsSL -X POST \
             -H "Authorization: Bearer $TOKEN" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/sadlang/sadlang-docs/dispatches \
             -d "{\"event_type\":\"$EVENT\",\"client_payload\":{\"tag\":\"$REF\"}}"
-          echo "أُرسل الحدث $EVENT (ref=$REF) إلى sadlang-docs."
+          echo "أُطلق الحدث $EVENT (ref=$REF) إلى sadlang-docs."

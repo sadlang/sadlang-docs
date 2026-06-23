@@ -21,14 +21,17 @@
 [`deploy.yml`](../.github/workflows/deploy.yml) و[`sync.yml`](../.github/workflows/sync.yml)
 لكلا الحدثين عبر `repository_dispatch`.
 
-## ما يتبقّى (في مستودع اللغة)
+## الحالة
 
-1. انسخ [`notify-sadlang-docs.yml`](notify-sadlang-docs.yml) إلى
-   `s-programming-language/.github/workflows/` — **عبر مسار الحوكمة المعتاد (RFC/PR إلى dev)**.
-2. أضِف السرّ `DOCS_DISPATCH_TOKEN` في إعدادات مستودع اللغة
+1. ✅ **سير العمل مُركَّب** في مستودع اللغة عبر
+   [PR sadlang/s-programming-language#85](https://github.com/sadlang/s-programming-language/pull/85)
+   (مسار الحوكمة المعتاد: PR إلى `dev`). الملف هنا
+   [`notify-sadlang-docs.yml`](notify-sadlang-docs.yml) نسخةٌ مطابقة للمرجع.
+2. ⏳ **يتبقّى (خطوة يدويّة):** أضِف السرّ `DOCS_DISPATCH_TOKEN` في إعدادات مستودع اللغة
    (Settings → Secrets and variables → Actions):
    - PAT كلاسيكيّ بصلاحية `repo`، أو دقيق بـ **Contents = Read and write** على `sadlang-docs`.
    - السبب: `GITHUB_TOKEN` الافتراضيّ لا يَعبُر إلى مستودع آخر.
+   - بدون السرّ يُتخطّى الإطلاق بأمان (تبقى المزامنة الأسبوعيّة عاملة) — فالدمج لا يكسر شيئًا.
 
 ## الاختبار اليدويّ (بلا انتظار حدث)
 
