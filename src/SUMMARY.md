@@ -22,7 +22,14 @@
 - [معالجة الأخطاء](language/errors.md)
 - [ميزات متقدّمة](language/advanced.md)
 
-# الجزء الثالث · المرجع التقنيّ
+# الجزء الثالث · الأدوات
+
+- [نظرة عامّة على الأدوات](tools/overview.md)
+- [التشغيل والترجمة (sad-run / sad-build)](tools/run-build.md)
+- [مدير الحزم (sad-pkg / sad-build pkg)](tools/package-manager.md)
+- [الجودة: التنسيق والفحص وخادم اللغة](tools/quality.md)
+
+# الجزء الرابع · المرجع التقنيّ
 
 - [الكلمات المحجوزة الأربعون](reference/keywords.md)
 - [العوامل والأسبقيّة](reference/operators.md)
