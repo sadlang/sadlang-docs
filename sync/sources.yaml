@@ -36,3 +36,8 @@ manual_tracked:
   - file: src/reference/sot.md
     sources:
       - language-truth/_schemas
+  # فصل الاستيعابات نثريّ لكنّه يوثّق قواعد gr.adv.*_comprehension — يُراجَع عند
+  # تغيّر النحو (شمل ذلك فكّ الزوج «لكل مفتاح، قيمة في خريطة»، RFC 25 التعارض 1أ).
+  - file: src/language/comprehensions.md
+    sources:
+      - language-truth/grammar/60_advanced.yaml
