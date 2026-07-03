@@ -14,8 +14,8 @@
 ```powershell
 # من جذر مستودع لغة ص
 cmake -S . -B build                                   # تهيئة أولى
-cmake --build build --config Debug --target sad-run   # المفسّر  → sad.exe
-cmake --build build --config Debug --target sad-build # المترجم  → sadc
+cmake --build build --config Debug --target sad-run   # المفسّر  → sad-run.exe
+cmake --build build --config Debug --target sad-build # المترجم  → sad-build.exe
 ```
 
 > الهدفان: `sad-run` يبني المفسّر، و`sad-build` يبني المترجم. (الأسماء القديمة
@@ -26,13 +26,13 @@ cmake --build build --config Debug --target sad-build # المترجم  → sadc
 شغّل ملفًّا بالمفسّر مباشرةً:
 
 ```powershell
-.\build\bin\Debug\sad.exe examples\test_simple.ص
+.\build\bin\Debug\sad-run.exe examples\test_simple.ص
 ```
 
 أو ترجمه إلى تنفيذيّ أصليّ بالمترجم:
 
 ```powershell
-.\build\bin\Debug\sadc.exe examples\test_simple.ص -o test_simple.exe
+.\build\bin\Debug\sad-build.exe examples\test_simple.ص -o test_simple.exe
 .\test_simple.exe
 ```
 

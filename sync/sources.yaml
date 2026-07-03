@@ -41,3 +41,18 @@ manual_tracked:
   - file: src/language/comprehensions.md
     sources:
       - language-truth/grammar/60_advanced.yaml
+  # فصل الأدوات نثريّ لكنّه يوثّق أسطح أوامر الأدوات — يُراجَع عند تغيّر
+  # واجهات سطر الأوامر في مستودع اللغة (رايات/أوامر/مرادفات عربيّة).
+  - file: src/tools/run-build.md
+    sources:
+      - apps/sad-run/main.cpp
+      - tools/compiler/compiler_driver_cli.cpp
+  - file: src/tools/package-manager.md
+    sources:
+      - tools/pkg/cli_v2.cpp
+      - tools/compiler/compiler_driver_pkg.cpp
+  - file: src/tools/quality.md
+    sources:
+      - tools/formatter
+      - tools/check/src/main.cpp
+      - tools/lsp
