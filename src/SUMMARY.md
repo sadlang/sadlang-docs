@@ -15,6 +15,7 @@
 - [الأنواع والقيم الحرفيّة](language/types.md)
 - [التعبيرات والعمليات](language/expressions.md)
 - [التحكّم بالتدفّق](language/control-flow.md)
+- [الاستيعابات (قوائم ومجموعات وقواميس)](language/comprehensions.md)
 - [الدوال](language/functions.md)
 - [البرمجة الكائنيّة](language/oop.md)
 - [الوحدات والاستيراد](language/modules.md)
