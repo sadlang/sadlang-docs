@@ -56,3 +56,9 @@ manual_tracked:
       - tools/formatter
       - tools/check/src/main.cpp
       - tools/lsp
+  # صفحة التزامن نثريّة — تُراجَع عند تغيّر كلمات/قواعد التزامن أو مدمجات
+  # قناة/قفل/مستقبل/مجموعة_انتظار.
+  - file: src/language/concurrency.md
+    sources:
+      - language-truth/keywords.yaml
+      - tests/behavior/sections/07_التزامن
