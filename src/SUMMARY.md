@@ -20,6 +20,7 @@
 - [البرمجة الكائنيّة](language/oop.md)
 - [الوحدات والاستيراد](language/modules.md)
 - [معالجة الأخطاء](language/errors.md)
+- [التزامن (أطلق والقنوات)](language/concurrency.md)
 - [ميزات متقدّمة](language/advanced.md)
 
 # الجزء الثالث · الأدوات
