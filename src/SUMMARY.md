@@ -36,5 +36,6 @@
 - [الكلمات المحجوزة الأربعون](reference/keywords.md)
 - [العوامل والأسبقيّة](reference/operators.md)
 - [الأنواع المدمجة](reference/types.md)
+- [خصائص واجهة SadUI والتخطيط](reference/sadui-properties.md)
 - [قواعد النحو (Grammar)](reference/grammar.md)
 - [مصدر الحقيقة الموحّد (SoT)](reference/sot.md)

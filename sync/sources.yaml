@@ -26,6 +26,9 @@ generated:
     sources:
       - language-truth/keywords.yaml
       - language-truth/types.yaml
+  - file: src/reference/sadui-properties.md
+    sources:
+      - language-truth/ui_props.yaml
 
 # صفحات مكتوبة يدويًّا (نثريّة) لكنّها تابعة لـSoT — تُراجَع عند تغيّر المصدر،
 # ولا يُعيد المولّد كتابتها.
