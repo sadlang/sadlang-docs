@@ -251,10 +251,50 @@ def gen_types(src_dir: Path, ref: str) -> str:
     return "\n".join(out) + "\n"
 
 
+# ── توليد sadui-properties.md ────────────────────────────────────────────────
+def gen_ui_props(src_dir: Path, ref: str) -> str:
+    data = load_yaml(src_dir / "language-truth" / "ui_props.yaml")
+    keys = data.get("المصطلحات") or data.get("keys") or []
+    url = blob(ref, "language-truth/ui_props.yaml")
+    out = [banner("ui_props.yaml", ref), "# خصائص واجهة SadUI والتخطيط\n"]
+    out.append("> واجهة SadUI **عربيّة RTL-أوّلًا**: محتوى الشاشة يبدأ من **اليمين**. "
+               "تُوصَف العناصر بخصائص عربيّة قانونيّة معرَّفة في مصدر الحقيقة.\n")
+    out.append(f"> **المصدر:** [`language-truth/ui_props.yaml`]({url}) — "
+               f"{len(keys)} مفتاحًا. لكلّ مفتاح ثابت مولَّد `sad::ui::props::<ID>` يُقرأ "
+               "في كود الرسوميّات (لا سلاسل خام).\n")
+
+    out.append("## المحاذاة المتقاطعة\n")
+    out.append("خاصّيّة **`محاذاة`** تضبط المحاذاة المتقاطعة لأبناء العمود/الصفّ:\n")
+    out.append("| الوضع | العمود (RTL) | الصفّ |")
+    out.append("|---|---|---|")
+    out.append("| `بداية` (افتراضيّ) | يمينًا | أعلى |")
+    out.append("| `وسط` | توسيط | توسيط عموديّ |")
+    out.append("| `نهاية` | يسارًا | أسفل |")
+    out.append("| `تمدّد` | يملأ العرض | يملأ الارتفاع |\n")
+    out.append("- «محاذاة» يُكرِّمها **العمود والصفّ** حصرًا (الشبكة/المكدّس/الالتفاف لها "
+               "تموضع RTL مبيَّت خاصّ).\n")
+
+    out.append(f"## كلّ المفاتيح ({len(keys)})\n")
+    out.append("| المفتاح | الثابت `props::` | النوع | لاتينيّ؟ | الوصف |")
+    out.append("|---|---|---|---|---|")
+    for k in keys:
+        cid = k.get("id", "")
+        canon = md_escape(k.get("canonical", ""))
+        vt = md_escape(k.get("value_type", "—"))
+        latin = "✔" if k.get("latin_alias") else ""
+        desc = md_escape(k.get("description_ar", "—"))
+        out.append(f"| `{canon}` | `{cid}` | {vt} | {latin} | {desc} |")
+    out.append("")
+    out.append("> التفصيل المعماريّ (المحاور، الأوضاع، الهامش/الأوزان، الحرّاس) في مستودع "
+               "اللغة: `docs/architecture/sadui-layout-alignment.md`.\n")
+    return "\n".join(out) + "\n"
+
+
 GENERATORS = {
     "keywords.md": gen_keywords,
     "operators.md": gen_operators,
     "types.md": gen_types,
+    "sadui-properties.md": gen_ui_props,
 }
 
 

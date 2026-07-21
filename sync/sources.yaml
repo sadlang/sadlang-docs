@@ -26,6 +26,9 @@ generated:
     sources:
       - language-truth/keywords.yaml
       - language-truth/types.yaml
+  - file: src/reference/sadui-properties.md
+    sources:
+      - language-truth/ui_props.yaml
 
 # صفحات مكتوبة يدويًّا (نثريّة) لكنّها تابعة لـSoT — تُراجَع عند تغيّر المصدر،
 # ولا يُعيد المولّد كتابتها.
@@ -62,3 +65,9 @@ manual_tracked:
     sources:
       - language-truth/keywords.yaml
       - tests/behavior/sections/07_التزامن
+  # صفحة التشفير والأمان نثريّة — تُراجَع عند تغيّر دوال هاش/شفّر/فك_تشفير
+  # في وحدة تأكيدات (توحيد المفسّر/المترجم #212، اختبارات 04_تشفير #213).
+  - file: src/language/security.md
+    sources:
+      - language-truth/builtins/assertions.yaml
+      - tests/behavior/sections/09_المكتبة_القياسية/04_تشفير

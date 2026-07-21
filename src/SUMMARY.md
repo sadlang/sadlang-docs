@@ -20,6 +20,7 @@
 - [البرمجة الكائنيّة](language/oop.md)
 - [الوحدات والاستيراد](language/modules.md)
 - [معالجة الأخطاء](language/errors.md)
+- [التشفير والأمان](language/security.md)
 - [التزامن (أطلق والقنوات)](language/concurrency.md)
 - [ميزات متقدّمة](language/advanced.md)
 
@@ -35,5 +36,6 @@
 - [الكلمات المحجوزة الأربعون](reference/keywords.md)
 - [العوامل والأسبقيّة](reference/operators.md)
 - [الأنواع المدمجة](reference/types.md)
+- [خصائص واجهة SadUI والتخطيط](reference/sadui-properties.md)
 - [قواعد النحو (Grammar)](reference/grammar.md)
 - [مصدر الحقيقة الموحّد (SoT)](reference/sot.md)
