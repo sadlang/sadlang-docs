@@ -26,6 +26,9 @@ generated:
     sources:
       - language-truth/keywords.yaml
       - language-truth/types.yaml
+  - file: src/reference/sadui-properties.md
+    sources:
+      - language-truth/ui_props.yaml
 
 # صفحات مكتوبة يدويًّا (نثريّة) لكنّها تابعة لـSoT — تُراجَع عند تغيّر المصدر،
 # ولا يُعيد المولّد كتابتها.
@@ -36,12 +39,6 @@ manual_tracked:
   - file: src/reference/sot.md
     sources:
       - language-truth/_schemas
-  # صفحة خصائص SadUI نثريّة (مجموعات + نظام المحاذاة) — تُراجَع عند تغيّر مفاتيح
-  # الخصائص أو محرّك التخطيط. القائمة الكاملة (٨٢ مفتاحًا) في ui_props.yaml.
-  - file: src/reference/sadui-properties.md
-    sources:
-      - language-truth/ui_props.yaml
-      - features/graphics/core/src/layout.cpp
   # فصل الاستيعابات نثريّ لكنّه يوثّق قواعد gr.adv.*_comprehension — يُراجَع عند
   # تغيّر النحو (بما في ذلك فكّ الزوج «لكل مفتاح، قيمة في خريطة»، RFC 25 التعارض 1أ).
   - file: src/language/comprehensions.md
