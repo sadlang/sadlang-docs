@@ -89,10 +89,10 @@ def fetch_sot(ref: str, cache_root: Path = CACHE_ROOT) -> Path:
 
 # ── لافتة تُوضَع رأس كل ملف مُولَّد ───────────────────────────────────────────
 BANNER = (
-    "<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.\n"
+    "<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا، ولا يُودَع في git.\n"
     "     المصدر: language-truth/{src} في {repo} (فرع: {ref}).\n"
-    "     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref {ref}\n"
-    "     يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->\n\n"
+    "     أعِد التوليد بـ: python scripts/gen_reference.py --fetch {ref}\n"
+    "     يحرسه CI: اختبارات ذهبيّة (tests/) + حارس --verify قبل كلّ بناء. -->\n\n"
 )
 
 ASSOC_AR = {"left": "يسار", "right": "يمين", "none": "بلا"}

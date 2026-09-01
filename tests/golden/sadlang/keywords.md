@@ -1,7 +1,7 @@
-<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.
+<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا، ولا يُودَع في git.
      المصدر: language-truth/keywords.yaml في sadlang/s-programming-language (فرع: sadlang).
-     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref sadlang
-     يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->
+     أعِد التوليد بـ: python scripts/gen_reference.py --fetch sadlang
+     يحرسه CI: اختبارات ذهبيّة (tests/) + حارس --verify قبل كلّ بناء. -->
 
 
 # الكلمات المحجوزة الأربعون

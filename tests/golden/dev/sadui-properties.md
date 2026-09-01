@@ -1,7 +1,7 @@
-<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.
+<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا، ولا يُودَع في git.
      المصدر: language-truth/ui_props.yaml في sadlang/s-programming-language (فرع: dev).
-     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref dev
-     يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->
+     أعِد التوليد بـ: python scripts/gen_reference.py --fetch dev
+     يحرسه CI: اختبارات ذهبيّة (tests/) + حارس --verify قبل كلّ بناء. -->
 
 
 # خصائص واجهة SadUI والتخطيط
