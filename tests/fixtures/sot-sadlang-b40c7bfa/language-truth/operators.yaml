@@ -1,0 +1,104 @@
+# operators.yaml — العوامل في لغة ص
+# المصدر: shared/parser/src/core/parser_expressions.cpp (ترتيب الأسبقية الفعلي)
+# الأسبقية: 1 = أعلى (يُحسَب أولاً)، 15 = أدنى
+
+version: "1.0"
+description_ar: "جميع العوامل في لغة ص مع الأسبقية والترابط"
+description_en: "All operators in Sad language with precedence and associativity"
+
+operators:
+
+  # ── إسناد (أدنى أسبقية) ─────────────────────────────────────────────────
+  - { id: op.assign,        symbol: "=",   name_ar: "إسناد",           name_en: assignment,      category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.plus_assign,   symbol: "+=",  name_ar: "إسناد جمع",        name_en: plus_assign,     category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.minus_assign,  symbol: "-=",  name_ar: "إسناد طرح",        name_en: minus_assign,    category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.mul_assign,    symbol: "*=",  name_ar: "إسناد ضرب",        name_en: mul_assign,      category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.div_assign,    symbol: "/=",  name_ar: "إسناد قسمة",       name_en: div_assign,      category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.mod_assign,    symbol: "%=",  name_ar: "إسناد باقي",       name_en: mod_assign,      category: assignment, arity: binary, precedence: 15, associativity: right, since: "1.0.0", status: stable }
+
+  # ── ثلاثي ───────────────────────────────────────────────────────────────
+  # (AR) [ADR-NS-002] عربيّ حصرًا: `؟` (U+061F) لا ASCII `?`.
+  - { id: op.ternary, symbol: "؟ :", name_ar: "ثلاثي", name_en: ternary, category: ternary, arity: ternary, precedence: 14, associativity: right, since: "1.0.0", status: stable, example: "س > 0 ؟ 1 : -1" }
+
+  # ── أمان null (S-TS-P8 — توثيق SoT لعوامل منفّذة أصلًا) ───────────────────
+  # (AR) [ADR-NS-002] الرمز القانونيّ **عربيّ حصرًا** (؟ = U+061F)؛ أُسقِط ASCII `?`.
+  #      منفّذة في كل الطبقات (token.h:391-392، المحلّل، المفسّر، المترجم)؛ تُبنى على
+  #      عدم (Null) المتمايز (S-TS-P1). فضّ الغموض: `؟` بعد نوع = لاحقة اختياري `T؟`
+  #      (موضع نوع)؛ `؟ :` تعبيرٌ ثلاثي (موضع تعبير) — راجع op.ternary أعلاه.
+  - { id: op.null_coalesce,  symbol: "؟؟", name_ar: "اندماج فارغ", name_en: null_coalescing,   category: null_safety, arity: binary, precedence: 13, associativity: left, since: "1.0.0", status: stable, example: "س ؟؟ 0" }
+  - { id: op.optional_chain, symbol: "؟.", name_ar: "وصول آمن",   name_en: optional_chaining, category: null_safety, arity: binary, precedence: 2,  associativity: left, since: "1.0.0", status: stable, example: "كائن؟.حقل" }
+  # (AR) [NS-05] عامل تأكيد عدم الفراغ — لاحقيّ، كلمة، T؟ → T؛ صيغتان مترادفتان (مذكّر/مؤنّث).
+  #      خطأ وقت تشغيل RUN_NULL_ASSERTION عند العدم (في المفسّر)؛ المترجم يفكّ القيمة الحاضرة.
+  # (EN) [NS-05] Null-assertion — postfix word operator, T? → T; two gendered synonyms.
+  #      Runtime error RUN_NULL_ASSERTION on null (interpreter); compiler unwraps present value.
+  - { id: op.null_assert,    symbol: "مؤكد",  aliases: ["مؤكدة"], name_ar: "تأكيد عدم الفراغ", name_en: null_assertion, category: null_safety, arity: unary, position: postfix, precedence: 1, associativity: left, since: "1.0.0", status: stable, example: "قيمة مؤكد" }
+
+  # ── OR المنطقي ────────────────────────────────────────────────────────
+  - { id: op.logical_or,  symbol: "||",  name_ar: "أو المنطقي",  name_en: logical_or,  category: logical, arity: binary, precedence: 13, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.word_or,     symbol: "أو",  name_ar: "أو (كلمة)",   name_en: word_or,     category: logical, arity: binary, precedence: 13, associativity: left, since: "1.0.0", status: stable }
+
+  # ── AND المنطقي ───────────────────────────────────────────────────────
+  - { id: op.logical_and, symbol: "&&",  name_ar: "و المنطقي",   name_en: logical_and, category: logical, arity: binary, precedence: 12, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.word_and,    symbol: "و",   name_ar: "و (كلمة)",    name_en: word_and,    category: logical, arity: binary, precedence: 12, associativity: left, since: "1.0.0", status: stable }
+
+  # ── OR البتّي ──────────────────────────────────────────────────────────
+  - { id: op.bitwise_or,  symbol: "|",   name_ar: "أو البتّي",   name_en: bitwise_or,  category: bitwise, arity: binary, precedence: 11, associativity: left, since: "1.0.0", status: stable }
+
+  # ── XOR البتّي ─────────────────────────────────────────────────────────
+  - { id: op.bitwise_xor, symbol: "^",   name_ar: "XOR البتّي",  name_en: bitwise_xor, category: bitwise, arity: binary, precedence: 10, associativity: left, since: "1.0.0", status: stable }
+
+  # ── AND البتّي ─────────────────────────────────────────────────────────
+  - { id: op.bitwise_and, symbol: "&",   name_ar: "و البتّي",    name_en: bitwise_and, category: bitwise, arity: binary, precedence: 9, associativity: left, since: "1.0.0", status: stable }
+
+  # ── تساوٍ ──────────────────────────────────────────────────────────────
+  - { id: op.equal,     symbol: "==", name_ar: "يساوي",         name_en: equal,     category: comparison, arity: binary, precedence: 8, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.not_equal, symbol: "!=", name_ar: "لا يساوي",      name_en: not_equal, category: comparison, arity: binary, precedence: 8, associativity: left, since: "1.0.0", status: stable }
+
+  # ── مقارنة ───────────────────────────────────────────────────────────
+  # ملاحظة دلاليّة (ز.١٣): ترتيبُ النصوصِ بهذه العوامل الأربعةِ **ترتيبيٌّ (ordinal)** لا لغويّ:
+  #   مقارنةٌ معجميّةٌ لبايتاتِ UTF-8 **غيرِ الموقَّعة**، والتعادلُ يُفَضّ بالطولِ فالبادئةُ أصغر
+  #   ("سلام" < "سلامي"). ولأنّ ترميزَ UTF-8 حافظٌ للترتيب فهذا عينُه ترتيبُ نقاطِ الترميز —
+  #   ليسا خيارين. القاعدةُ بايتيّةٌ محضةٌ فهي معرَّفةٌ كليًّا حتّى لنصٍّ غيرِ صالحِ التشكيل،
+  #   ولا تتأثّر بالمحلّيّةِ ولا بنسخةِ جداولِ يونيكود ⇒ حتميّةٌ عبرَ المحرّكاتِ الثلاثة.
+  #   الترتيبُ الهجائيُّ العربيُّ (تسويةُ الهمزات، التشكيلُ وزنًا ثانويًّا) والتطبيعُ NFC/NFD
+  #   شيءٌ آخرُ مكانُه دالّةٌ مكتبيّةٌ مستوردةٌ صراحةً — لا هذه العوامل.
+  - { id: op.less,          symbol: "<",  name_ar: "أصغر من",          name_en: less_than,          category: comparison, arity: binary, precedence: 7, associativity: left, since: "1.0.0", status: stable, description_ar: "أصغر من — للنصوص: ترتيبٌ معجميٌّ لبايتاتِ UTF-8 غيرِ الموقَّعة (= ترتيبُ نقاطِ الترميز)، البادئةُ أصغر", description_en: "Less than — for strings: lexicographic order over unsigned UTF-8 bytes (= code-point order); a prefix sorts first" }
+  - { id: op.less_equal,    symbol: "<=", name_ar: "أصغر من أو يساوي", name_en: less_equal,         category: comparison, arity: binary, precedence: 7, associativity: left, since: "1.0.0", status: stable, description_ar: "أصغر من أو يساوي — للنصوص: ترتيبٌ معجميٌّ لبايتاتِ UTF-8 غيرِ الموقَّعة", description_en: "Less than or equal — for strings: lexicographic order over unsigned UTF-8 bytes" }
+  - { id: op.greater,       symbol: ">",  name_ar: "أكبر من",          name_en: greater_than,       category: comparison, arity: binary, precedence: 7, associativity: left, since: "1.0.0", status: stable, description_ar: "أكبر من — للنصوص: ترتيبٌ معجميٌّ لبايتاتِ UTF-8 غيرِ الموقَّعة", description_en: "Greater than — for strings: lexicographic order over unsigned UTF-8 bytes" }
+  - { id: op.greater_equal, symbol: ">=", name_ar: "أكبر من أو يساوي", name_en: greater_equal,      category: comparison, arity: binary, precedence: 7, associativity: left, since: "1.0.0", status: stable, description_ar: "أكبر من أو يساوي — للنصوص: ترتيبٌ معجميٌّ لبايتاتِ UTF-8 غيرِ الموقَّعة", description_en: "Greater than or equal — for strings: lexicographic order over unsigned UTF-8 bytes" }
+
+  # ── عضوية ─────────────────────────────────────────────────────────────
+  - { id: op.in, symbol: "في", name_ar: "عضوية", name_en: membership_in, category: membership, arity: binary, precedence: 7, associativity: left, since: "1.0.0", status: stable, example: "3 في [1،2،3]" }
+
+  # ── إزاحة بتية ─────────────────────────────────────────────────────────
+  - { id: op.shift_left,  symbol: "<<", name_ar: "إزاحة يسار", name_en: shift_left,  category: bitwise, arity: binary, precedence: 6, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.shift_right, symbol: ">>", name_ar: "إزاحة يمين", name_en: shift_right, category: bitwise, arity: binary, precedence: 6, associativity: left, since: "1.0.0", status: stable }
+
+  # ── جمع وطرح ──────────────────────────────────────────────────────────
+  - { id: op.plus,  symbol: "+", name_ar: "جمع",  name_en: addition,    category: arithmetic, arity: binary, precedence: 5, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.minus, symbol: "-", name_ar: "طرح",  name_en: subtraction, category: arithmetic, arity: binary, precedence: 5, associativity: left, since: "1.0.0", status: stable }
+
+  # ── ضرب وقسمة وباقي ────────────────────────────────────────────────────
+  - { id: op.multiply,     symbol: "*",  name_ar: "ضرب",          name_en: multiplication, category: arithmetic, arity: binary, precedence: 4, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.divide,       symbol: "/",  name_ar: "قسمة", name_en: division,        category: arithmetic, arity: binary, precedence: 4, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.floor_divide, symbol: "//", name_ar: "قسمة صحيحة",  name_en: floor_division,  category: arithmetic, arity: binary, precedence: 4, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.modulo,       symbol: "%",  name_ar: "باقي القسمة",  name_en: modulo,          category: arithmetic, arity: binary, precedence: 4, associativity: left, since: "1.0.0", status: stable }
+
+  # ── أحادية ───────────────────────────────────────────────────────────
+  - { id: op.not,           symbol: "!",    name_ar: "نفي منطقي",  name_en: logical_not, category: logical,    arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.word_not,      symbol: "ليس",  name_ar: "ليس (كلمة)", name_en: word_not,    category: logical,    arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.negate,        symbol: "-",    name_ar: "نفي حسابي",  name_en: unary_minus, category: arithmetic, arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.bitwise_not,   symbol: "~",    name_ar: "نفي بتّي",   name_en: bitwise_not, category: bitwise,    arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.increment,     symbol: "++",   name_ar: "زيادة",      name_en: increment,   category: arithmetic, arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+  - { id: op.decrement,     symbol: "--",   name_ar: "نقصان",      name_en: decrement,   category: arithmetic, arity: unary, precedence: 3, associativity: right, since: "1.0.0", status: stable }
+
+  # ── أسّ ───────────────────────────────────────────────────────────────
+  - { id: op.power, symbol: "**", name_ar: "أسّ", name_en: power, category: arithmetic, arity: binary, precedence: 2, associativity: right, since: "1.0.0", status: stable, example: "2 ** 10" }
+
+  # ── وصول (أعلى أسبقية) ──────────────────────────────────────────────
+  - { id: op.dot,      symbol: ".",   name_ar: "وصول للعضو",     name_en: member_access, category: access, arity: binary, precedence: 1, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.subscript, symbol: "[]", name_ar: "وصول بالفهرس",   name_en: subscript,     category: access, arity: binary, precedence: 1, associativity: left, since: "1.0.0", status: stable }
+  - { id: op.call,     symbol: "()",  name_ar: "استدعاء دالة",   name_en: function_call, category: access, arity: binary, precedence: 1, associativity: left, since: "1.0.0", status: stable }
+
+  # ── نطاق ─────────────────────────────────────────────────────────────
+  - { id: op.range, symbol: "..", name_ar: "نطاق", name_en: range, category: membership, arity: binary, precedence: 7, associativity: none, since: "1.0.0", status: stable, example: "1..10" }

@@ -6,7 +6,20 @@ book/
 mermaid.min.js
 mermaid-init.js
 
-# نسخة language-truth/ المؤقّتة التي يجلبها سير المزامنة (sync.yml)
+# ── صفحات المرجع المُولَّدة: مشتقّة بالكامل من language-truth/ ────────────────
+# لا تُودَع. النسخةُ المودَعةُ لمشتقٍّ تنجرف عن أصلها حتمًا (حدث مرّتين: القضيّتان
+# #1 و#8)، وحارسُها كان يقارنها بمخرج المولّد نفسه — طرفان من أصلٍ واحد.
+# تُولَّد الآن عند كلّ بناء:  python scripts/gen_reference.py --fetch dev
+# ويُقاس المولّدُ وحدَه باختباراتٍ ذهبيّةٍ على لقطةٍ مجمَّدة: tests/
+/src/reference/keywords.md
+/src/reference/operators.md
+/src/reference/types.md
+/src/reference/sadui-properties.md
+
+# خبيئة language-truth/ التي يجلبها المولّد بـ --fetch
+/.sot-cache
+
+# نسخة language-truth/ المؤقّتة (سيور قديمة)
 /_lang-src
 _lang-src/
 
@@ -14,3 +27,7 @@ _lang-src/
 .DS_Store
 Thumbs.db
 *.swp
+
+# خبيئة بايثون
+__pycache__/
+*.pyc

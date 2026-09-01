@@ -11,15 +11,18 @@
         │  (repository_dispatch + PAT)
         ▼
    POST /repos/sadlang/sadlang-docs/dispatches  ──►  deploy.yml  → يعيد بناء القناتين
-        event_type = language-release|language-update    sync.yml   → يزامن لقطة المرجع
+        event_type = language-release|language-update    (المرجع يُولَّد في البناء)
 ```
 
 - **language-release** (دفع إلى `sadlang` أو نشر إصدار): تتغيّر القناة **المستقرّة**.
 - **language-update** (دفع إلى `dev`): تتغيّر القناة **القادمة** (`/next/`).
 
 الجانب المُستقبِل **جاهز ومُختبَر** في هذا المستودع: يستمع
-[`deploy.yml`](../.github/workflows/deploy.yml) و[`sync.yml`](../.github/workflows/sync.yml)
-لكلا الحدثين عبر `repository_dispatch`.
+[`deploy.yml`](../.github/workflows/deploy.yml) لكلا الحدثين عبر `repository_dispatch`،
+فيُعيد بناء القناتين ويُعيد توليد صفحات المرجع من SoT فرعِ كلّ قناة.
+
+> `sync.yml` حُذف: وظيفتُه كانت رصدَ انجراف لقطةٍ مودَعةٍ من صفحات المرجع، ولم تعد
+> تُودَع — تُولَّد عند كلّ بناء، فلا شيء ينجرف.
 
 ## الحالة
 

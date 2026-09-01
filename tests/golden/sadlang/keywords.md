@@ -1,7 +1,7 @@
-<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا.
-     المصدر: language-truth/keywords.yaml في sadlang/s-programming-language (فرع: dev).
-     أعِد التوليد بـ: python scripts/gen_reference.py --source-dir <repo> --source-ref dev
-     يفرضه CI (sync.yml) — أيّ تحرير يدويّ يُمحى عند إعادة التوليد. -->
+<!-- ⚠️ ملف مُولَّد آليًّا — لا تحرّره يدويًّا، ولا يُودَع في git.
+     المصدر: language-truth/keywords.yaml في sadlang/s-programming-language (فرع: sadlang).
+     أعِد التوليد بـ: python scripts/gen_reference.py --fetch sadlang
+     يحرسه CI: اختبارات ذهبيّة (tests/) + حارس --verify قبل كلّ بناء. -->
 
 
 # الكلمات المحجوزة الأربعون
@@ -12,10 +12,10 @@
 |------|:----:|---------------|:------------------:|
 | **محجوزة** (reserved) | 40 | يُصدر `KEYWORD_*` | ❌ |
 | **عوامل منطقيّة** (operators) | 3 | يُصدر `OP_*` | ❌ |
-| **سياقيّة** (contextual) | 40 | يُصدر `IDENTIFIER` (يقرّره المحلّل) | ✅ |
-| **أنواع مدمجة** (builtin) | 9 | يُصدر `IDENTIFIER` | ✅ |
+| **سياقيّة** (contextual) | 43 | يُصدر `IDENTIFIER` (يقرّره المحلّل) | ✅ |
+| **أنواع مدمجة** (builtin) | 11 | يُصدر `IDENTIFIER` | ✅ |
 
-> **المصدر:** [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/keywords.yaml) — المصدر الوحيد المطلق.
+> **المصدر:** [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml) — المصدر الوحيد المطلق.
 
 ---
 
@@ -119,7 +119,7 @@
 
 كلمات يُصدرها المعجمي **مُعرِّفات**، ويميّزها المحلّل بحسب الموضع — فيجوز استعمالها أسماءَ متغيّرات خارج سياقها. أمثلة: `مؤكد`، `خاصية`، `احصل`، `عيّن`، `هدم`، `عامل`، `رئيسية`، `محكم`، `ترجع`، `حالة`، `غير_متزامن`، `انتظر`، `لامدا`، `أنتج`.
 
-للقائمة الكاملة راجع [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/keywords.yaml).
+للقائمة الكاملة راجع [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/sadlang/language-truth/keywords.yaml).
 
 ## انظر أيضًا
 
