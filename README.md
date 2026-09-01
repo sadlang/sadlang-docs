@@ -40,30 +40,46 @@
 (ملفّات YAML مُحكَّمة بمخطّطات JSON). هذا المستودع **يعرض ويشرح** تلك الحقيقة بصيغة
 قابلة للقراءة، ولا يخترع قواعد جديدة. عند أيّ تعارض، **`language-truth/` هو الفيصل**.
 
-### مزامنة آليّة (لا تحرّر الصفحات المُولَّدة يدويًّا)
+### صفحات مشتقّة لا تُودَع
 
-صفحات المرجع التابعة تُولَّد آليًّا من `language-truth/` لمنع التباعد:
+صفحات المرجع التابعة **تُولَّد عند كلّ بناء** من `language-truth/`، ولا توجد في git:
 
-| الصفحة | المصدر |
+| الصفحة (مُولَّدة) | المصدر |
 |--------|--------|
 | `src/reference/keywords.md` | `language-truth/keywords.yaml` |
 | `src/reference/operators.md` | `language-truth/operators.yaml` |
 | `src/reference/types.md` | `language-truth/keywords.yaml` + `types.yaml` |
+| `src/reference/sadui-properties.md` | `language-truth/ui_props.yaml` |
 
-- **المولّد:** [`scripts/gen_reference.py`](scripts/gen_reference.py) — يقرأ SoT ويُنتج الصفحات.
-- **سير المزامنة:** [`.github/workflows/sync.yml`](.github/workflows/sync.yml) يُعيد التوليد
-  أسبوعيًّا/عند إصدار لغة/يدويًّا، وإن رصد انجرافًا يرفع الصفحات أثرًا ويفتح قضيّة
-  بالتعليمات (نمط `dev-guide`). البيان في [`sync/sources.yaml`](sync/sources.yaml).
-- إعادة التوليد محليًّا: `python scripts/gen_reference.py --source-dir <مسار-مستودع-اللغة>`.
+```bash
+python scripts/gen_reference.py --fetch dev        # يجلب SoT بنفسه ويولّد
+```
+
+**لماذا لا تُودَع؟** النسخةُ المودَعةُ لمشتقٍّ تنجرف عن أصلها حتمًا — حدث مرّتين
+(القضيّتان #1 و#8). وحين لا تُودَع، يصير الانجراف **مستحيلًا بنيويًّا** لا مرصودًا
+بعد أسابيع. الثمن أنّ الحارس القديم (`--check`) فقد معناه، وكان معناه ضعيفًا أصلًا:
+يقارن مخرج المولّد بمخرج المولّد من مصدرٍ متحرّك — طرفان من أصلٍ واحد. بدلَه
+**اختباراتٌ ذهبيّة** على لقطة SoT مجمَّدة تقيس المولّد وحده: [`tests/`](tests/README.md).
+
+- **المولّد:** [`scripts/gen_reference.py`](scripts/gen_reference.py) — و`--fetch` فيه هو
+  **مسار الجلب الوحيد** الذي يستعمله المساهم و`ci.yml` و`deploy.yml` معًا.
+- **بيان المنشأ:** [`sync/sources.yaml`](sync/sources.yaml) — وصفيّ لا تنفيذيّ.
 
 ## البناء محليًّا
 
 ```bash
-cargo install mdbook mdbook-mermaid   # مرّة واحدة
-mdbook-mermaid install .              # توليد أصول المخطّطات
-mdbook serve --open                   # تطوير حيّ على المتصفّح
-mdbook build                          # بناء ثابت في book/
+cargo install mdbook mdbook-mermaid            # مرّة واحدة
+mdbook-mermaid install .                       # توليد أصول المخطّطات
+pip install pyyaml                             # للمولّد
+python scripts/gen_reference.py --fetch dev    # ⚠️ لازم: صفحات المرجع غير مودَعة
+mdbook serve --open                            # تطوير حيّ على المتصفّح
+mdbook build                                   # بناء ثابت في book/
 ```
+
+الخطوة الرابعة **ليست اختياريّة**، وفخُّها مقيس: `SUMMARY.md` يشير إلى صفحات
+`reference/` المُولَّدة، و**mdBook لا يفشل** إن غابت — بل يُنشئ جذاذةً من العنوان وحده
+(٣٢ بايتًا) ويبني بنجاح، فتُنشَر صفحات مرجعٍ بيضاء بصمت. لذلك يسبق البناءَ حارسٌ في
+السيرين: `python scripts/gen_reference.py --verify`. مرّة واحدة تكفي (تُخبَّأ في `.sot-cache/`).
 
 ## البنية
 
@@ -77,13 +93,15 @@ sadlang-docs/
 │   ├── language/          # دروس اللغة موضوعًا موضوعًا
 │   └── reference/         # المرجع الدقيق: الكلمات/العوامل/الأنواع/النحو
 ├── theme/                 # دعم RTL + تكبير الخط (عربيّ)
-└── .github/workflows/     # ci.yml (فحص) + deploy.yml (نشر Pages)
+├── tests/                 # لقطة SoT مجمَّدة + الذهبيّ + اختبارات المولّد
+└── .github/workflows/     # ci.yml (ذهبيّ + بناء القناتين + روابط) + deploy.yml
 ```
 
 ## المساهمة
 
 اقرأ [`CONTRIBUTING.md`](CONTRIBUTING.md). باختصار: عدّل تحت `src/`، شغّل `mdbook build`
-محليًّا، افتح PR إلى `main`. الـCI يفحص البناء والروابط؛ الدمج في `main` ينشر تلقائيًّا.
+محليًّا، افتح PR إلى `main`. الـCI يشغّل الاختبارات الذهبيّة ويبني **القناتين** ويفحص
+الروابط؛ الدمج في `main` ينشر تلقائيًّا. والدفع المباشر إلى `main` يمرّ بالفحص نفسه.
 
 ## الرخصة
 

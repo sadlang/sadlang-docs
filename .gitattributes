@@ -1,0 +1,5 @@
+# أسطر LF ثابتة للقطة المجمَّدة والذهبيّ: المقارنة حرفٌ بحرف، ولا يجوز أن
+# تتوقّف نتيجتها على نظام تشغيل المساهم.
+tests/fixtures/** text eol=lf
+tests/golden/**   text eol=lf
+*.py              text eol=lf

@@ -51,18 +51,12 @@ jobs:
       - run: pip install pyyaml
 
       # ── القناة المستقرّة: من فرع sadlang إلى الجذر ──────────────────────────
-      - name: جلب language-truth/ (sadlang)
-        uses: actions/checkout@v4
-        with:
-          repository: sadlang/s-programming-language
-          ref: sadlang
-          path: _lang-stable
-          sparse-checkout: language-truth
-          sparse-checkout-cone-mode: true
-
+      # الجلب من داخل المولّد (--fetch): مسارُ جلبٍ واحد يستعمله المساهم وci
+      # وdeploy معًا. كان مكتوبًا بيدٍ ثلاث مرّات، ورابعةً عند كل مساهم.
       - name: بناء القناة المستقرّة
         run: |
-          python scripts/gen_reference.py --source-dir _lang-stable --source-ref sadlang
+          python scripts/gen_reference.py --fetch sadlang
+          python scripts/gen_reference.py --verify
           cat > theme/channel-banner.js <<EOF
           (function(){var b=document.createElement("div");b.dir="rtl";
           b.style.cssText="background:#2b8a3e;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";
@@ -72,18 +66,10 @@ jobs:
           mdbook build -d site
 
       # ── القناة القادمة: من فرع dev إلى /next/ ───────────────────────────────
-      - name: جلب language-truth/ (dev)
-        uses: actions/checkout@v4
-        with:
-          repository: sadlang/s-programming-language
-          ref: dev
-          path: _lang-next
-          sparse-checkout: language-truth
-          sparse-checkout-cone-mode: true
-
       - name: بناء القناة القادمة
         run: |
-          python scripts/gen_reference.py --source-dir _lang-next --source-ref dev
+          python scripts/gen_reference.py --fetch dev
+          python scripts/gen_reference.py --verify
           cat > theme/channel-banner.js <<EOF
           (function(){var b=document.createElement("div");b.dir="rtl";
           b.style.cssText="background:#e8590c;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";

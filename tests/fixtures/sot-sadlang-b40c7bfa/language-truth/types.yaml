@@ -1,0 +1,170 @@
+# ============================================================================
+# types.yaml — مصدر الحقيقة (SoT) لكل أنواع لغة ص
+# Single Source of Truth for ALL Sad language type kinds
+# ----------------------------------------------------------------------------
+# (AR) يُولّد منه shared/types/generated/sad_type_kind_generated.h عبر
+#      scripts/codegen/gen_types.py (مُفعَّل في cmake/codegen.cmake).
+#      ⚠️ الترتيب حرج: قيم enum تُولَّد بنفس ترتيب هذه القائمة (توافق ثنائي).
+# (EN) Generates SadTypeKind enum. ORDER IS CRITICAL — enum values are emitted
+#      in this list's order (binary/serialization compatibility).
+# ----------------------------------------------------------------------------
+# (AR) كل نوع: kind (اسم enum) + category (التجميع) + surface (هل له كلمة/رمز).
+#      الأنواع السطحية (surface: true) لها token_type وكلمة يكتبها المستخدم.
+#      الأنواع الداخلية تمثيلات للمفسّر/المترجم بلا صيغة مصدرية مباشرة.
+# ============================================================================
+
+version: "5.0"
+schema_version: "5.0"
+description_ar: "كل أنواع لغة ص (49 نوعًا) — سطحية وداخلية، مصدر توليد SadTypeKind"
+description_en: "All Sad type kinds (49) — surface + internal, SoT for SadTypeKind"
+
+# (AR) ⚠️ تصحيحُ ملاحظةٍ بائتة (2026-08-11): كان هنا «النوع السطحي «عدم» ينتظر قيمة
+#      SadTypeKind::Null … حاليًّا لا قيمة enum له» — وهذا لم يعد صحيحًا: القيمة
+#      مُعرَّفةٌ في آخر القائمة (type.null، kind: Null) ومُولَّدةٌ فعلًا في
+#      sad_type_kind_generated.h.
+# (AR) ✅ وتحديثٌ ثانٍ (2026-08-14): الدَّينُ الباقي — أنّ المحلّلَ يُخفّض «عدم» إلى
+#      SadTypeKind::Void فيساوي بينه وبين «فراغ» — **سُدَّ وأُغلقت ISSUE-113**.
+#      المواضعُ البالغةُ كانت سبعةً لا ثلاثة (تُطلَب بالاسمِ لا بالرمز، إذ
+#      emittedByLexer=false)، والحاكمُ السابعُ خارجَ المحلِّل: fromValueType بلا
+#      حالةِ Null. ثمّ كشف الفصلُ عيبًا **مستقلًّا**: «فراغ» نفسُه كان يُقبَل خانةً
+#      فينهار المترجّم — فصار مرفوضًا بـSEM040 في المحلّلِ المشترك (لا في خلفيّةٍ
+#      بعينها) لأنّه بنصِّ هذا الملفّ «نوعُ الإرجاعِ الفارغ — لا قيمة».
+#      مقيسٌ باختبارَين سالبَين مزدوجَين (067، 068).
+# (EN) ISSUE-113 is closed: «عدم» no longer collapses into Void, and Void itself
+#      is now rejected as a slot type (SEM040) in the shared parser.
+
+categories_ar:
+  primitive:       "بدائية"
+  sized_primitive: "بدائية بحجم محدد (للمترجم)"
+  composite:       "مركّبة"
+  oop:             "كائنية"
+  function:        "وظيفية"
+  advanced:        "متقدمة (جبرية/عامة)"
+  pointer:         "مؤشرات ومراجع"
+  special:         "خاصة"
+  async:           "غير متزامنة"
+  graphics:        "رسومات"
+  simd:            "متجهات SIMD"
+
+# ============================================================================
+# (AR) ألفاظُ أنواعٍ أُزيلت من اللغة — مصدرُ حقيقةٍ لمسارِ التشخيصِ الودّيّ.
+#      المحلّلُ ما زال يتعرّف على اللفظِ **عمدًا** كي يُبلِّغ SYN014 برسالةٍ تُرشد
+#      إلى البديل، بدل «معرّف غير معرَّف» الغامض. فوجودُه في الشيفرةِ مقصودٌ لا
+#      انجراف — ولذلك يلزم أن يكون **مُعلَنًا هنا** كي يُميّزه حارسُ
+#      scripts/codegen/check_type_words_sot.py عن بقيّةِ الانجراف.
+# (EN) Type words removed from the language — SoT for the friendly-diagnostic
+#      path. The parser still recognises them deliberately to emit SYN014
+#      pointing at the replacement, so their presence must be declared here.
+# ============================================================================
+removed_type_words:
+  - { word: مضاعف, replacement: عشري, error_code: SYN_REMOVED_SYNTAX, since: "1.0.0",
+      description_ar: "أُزيلت لصالح «عشري» (f64) — لا نوعَ عشريًّا مزدوجَ الدقّةِ منفصلًا في ص",
+      description_en: "Removed in favour of «عشري» (f64) — Sad has no separate double type" }
+
+types:
+
+  # ─── بدائية / Primitive ───
+  - { id: type.void,    kind: Void,    word: فراغ,   name_en: void,    category: primitive, surface: true,  token_type: TYPE_VOID,    can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "نوع الإرجاع الفارغ — لا قيمة. متمايز عن «عدم» (type.null): «فراغ» ما لم يُرجَع أصلاً (مفتاح غائب، بحثٌ بلا مطابقة)، و«عدم» قيمةُ لاشيء الصريحة. فحصُ أحدهما وحده يمرّ ناقصًا", description_en: "Empty return type — no value. Distinct from «عدم» (type.null): «فراغ» is what was never returned (missing key, no regex match), «عدم» is the explicit null value. Checking only one of them passes incompletely" }
+  - { id: type.integer, kind: Integer, word: رقم,    name_en: integer, category: primitive, surface: true,  token_type: TYPE_INTEGER, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "عدد صحيح (i64)", description_en: "64-bit integer" }
+  - { id: type.float,   kind: Float,   word: عشري,   name_en: float,   category: primitive, surface: true,  token_type: TYPE_DOUBLE,  can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "عدد عشري (f64)", description_en: "64-bit float" }
+  - { id: type.boolean, kind: Boolean, word: منطقي,  name_en: boolean, category: primitive, surface: true,  token_type: TYPE_BOOLEAN, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "قيمة منطقية (صحيح/خطأ)", description_en: "Boolean (true/false)" }
+  - { id: type.string,  kind: String,  word: نص,     name_en: string,  category: primitive, surface: true,  token_type: TYPE_STRING,  can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "نص (UTF-8)", description_en: "UTF-8 string" }
+  - { id: type.byte,    kind: Byte,    word: بايت,   name_en: byte,    category: primitive, surface: true,  token_type: TYPE_U8, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "بايت (u8، 0–255)", description_en: "Byte (u8, 0-255)" }
+
+  # ─── بدائية بحجم محدد / Sized primitives (compiler) ───
+  - { id: type.int8,    kind: Int8,    word: عدد8,   name_en: int8,    category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد صحيح 8-بت", description_en: "8-bit signed integer" }
+  - { id: type.int16,   kind: Int16,   word: عدد16,  name_en: int16,   category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد صحيح 16-بت", description_en: "16-bit signed integer" }
+  - { id: type.int32,   kind: Int32,   word: عدد32,  name_en: int32,   category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد صحيح 32-بت", description_en: "32-bit signed integer" }
+  - { id: type.int64,   kind: Int64,   word: عدد64,  name_en: int64,   category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد صحيح 64-بت", description_en: "64-bit signed integer" }
+  - { id: type.uint8,   kind: UInt8,   word: طبيعي8, name_en: uint8,   category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد طبيعي 8-بت", description_en: "8-bit unsigned integer" }
+  - { id: type.uint16,  kind: UInt16,  word: طبيعي16, name_en: uint16, category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد طبيعي 16-بت", description_en: "16-bit unsigned integer" }
+  - { id: type.uint32,  kind: UInt32,  word: طبيعي32, name_en: uint32, category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عدد طبيعي 32-بت", description_en: "32-bit unsigned integer" }
+  - { id: type.uint64,  kind: UInt64,  word: طبيعي64, name_en: uint64, category: sized_primitive, surface: true,  token_type: TYPE_U64, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "عدد طبيعي 64-بت", description_en: "64-bit unsigned integer" }
+  - { id: type.float32, kind: Float32, word: عشري32, name_en: float32, category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عشري 32-بت", description_en: "32-bit float" }
+  - { id: type.float64, kind: Float64, word: عشري64, name_en: float64, category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "عشري 64-بت", description_en: "64-bit float" }
+  - { id: type.char,    kind: Char,    word: حرف,    name_en: char,    category: sized_primitive, surface: false, since: "1.0.0", status: stable, description_ar: "حرف", description_en: "Character" }
+
+  # ─── مركّبة / Composite ───
+  - { id: type.array, kind: Array, word: مصفوفة, name_en: array, category: composite, surface: true,  token_type: TYPE_ARRAY, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "مصفوفة<T> ديناميكية", description_en: "Dynamic array<T>" }
+  - { id: type.map,   kind: Map,   word: خريطة,  name_en: map,   category: composite, surface: true,  token_type: TYPE_MAP,   can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "خريطة<K,V>", description_en: "Map/dictionary<K,V>" }
+  - { id: type.tuple, kind: Tuple, word: صف,     name_en: tuple, category: composite, surface: false, since: "1.0.0", status: stable, description_ar: "صف (T1, T2, ...)", description_en: "Tuple (T1, T2, ...)" }
+  - { id: type.slice, kind: Slice, word: شريحة,  name_en: slice, category: composite, surface: false, since: "1.0.0", status: stable, description_ar: "شريحة", description_en: "Slice" }
+
+  # ─── كائنية / OOP ───
+  - { id: type.class,  kind: Class,  word: صنف,   typeof_ar: كائن, name_en: class,  category: oop, surface: false, since: "1.0.0", status: stable, description_ar: "صنف", description_en: "Class" }
+  - { id: type.struct, kind: Struct, word: بنية,  typeof_ar: كائن, name_en: struct, category: oop, surface: false, since: "1.0.0", status: stable, description_ar: "بنية", description_en: "Struct" }
+  - { id: type.enum,   kind: Enum,   word: تعداد, name_en: enum,   category: oop, surface: false, since: "1.0.0", status: stable, description_ar: "تعداد", description_en: "Enum" }
+  - { id: type.trait,  kind: Trait,  word: سمة,   name_en: trait,  category: oop, surface: false, since: "1.0.0", status: stable, description_ar: "سمة (واجهة)", description_en: "Trait/interface" }
+
+  # ─── وظيفية / Function ───
+  - { id: type.function, kind: Function, word: دالة,  name_en: function, category: function, surface: false, since: "1.0.0", status: stable, description_ar: "دالة (Params)->Return", description_en: "Function (Params)->Return" }
+  - { id: type.closure,  kind: Closure,  word: إغلاق, name_en: closure,  category: function, surface: false, since: "1.0.0", status: stable, description_ar: "إغلاق (دالة + سياق)", description_en: "Closure (function + context)" }
+
+  # ─── متقدمة / Advanced ───
+  - { id: type.union,          kind: Union,         word: اتحاد,        name_en: union,          category: advanced, surface: false, since: "1.0.0", status: stable, description_ar: "اتحاد T1|T2", description_en: "Union T1|T2" }
+  - { id: type.intersection,   kind: Intersection,  word: تقاطع,        name_en: intersection,   category: advanced, surface: false, since: "1.0.0", status: stable, description_ar: "تقاطع T1&T2", description_en: "Intersection T1&T2" }
+  - { id: type.optional,       kind: Optional,      word: اختياري,      name_en: optional,       category: advanced, surface: false, since: "1.0.0", status: experimental, description_ar: "اختياري T? (قد يكون عدم)", description_en: "Optional T? (may be null)" }
+  - { id: type.result,         kind: Result,        word: نتيجة,        name_en: result,         category: advanced, surface: false, since: "1.0.0", status: experimental, description_ar: "نتيجة<T, E> (نجاح أو خطأ)", description_en: "Result<T, E>" }
+  - { id: type.generic,        kind: Generic,       word: نوع_عام,      name_en: generic,        category: advanced, surface: false, since: "1.0.0", status: stable, description_ar: "نوع عام (T)", description_en: "Generic type (T)" }
+  - { id: type.type_parameter, kind: TypeParameter, word: معامل_نوع,    name_en: type_parameter, category: advanced, surface: false, since: "1.0.0", status: stable, description_ar: "معامل نوع فعلي", description_en: "Type parameter" }
+  - { id: type.type_alias,     kind: TypeAlias,     word: اسم_مستعار,   name_en: type_alias,     category: advanced, surface: false, since: "1.0.0", status: stable, description_ar: "اسم مستعار لنوع", description_en: "Type alias" }
+
+  # ─── مؤشرات ومراجع / Pointers & references ───
+  - { id: type.pointer,     kind: Pointer,    word: مؤشر,        name_en: pointer,     category: pointer, surface: false, since: "1.0.0", status: stable, description_ar: "مؤشر خام", description_en: "Raw pointer" }
+  - { id: type.reference,   kind: Reference,  word: مرجع,        name_en: reference,   category: pointer, surface: false, since: "1.0.0", status: stable, description_ar: "مرجع &T", description_en: "Reference &T" }
+  - { id: type.mutable_ref, kind: MutableRef, word: مرجع_متغير,  name_en: mutable_ref, category: pointer, surface: false, since: "1.0.0", status: stable, description_ar: "مرجع متغير &mut T", description_en: "Mutable reference &mut T" }
+
+  # ─── خاصة / Special ───
+  - { id: type.any,     kind: Any,     word: أي,     name_en: any,     category: special, surface: true,  token_type: TYPE_ANY, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "أي نوع (ديناميكي)", description_en: "Any type (dynamic)" }
+  - { id: type.never,   kind: Never,   word: أبدا,   name_en: never,   category: special, surface: false, since: "1.0.0", status: stable, description_ar: "أبداً — لا تُرجع", description_en: "Never returns" }
+  - { id: type.unknown, kind: Unknown, word: مجهول,  name_en: unknown, category: special, surface: false, since: "1.0.0", status: stable, description_ar: "مجهول — يُستنتَج لاحقاً", description_en: "Unknown — inferred later" }
+  - { id: type.error,   kind: Error,   word: خطأ,    name_en: error,   category: special, surface: false, since: "1.0.0", status: stable, description_ar: "نوع خطأ", description_en: "Error type" }
+
+  # ─── غير متزامنة / Async ───
+  - { id: type.future,        kind: Future,        word: مستقبل,  name_en: future,        category: async, surface: false, since: "1.0.0", status: experimental, description_ar: "مستقبل<T> غير متزامن", description_en: "Future<T>" }
+  - { id: type.generator,     kind: Generator,     word: مولد,    typeof_ar: مولّد, name_en: generator,     category: async, surface: false, since: "1.0.0", status: experimental, description_ar: "مولّد<T>", description_en: "Generator<T>" }
+  - { id: type.comprehension, kind: Comprehension, word: استيعاب, name_en: comprehension, category: async, surface: false, since: "1.0.0", status: experimental, description_ar: "استيعاب (comprehension)", description_en: "Comprehension" }
+
+  # ─── رسومات / Graphics (قابل للتوسّع — S-TS-P11) ───
+  - { id: type.color,  kind: Color,  word: لون,         name_en: color,  category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "لون (RGBA)", description_en: "Color (RGBA)" }
+  - { id: type.widget, kind: Widget, word: عنصر_واجهة,  name_en: widget, category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "عنصر واجهة", description_en: "UI widget" }
+  - { id: type.window, kind: Window, word: نافذة,       name_en: window, category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "نافذة", description_en: "Window" }
+  # (AR) حدث (EventData): بنية مضمَّنة تُمرَّر لردود نداء الأحداث المكانيّة (② rfcs#46).
+  #      الحقول مصدر الحقيقة لتخطيط البنية: يُشتقّ منها هيكل المترجم + POD الجسر + خانات المفسّر.
+  #      الترتيب حرج (توافق ABI). المصدر (source) = عضو EventData في وقت التشغيل.
+  # (EN) حدث (EventData): built-in struct passed to spatial event callbacks (② rfcs#46).
+  #      Fields are the SoT for the struct layout: compiler struct + bridge POD + interpreter slots
+  #      are all derived from here. Order is ABI-critical. `source` = the runtime EventData member.
+  - { id: type.event,  kind: Event,  word: حدث,         name_en: event,  category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "حدث واجهة (موضع/دلتا/مفتاح/لمس)", description_en: "UI event (position/delta/key/touch)",
+      fields: [
+        { name: س,            kind: Float,   source: x,          description_ar: "إحداثيّ المؤشّر الأفقيّ",        description_en: "pointer x" },
+        { name: ص,            kind: Float,   source: y,          description_ar: "إحداثيّ المؤشّر الرأسيّ",        description_en: "pointer y" },
+        { name: دلتا_س,       kind: Float,   source: deltaX,     description_ar: "دلتا الحركة الأفقيّة",           description_en: "movement delta x" },
+        { name: دلتا_ص,       kind: Float,   source: deltaY,     description_ar: "دلتا الحركة الرأسيّة",           description_en: "movement delta y" },
+        { name: رمز_المفتاح,  kind: Integer, source: keyCode,    description_ar: "رمز المفتاح المضغوط",           description_en: "key code" },
+        { name: اسم_المفتاح,  kind: String,  source: keyName,    description_ar: "اسم المفتاح المضغوط",           description_en: "key name" },
+        { name: مفتاح_عالي,   kind: Boolean, source: shiftKey,   description_ar: "هل مفتاح العالي مضغوط؟",         description_en: "shift held" },
+        { name: مفتاح_تحكم,   kind: Boolean, source: ctrlKey,    description_ar: "هل مفتاح التحكّم مضغوط؟",        description_en: "ctrl held" },
+        { name: مفتاح_بديل,   kind: Boolean, source: altKey,     description_ar: "هل مفتاح البديل مضغوط؟",         description_en: "alt held" },
+        { name: زر,           kind: Integer, source: button,     description_ar: "زرّ الفأرة",                     description_en: "mouse button" },
+        { name: معرف_اللمس,   kind: Integer, source: touchId,    description_ar: "معرّف اللمسة",                   description_en: "touch id" },
+        { name: معرف_الإصبع,  kind: Integer, source: fingerId,   description_ar: "معرّف الإصبع",                   description_en: "finger id" },
+        { name: ضغط,          kind: Float,   source: pressure,   description_ar: "ضغط اللمس",                      description_en: "touch pressure" },
+        { name: عدد_اللمسات,  kind: Integer, source: touchCount, description_ar: "عدد اللمسات",                    description_en: "touch count" },
+        { name: هل_لمس,       kind: Boolean, source: isTouch,    description_ar: "هل الحدث لمسيّ؟",                description_en: "is touch" },
+        { name: زاوية,        kind: Float,   source: angle,      description_ar: "زاوية الدوران",                  description_en: "rotation angle" },
+        { name: قيمة,         kind: String,  source: value,      description_ar: "القيمة الجديدة (إدخال/منزلقة)",  description_en: "new value" },
+        { name: بيانات,       kind: String,  source: customData, description_ar: "حمولة مخصّصة",                   description_en: "custom payload" },
+        { name: نوع,          kind: Integer, source: __type,     description_ar: "نوع الحدث (تعداد)",              description_en: "event type enum" }
+      ] }
+
+  # ─── متجهات SIMD / SIMD vectors ───
+  - { id: type.vector, kind: Vector, word: متجه, name_en: vector, category: simd, surface: false, since: "1.0.0", status: experimental, description_ar: "متجه SIMD <نوع_عنصر، عدد> — <N x T> في LLVM", description_en: "SIMD vector <elem, count> — <N x T> in LLVM" }
+
+  # ─── العدم / Null (S-TS-P1) — مُلحَق بالنهاية للحفاظ على ترتيب القيم السابقة (ABI) ───
+  - { id: "type.null", kind: "Null", word: عدم, name_en: "null", category: special, surface: true, token_type: TYPE_NULL, can_be_identifier: true, since: "1.0.0", status: stable, description_ar: "العدم — غياب القيمة، متمايز عن فراغ (void). وتمثيلُه حارسٌ صحيحُ البتّات، فالحكمُ عليه يلزمُ أن يقومَ على وسمِ النوعِ لا على شكلِ التمثيل: مقارنةُ العدمِ بقيمةٍ من نوعٍ آخر تُحسَمُ بتطبيعِ الطرفِ الآخرِ إلى عرضِ الحارسِ ومقارنتِه به عدديًّا، فلا تُستدعى مقارنةُ نصوصٍ على الحارسِ أبدًا؛ و«عدم == عدم» صحيح. والوسمُ الساكنُ لا يكفي وحدَه ولا يمكنُ أن يكفي: خانةٌ نوعُها المُصرَّحُ «نصّ» تقبلُ نصًّا في موقعِ نداءٍ وعدمًا في آخر، فلا وسمَ ساكنًا واحدًا يصدُقُ على الاثنَين — والسؤالُ نفسُه سؤالُ زمنِ تشغيل. لذلكَ مقارنةُ النصوصِ آمنةٌ من العدمِ وقتَ التشغيل: يُفحَصُ الطرفانِ على الحارسِ قبلَ أيِّ قراءةِ ذاكرة، فالعدمُ يساوي العدمَ ولا يساوي نصًّا، ولا يُمرَّرُ الحارسُ إلى مقارنةِ نصوصٍ أبدًا", description_en: "Null — absence of value, distinct from void. Its representation is an integer sentinel, so judgements about it must rest on the type tag rather than on the shape of the representation: comparing null against a value of another type is decided by normalising the other side to the sentinel width and comparing numerically, so a string comparison is never invoked on the sentinel; and `null == null` is true. A static tag is not enough on its own and cannot be: a slot declared `string` accepts a string at one call site and null at another, so no single static tag is true of both — the question itself is a runtime one. String comparison is therefore null-safe at runtime: both sides are checked against the sentinel before any memory is read, so null equals null and never equals a string, and the sentinel is never handed to a string comparison" }
+
+  # ─── أنواع رسومات هندسية (S-TS-P11) — إثبات التوسّع: مُضافة من YAML فقط ثم مُولَّدة ───
+  #     (مُلحَقة بالنهاية للحفاظ على ABI؛ surface:false = داخلية بلا كلمة سطحية بعد)
+  - { id: type.point, kind: Point, word: نقطة,    name_en: point, category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "نقطة هندسية (س، ص)", description_en: "Geometric point (x, y)" }
+  - { id: type.rect,  kind: Rect,  word: مستطيل, name_en: rect,  category: graphics, surface: false, since: "1.0.0", status: experimental, description_ar: "مستطيل (س، ص، عرض، ارتفاع)", description_en: "Rectangle (x, y, w, h)" }

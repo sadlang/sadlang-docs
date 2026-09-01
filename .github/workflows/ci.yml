@@ -1,16 +1,22 @@
 # ============================================================================
-# فحص الجودة على كل Pull Request:
-#   1) بوّابة الانجراف: تتأكّد أنّ src/reference/ المودَع يطابق ما يولّده المولّد
-#      من language-truth/ (مصدر الحقيقة) — تحجب أيّ تحرير يدويّ للصفحات المُولَّدة
-#      أو انحدار في المولّد فورًا، لا بعد أيّام عبر قضيّة sync.yml الأسبوعيّة.
-#   2) بناء mdBook (يلتقط أخطاء البناء/المخطّطات)
-#   3) فحص روابط الإخراج المبنيّ بـ lychee (مستقلّ عن إصدار mdBook)
-# لا ينشر — النشر في deploy.yml عند الدمج في main.
+# فحص الجودة — على كل PR إلى main **وعلى الدفع إلى main**:
+#   1) اختبارات المولّد الذهبيّة: لقطة SoT مجمَّدة → مخرج متوقَّع مودَع.
+#      تقيس المولّد وحده (طرفٌ ثابت)، خلافًا لـ--check القديمة التي كانت
+#      تقارن مخرج المولّد بمخرج المولّد من مصدرٍ متحرّك — طرفان من أصلٍ واحد.
+#   2) توليد صفحات المرجع + بناء mdBook **على القناتين معًا** (sadlang, dev):
+#      النشر يبني الاثنتين، فلا يجوز أن يُقاس البناء على واحدةٍ فقط.
+#   3) فحص روابط الإخراج المبنيّ بـ lychee.
+# لا ينشر — النشر في deploy.yml.
+# ملاحظة: لم تعد هناك «بوّابة انجراف»؛ الصفحات المشتقّة لا تُودَع أصلًا فلا
+# تنجرف. انظر .gitignore و tests/README.md.
 # ============================================================================
-name: فحص التوثيق (انجراف + بناء + روابط)
+name: فحص التوثيق (ذهبيّ + بناء القناتين + روابط)
 
 on:
   pull_request:
+    branches: [main]
+  # الدفع المباشر إلى main كان يتخطّى كلّ البوّابات ثمّ ينشر. لم يعد.
+  push:
     branches: [main]
   workflow_dispatch:
 
@@ -18,36 +24,40 @@ permissions:
   contents: read
 
 jobs:
-  # ── بوّابة الانجراف: المرجع المودَع == المُولَّد من SoT ──────────────────────
-  # اللقطة المودَعة تتبع القناة القادمة (dev)؛ نقيس المطابقة تجاهها.
-  drift-gate:
+  # ── الحارس الحقيقيّ للمولّد: مُدخَلٌ مجمَّد ومخرجٌ متوقَّع ────────────────────
+  generator-golden:
     runs-on: ubuntu-latest
     steps:
-      - name: جلب مستودع التوثيق
-        uses: actions/checkout@v4
-
-      - name: جلب language-truth/ من مستودع اللغة (sparse @ dev)
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          repository: sadlang/s-programming-language
-          ref: dev
-          path: _lang-src
-          sparse-checkout: language-truth
-          sparse-checkout-cone-mode: true
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: اختبارات المولّد الذهبيّة
+        run: python -m unittest discover -s tests -v
+
+  # ── البناء على القناتين ────────────────────────────────────────────────────
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ref: [sadlang, dev]
+    steps:
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install pyyaml
 
-      - name: التحقّق من تطابق المرجع المودَع مع SoT (--check)
-        run: python scripts/gen_reference.py --source-dir _lang-src --source-ref dev --check
+      - name: توليد صفحات المرجع من SoT (${{ matrix.ref }})
+        run: python scripts/gen_reference.py --fetch ${{ matrix.ref }}
 
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: جلب المستودع
-        uses: actions/checkout@v4
+      # حارس: mdBook لا يفشل على صفحةٍ مذكورةٍ في SUMMARY وملفُّها غائب — يُنشئ
+      # جذاذةً (عنوانًا وحده) ويبني بنجاح. فلولا هذا لنُشرت صفحات مرجعٍ بيضاء بصمت.
+      - name: التحقّق من أنّ الصفحات مُولَّدةٌ لا جذاذات
+        run: python scripts/gen_reference.py --verify
 
       - name: تثبيت mdBook
         uses: peaceiris/actions-mdbook@v2

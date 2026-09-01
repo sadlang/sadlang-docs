@@ -1,0 +1,217 @@
+# ============================================================================
+# (AR) المعجم الرسمي للغة ص — المصدر الوحيد المطلق لكل كلمة
+# (EN) Sad Language Official Lexicon — Single Source of Truth
+# ----------------------------------------------------------------------------
+# (AR) لإضافة كلمة جديدة: عدّل هذا الملف فقط، ثم أعد بناء المشروع.
+#      الملفات keywords_generated.{h,cpp} تُولَّد تلقائياً ولا تُحرَّر يدوياً.
+# (EN) To add a new keyword: edit this file only, then rebuild.
+#      The files keywords_generated.{h,cpp} are auto-generated.
+# ----------------------------------------------------------------------------
+# (AR) الفئات:
+#   - reserved:      كلمات محجوزة دائماً (Lexer يُصدر KEYWORD_*) — 40
+#   - operators:     عوامل منطقية تُلفظ كلمات (Lexer يُصدر OP_*) — 3
+#   - contextual:    Lexer يُصدر IDENTIFIER؛ Parser يقرر سياقياً — ~30
+#                    يمكن استخدامها كأسماء متغيرات خارج سياقها
+#   - builtin_types: أسماء أنواع مدمجة (Lexer يُصدر IDENTIFIER) — 9
+#                    يمكن استخدامها كأسماء متغيرات خارج سياقها
+# ============================================================================
+
+# (AR) V5: هذا الملف هو SoT الجديد في language-truth/ (نُقل من data/language/ — 2026-06-05)
+version: "5.0"
+language: "sad"
+
+categories:
+
+  # ╔══════════════════════════════════════════════════════════════════════╗
+  # ║  1) RESERVED — 40 كلمة محجوزة دائماً                                  ║
+  # ║     emittedByLexer: true ⇒ Lexer يُصدرها كرمز خاص KEYWORD_*           ║
+  # ╚══════════════════════════════════════════════════════════════════════╝
+  reserved:
+    description: "كلمات محجوزة، Lexer يُصدر KEYWORD_* مباشرة"
+    emittedByLexer: true
+    keywords:
+      # ── الدوال والبنيات والأصناف (11) ──
+      - { id: "KW-RES-001", subcategory: "functions_classes", since: "1.0.0", word: "دالة",    tokenType: KEYWORD_FUNCTION,    english: function,     roles: [block_opener] }
+      - { id: "KW-RES-002", subcategory: "functions_classes", since: "1.0.0", word: "ارجع",    tokenType: KEYWORD_RETURN,      english: return }
+      - { id: "KW-RES-003", subcategory: "functions_classes", since: "1.0.0", word: "صنف",     tokenType: KEYWORD_CLASS,       english: class,        roles: [block_opener] }
+      - { id: "KW-RES-004", subcategory: "functions_classes", since: "1.0.0", word: "بنية",    tokenType: KEYWORD_STRUCT,      english: struct,       roles: [block_opener] }
+      - { id: "KW-RES-005", subcategory: "functions_classes", since: "1.0.0", word: "تعداد",   tokenType: KEYWORD_ENUM,        english: enum,         roles: [block_opener] }
+      - { id: "KW-RES-006", subcategory: "functions_classes", since: "1.0.0", word: "يرث",     tokenType: KEYWORD_INHERITS,    english: inherits }
+      - { id: "KW-RES-007", subcategory: "functions_classes", since: "1.0.0", word: "نهاية",   tokenType: KEYWORD_END,         english: end,          roles: [block_closer] }
+      - { id: "KW-RES-008", subcategory: "functions_classes", since: "1.0.0", word: "جديد",    tokenType: KEYWORD_NEW,         english: new }
+      - { id: "KW-RES-009", subcategory: "functions_classes", since: "1.0.0", word: "هذا",     tokenType: KEYWORD_THIS,        english: this }
+      - { id: "KW-RES-010", subcategory: "functions_classes", since: "1.0.0", word: "باني",    tokenType: KEYWORD_CONSTRUCTOR, english: constructor,  roles: [block_opener] }
+      - { id: "KW-RES-011", subcategory: "functions_classes", since: "1.0.0", word: "الأساس",  tokenType: KEYWORD_SUPER,       english: super }
+
+      # ── التحكم في التدفق (7) ──
+      - { id: "KW-RES-012", subcategory: "control_flow", since: "1.0.0", word: "إذا",   tokenType: KEYWORD_IF,       english: if,       aliases: ["اذا"],  roles: [block_opener] }
+      - { id: "KW-RES-013", subcategory: "control_flow", since: "1.0.0", word: "وإلا",  tokenType: KEYWORD_ELSE,     english: else,     aliases: ["والا"], roles: [inter_block] }
+      - { id: "KW-RES-014", subcategory: "control_flow", since: "1.0.0", word: "بينما", tokenType: KEYWORD_WHILE,    english: while,    roles: [block_opener] }
+      - { id: "KW-RES-015", subcategory: "control_flow", since: "1.0.0", word: "لكل",   tokenType: KEYWORD_FOR,      english: for,      roles: [block_opener] }
+      - { id: "KW-RES-016", subcategory: "control_flow", since: "1.0.0", word: "في",    tokenType: KEYWORD_IN,       english: in }
+      - { id: "KW-RES-017", subcategory: "control_flow", since: "1.0.0", word: "توقف",  tokenType: KEYWORD_BREAK,    english: break }
+      - { id: "KW-RES-018", subcategory: "control_flow", since: "1.0.0", word: "استمر", tokenType: KEYWORD_CONTINUE, english: continue }
+
+      # ── مطابقة الأنماط (3) ──
+      - { id: "KW-RES-019", subcategory: "pattern_matching", since: "1.0.0", word: "طابق",     tokenType: KEYWORD_MATCH,   english: match,   roles: [block_opener] }
+      - { id: "KW-RES-020", subcategory: "pattern_matching", since: "1.0.0", word: "عندما",    tokenType: KEYWORD_WHEN,    english: when,    roles: [inter_block] }
+      - { id: "KW-RES-021", subcategory: "pattern_matching", since: "1.0.0", word: "افتراضي",  tokenType: KEYWORD_DEFAULT, english: default, roles: [inter_block] }
+
+      # ── معالجة الأخطاء (4) ──
+      - { id: "KW-RES-022", subcategory: "error_handling", since: "1.0.0", word: "حاول",   tokenType: KEYWORD_TRY,     english: try,     roles: [block_opener] }
+      - { id: "KW-RES-023", subcategory: "error_handling", since: "1.0.0", word: "امسك",   tokenType: KEYWORD_CATCH,   english: catch,   roles: [inter_block] }
+      - { id: "KW-RES-024", subcategory: "error_handling", since: "1.0.0", word: "ارمي",   tokenType: KEYWORD_THROW,   english: throw }
+      - { id: "KW-RES-025", subcategory: "error_handling", since: "1.0.0", word: "أخيراً", tokenType: KEYWORD_FINALLY, english: finally, aliases: ["أخيرا"], roles: [inter_block] }
+
+      # ── التحكم بالوصول (4) ──
+      - { id: "KW-RES-026", subcategory: "access_control", since: "1.0.0", word: "عام",   tokenType: KEYWORD_PUBLIC,    english: public }
+      - { id: "KW-RES-027", subcategory: "access_control", since: "1.0.0", word: "خاص",   tokenType: KEYWORD_PRIVATE,   english: private }
+      - { id: "KW-RES-028", subcategory: "access_control", since: "1.0.0", word: "محمي",  tokenType: KEYWORD_PROTECTED, english: protected }
+      - { id: "KW-RES-029", subcategory: "access_control", since: "1.0.0", word: "مجرد",  tokenType: KEYWORD_ABSTRACT,  english: abstract }
+
+      # ── الوحدات (4) ──
+      - { id: "KW-RES-030", subcategory: "modules", since: "1.0.0", word: "استورد", tokenType: KEYWORD_IMPORT, english: import,  roles: [import_keyword] }
+      - { id: "KW-RES-031", subcategory: "modules", since: "1.0.0", word: "من",     tokenType: KEYWORD_FROM,   english: from,    roles: [import_keyword] }
+      - { id: "KW-RES-032", subcategory: "modules", since: "1.0.0", word: "كـ",     tokenType: KEYWORD_AS,     english: as,      roles: [import_keyword] }
+      - { id: "KW-RES-033", subcategory: "modules", since: "1.0.0", word: "صدّر",   tokenType: KEYWORD_EXPORT, english: export,  aliases: ["صدر"], roles: [import_keyword] }
+
+      # ── المتغيرات (4) ──
+      - { id: "KW-RES-034", subcategory: "variables", since: "1.0.0", word: "متغير",  tokenType: KEYWORD_VAR,    english: var }
+      - { id: "KW-RES-035", subcategory: "variables", since: "1.0.0", word: "ثابت",   tokenType: KEYWORD_CONST,  english: const }
+      - { id: "KW-RES-036", subcategory: "variables", since: "1.0.0", word: "ساكن",   tokenType: KEYWORD_STATIC, english: static }
+      # (AR) RFC 0034: «خارجية» صفة مؤنّثة تطابق «دالة» — الصيغة المفردة «دالة خارجية».
+      #      «خارجي» (المذكّر) يبقى لفاتحة كتلة الربط: خارجي "C" ... نهاية.
+      - { id: "KW-RES-037", subcategory: "variables", since: "1.0.0", word: "خارجي",  tokenType: KEYWORD_EXTERN, english: extern, aliases: ["خارجية"] }
+
+      # ── القيم الحرفية (3) ──
+      - { id: "KW-RES-038", subcategory: "literals", since: "1.0.0", word: "صحيح",   tokenType: LITERAL_TRUE,  english: "true" }
+      - { id: "KW-RES-039", subcategory: "literals", since: "1.0.0", word: "خطأ",    tokenType: LITERAL_FALSE, english: "false" }
+      - { id: "KW-RES-040", subcategory: "literals", since: "1.0.0", word: "لاشيء",  tokenType: LITERAL_NULL,  english: "null" }
+
+  # ╔══════════════════════════════════════════════════════════════════════╗
+  # ║  2) OPERATORS — 3 عوامل منطقية تُلفظ كلمات                            ║
+  # ╚══════════════════════════════════════════════════════════════════════╝
+  operators:
+    description: "عوامل منطقية تُلفظ كلمات"
+    emittedByLexer: true
+    keywords:
+      - { id: "KW-OPR-001", subcategory: "logical_operators", since: "1.0.0", word: "و",    tokenType: OP_AND, english: and }
+      - { id: "KW-OPR-002", subcategory: "logical_operators", since: "1.0.0", word: "أو",   tokenType: OP_OR,  english: or }
+      - { id: "KW-OPR-003", subcategory: "logical_operators", since: "1.0.0", word: "ليس",  tokenType: OP_NOT, english: not }
+
+  # ╔══════════════════════════════════════════════════════════════════════╗
+  # ║  3) CONTEXTUAL — كلمات سياقية                                         ║
+  # ║     emittedByLexer: false ⇒ Lexer يُصدرها IDENTIFIER                  ║
+  # ║     Parser يستخدم checkContextual(TokenType) للتمييز سياقياً          ║
+  # ║     يمكن استخدامها كأسماء متغيرات خارج سياقها                        ║
+  # ╚══════════════════════════════════════════════════════════════════════╝
+  contextual:
+    description: "Lexer يُصدر IDENTIFIER؛ Parser يقرر سياقياً. صالحة كأسماء متغيرات."
+    emittedByLexer: false
+    keywords:
+      # ── أمان null ──
+      # (AR) عامل تأكيد عدم الفراغ (NS-05) — لاحقيّ كلمة، T؟ → T؛ صيغتان مترادفتان (مذكّر/مؤنّث).
+      #      سياقيّ عمدًا (لا محجوز): «مؤكد»/«مؤكدة» كلمتان عربيّتان شائعتان تبقيان صالحتين
+      #      كأسماء/أعضاء تعداد/ماكرو؛ المحلّل يميّزها لاحقيًّا عبر matchContextual في parsePostfix.
+      # (EN) Null-assertion (NS-05) — postfix word, T? → T; two gendered synonyms.
+      #      Deliberately contextual (not reserved): common Arabic words stay valid as
+      #      identifiers/enum-members/macros; parser disambiguates via matchContextual in parsePostfix.
+      - { id: "KW-CTX-040", subcategory: "null_safety", since: "1.0.0", word: "مؤكد", aliases: ["مؤكدة"], tokenType: OP_NULL_ASSERT, english: asserted }
+      # ── البرمجة الكائنية ──
+      - { id: "KW-CTX-001", subcategory: "oop", since: "1.0.0", word: "خاصية",   tokenType: KEYWORD_PROPERTY,   english: property,    roles: [block_opener] }
+      - { id: "KW-CTX-002", subcategory: "oop", since: "1.0.0", word: "احصل",    tokenType: KEYWORD_GET,        english: get }
+      - { id: "KW-CTX-003", subcategory: "oop", since: "1.0.0", word: "عيّن",    tokenType: KEYWORD_SET,        english: set,         aliases: ["عين"] }
+      - { id: "KW-CTX-004", subcategory: "oop", since: "1.0.0", word: "هدم",     tokenType: KEYWORD_DESTRUCTOR, english: destructor,  roles: [block_opener] }
+      - { id: "KW-CTX-005", subcategory: "oop", since: "1.0.0", word: "عامل",    tokenType: KEYWORD_OPERATOR,   english: operator }
+      - { id: "KW-CTX-006", subcategory: "oop", since: "1.0.0", word: "رئيسية",  tokenType: KEYWORD_MAIN,       english: main,        roles: [block_opener] }
+      - { id: "KW-CTX-007", subcategory: "oop", since: "1.0.0", word: "محكم",    tokenType: KEYWORD_SEALED,     english: sealed }
+      - { id: "KW-CTX-008", subcategory: "oop", since: "1.0.0", word: "ترجع",    tokenType: KEYWORD_RETURNS,    english: returns }
+      - { id: "KW-CTX-009", subcategory: "oop", since: "1.0.0", word: "حالة",    tokenType: KEYWORD_CASE,       english: case,        roles: [inter_block] }
+
+      # ── غير متزامن ──
+      - { id: "KW-CTX-010", subcategory: "async", since: "1.0.0", word: "غير_متزامن", tokenType: KEYWORD_ASYNC, english: async, aliases: ["غير_متزامنة"] }
+      - { id: "KW-CTX-011", subcategory: "async", since: "1.0.0", word: "انتظر",      tokenType: KEYWORD_AWAIT, english: await }
+
+      # ── ميزات Python ──
+      - { id: "KW-CTX-012", subcategory: "functional", since: "1.0.0", word: "لامدا",         tokenType: KEYWORD_LAMBDA,    english: lambda,    roles: [block_opener] }
+      - { id: "KW-CTX-013", subcategory: "functional", since: "1.0.0", word: "أنتج",          tokenType: KEYWORD_YIELD,     english: yield }
+      - { id: "KW-CTX-014", subcategory: "functional", since: "1.0.0", word: "مولد",          tokenType: KEYWORD_GENERATOR, english: generator }
+      - { id: "KW-CTX-015", subcategory: "functional", since: "1.0.0", word: "باستخدام",      tokenType: KEYWORD_WITH,      english: with,      roles: [block_opener] }
+      - { id: "KW-CTX-016", subcategory: "functional", since: "1.0.0", word: "نهاية_استخدام", tokenType: KEYWORD_END_WITH,  english: end_with,  roles: [block_closer] }
+
+      # ── ميزات C++ ──
+      - { id: "KW-CTX-017", subcategory: "generics", since: "1.0.0", word: "قالب",         tokenType: KEYWORD_TEMPLATE,      english: template,      roles: [block_opener] }
+      - { id: "KW-CTX-018", subcategory: "generics", since: "1.0.0", word: "نوع",          tokenType: KEYWORD_TYPENAME,      english: typename }
+      - { id: "KW-CTX-019", subcategory: "generics", since: "1.0.0", word: "حيث",          tokenType: KEYWORD_WHERE,         english: where }
+      - { id: "KW-CTX-020", subcategory: "namespace", since: "1.0.0", word: "فضاء",         tokenType: KEYWORD_NAMESPACE,     english: namespace,     roles: [block_opener] }
+      - { id: "KW-CTX-021", subcategory: "namespace", since: "1.0.0", word: "نهاية_فضاء",   tokenType: KEYWORD_END_NAMESPACE, english: end_namespace, roles: [block_closer] }
+
+      # ── BeeOS / أنظمة ──
+      - { id: "KW-CTX-022", subcategory: "traits", since: "1.0.0", word: "سمة",     tokenType: KEYWORD_TRAIT,     english: trait,     roles: [block_opener] }
+      - { id: "KW-CTX-023", subcategory: "traits", since: "1.0.0", word: "نفّذ",    tokenType: KEYWORD_IMPL,      english: impl,      aliases: ["نفذ"],   roles: [block_opener] }
+      - { id: "KW-CTX-024", subcategory: "traits", since: "1.0.0", word: "امتداد",  tokenType: KEYWORD_EXTENSION, english: extension, roles: [block_opener] }
+      - { id: "KW-CTX-025", subcategory: "macros", since: "1.0.0", word: "ماكرو",   tokenType: KEYWORD_MACRO,     english: macro,     roles: [block_opener] }
+      - { id: "KW-CTX-026", subcategory: "system", since: "1.0.0", word: "أجّل",    tokenType: KEYWORD_DEFER,     english: defer,     aliases: ["اجل", "أجل", "اجّل"] }
+
+      # ── التزامن على نمط Go ──
+      - { id: "KW-CTX-027", subcategory: "concurrency", since: "1.0.0", word: "أطلق",  tokenType: KEYWORD_GO,      english: go,      aliases: ["اطلق"] }
+      - { id: "KW-CTX-028", subcategory: "concurrency", since: "1.0.0", word: "اختر",  tokenType: KEYWORD_SELECT,  english: select,  roles: [block_opener] }
+      - { id: "KW-CTX-029", subcategory: "ui", since: "1.0.0", word: "واجهة", tokenType: KEYWORD_UI_DECL, english: ui_decl }
+      - { id: "KW-CTX-030", subcategory: "ui", since: "1.0.0", word: "اعرض", tokenType: KEYWORD_SHOW, english: show }
+
+      # ── التجميع المضمَّن (inline assembly) ──
+      - { id: "KW-CTX-031", subcategory: "low_level", since: "1.0.0", word: "متطاير", tokenType: KEYWORD_VOLATILE, english: volatile }
+
+      # ── لهجة التجميع العربيّ (م١ RFC اللهجات الأصيلة) — كلمة فتح كتلة سياقيّة ──
+      #    «تجميع … نهاية»: كلمة سياقيّة (صالحة اسمًا للمتغيّرات خارج سياقها)، يُصدرها
+      #    المُشكِّل IDENTIFIER ويقرّرها المحلّل سياقيًّا. تُشارك KEYWORD_ASM مع سكّر @تجميع الموروث.
+      - { id: "KW-CTX-041", subcategory: "low_level", since: "1.0.0", word: "تجميع", tokenType: KEYWORD_ASM, english: asm, roles: [block_opener] }
+
+      # ── مُعدِّل الدوال: لا تعود أبداً (اللبنة 3.15) — يلي «دالة» قبل الاسم ──
+      - { id: "KW-CTX-040", subcategory: "low_level", since: "1.0.0", word: "لا_ترجع", tokenType: KEYWORD_NORETURN, english: noreturn }
+
+      # ── مهجور / Deprecated ──
+      - { id: "KW-CTX-032", subcategory: "deprecated", since: "1.0.0", word: "اعطِ", tokenType: KEYWORD_GIVE_DEPRECATED, english: give_deprecated }
+
+      # ── أدوات تحكم تدفق إضافية ──
+      - { id: "KW-CTX-033", subcategory: "control_flow_extra", since: "1.0.0", word: "ثم",   tokenType: KEYWORD_THEN,      english: then }
+      - { id: "KW-CTX-034", subcategory: "control_flow_extra", since: "1.0.0", word: "انشر", tokenType: KEYWORD_PROPAGATE, english: propagate }
+      - { id: "KW-CTX-035", subcategory: "control_flow_extra", since: "1.0.0", word: "الى",  tokenType: KEYWORD_TO,        english: to,  aliases: ["إلى"] }
+
+      # ── العقود البرمجية ──
+      - { id: "KW-CTX-036", subcategory: "contracts", since: "1.0.0", word: "يتطلب", tokenType: KEYWORD_REQUIRES, english: requires }
+      - { id: "KW-CTX-037", subcategory: "contracts", since: "1.0.0", word: "يضمن",  tokenType: KEYWORD_ENSURES,  english: ensures }
+      - { id: "KW-CTX-038", subcategory: "contracts", since: "1.0.0", word: "عقد",   tokenType: KEYWORD_CONTRACT, english: contract, roles: [block_opener] }
+
+      # ── الاختبارات ──
+      - { id: "KW-CTX-039", subcategory: "testing", since: "1.0.0", word: "اختبر", tokenType: KEYWORD_TEST, english: test, roles: [block_opener] }
+
+      # ── أمان العدم: صفةُ النوعِ القابلِ للعدم (قرارُ المالك 2026-08-13) ──
+      #    «رقم عدمي س = لاشيء» ⇒ نظيرُ «رقم؟» حرفًا بحرف: الصفةُ تلي الموصوفَ كما في
+      #    «متغير متطاير» و«دالة لا_ترجع». التأنيثُ لصيقٌ لا دلالةٌ مستقلّة: «مصفوفة
+      #    عدمية» = «مصفوفة عدمي» — مطابقةُ الجنسِ سلامةُ لسانٍ لا شرطُ قبول.
+      #    والاختيارُ لفظًا لا رمزًا: «؟» يُنازعه الثلاثيُّ «أ ؟ ب : ج» ولم يبلغ
+      #    تصريحَ المتغيّرِ أصلًا (مقيس: «متغير نص؟ اسم» ⇒ SYN009)، واللفظُ يبلغه.
+      - { id: "KW-CTX-042", subcategory: "null_safety", since: "1.0.0", word: "عدمي", tokenType: KEYWORD_NULLABLE, english: nullable, aliases: ["عدمية"] }
+
+  # ╔══════════════════════════════════════════════════════════════════════╗
+  # ║  4) BUILTIN_TYPES — 9 أنواع مدمجة                                     ║
+  # ║     emittedByLexer: false ⇒ Lexer يُصدر IDENTIFIER                    ║
+  # ║     Parser يتعرف عليها سياقياً عبر isTypeToken() مع lookahead         ║
+  # ║     يمكن استخدامها كأسماء متغيرات                                    ║
+  # ╚══════════════════════════════════════════════════════════════════════╝
+  builtin_types:
+    description: "أسماء أنواع مدمجة، Lexer يُصدر IDENTIFIER. صالحة كأسماء متغيرات."
+    emittedByLexer: false
+    keywords:
+      - { id: "KW-TYP-001", subcategory: "numeric", since: "1.0.0", word: "رقم",     tokenType: TYPE_INTEGER, english: integer }
+      - { id: "KW-TYP-002", subcategory: "numeric", since: "1.0.0", word: "عشري",    tokenType: TYPE_DOUBLE,  english: double }
+      - { id: "KW-TYP-003", subcategory: "text", since: "1.0.0", word: "نص",      tokenType: TYPE_STRING,  english: string }
+      - { id: "KW-TYP-004", subcategory: "logic", since: "1.0.0", word: "منطقي",   tokenType: TYPE_BOOLEAN, english: boolean }
+      - { id: "KW-TYP-005", subcategory: "special", since: "1.0.0", word: "فراغ",    tokenType: TYPE_VOID,    english: void }
+      - { id: "KW-TYP-006", subcategory: "special", since: "1.0.0", word: "عدم",     tokenType: TYPE_NULL,    english: "null" }
+      - { id: "KW-TYP-007", subcategory: "composite", since: "1.0.0", word: "مصفوفة",  tokenType: TYPE_ARRAY,   english: array }
+      - { id: "KW-TYP-008", subcategory: "composite", since: "1.0.0", word: "خريطة",   tokenType: TYPE_MAP,     english: map }
+      - { id: "KW-TYP-009", subcategory: "special", since: "1.0.0", word: "أي",      tokenType: TYPE_ANY,     english: any }
+      - { id: "KW-TYP-010", subcategory: "numeric", since: "1.0.0", word: "طبيعي64", tokenType: TYPE_U64,     english: uint64 }
+      - { id: "KW-TYP-011", subcategory: "numeric", since: "1.0.0", word: "بايت",    tokenType: TYPE_U8,      english: byte }

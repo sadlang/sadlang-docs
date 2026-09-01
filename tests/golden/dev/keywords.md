@@ -12,8 +12,8 @@
 |------|:----:|---------------|:------------------:|
 | **محجوزة** (reserved) | 40 | يُصدر `KEYWORD_*` | ❌ |
 | **عوامل منطقيّة** (operators) | 3 | يُصدر `OP_*` | ❌ |
-| **سياقيّة** (contextual) | 40 | يُصدر `IDENTIFIER` (يقرّره المحلّل) | ✅ |
-| **أنواع مدمجة** (builtin) | 9 | يُصدر `IDENTIFIER` | ✅ |
+| **سياقيّة** (contextual) | 44 | يُصدر `IDENTIFIER` (يقرّره المحلّل) | ✅ |
+| **أنواع مدمجة** (builtin) | 17 | يُصدر `IDENTIFIER` | ✅ |
 
 > **المصدر:** [`language-truth/keywords.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/keywords.yaml) — المصدر الوحيد المطلق.
 

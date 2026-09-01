@@ -12,18 +12,26 @@
 2. إن خالف التوثيقُ المصدرَ، **المصدر هو الصواب** — أصلِح التوثيق وأبلِغ عن الخلل.
 3. لا تنسخ جداول ضخمة يدويًّا إن أمكن الإحالة إلى SoT؛ كرّر فقط ما يخدم القارئ.
 
-## ⚠️ صفحات مُولَّدة آليًّا — لا تحرّرها يدويًّا
+## ⚠️ صفحات مُولَّدة — غير موجودة في git
 
-`src/reference/{keywords,operators,types}.md` تُولَّد من `language-truth/` عبر
-[`scripts/gen_reference.py`](scripts/gen_reference.py)، وتبدأ بلافتة تحذير. أيّ تحرير
-يدويّ فيها يُمحى عند إعادة التوليد. لتعديل محتواها:
+`src/reference/{keywords,operators,types,sadui-properties}.md` **مشتقّة بالكامل** من
+`language-truth/` ولا تُودَع. تُولَّد عندك بأمرٍ واحد:
 
-- إن كان الخطأ في **البيانات** (كلمة/نوع/عامل): أصلِح `language-truth/` في المستودع الأساسيّ.
-- إن كان في **شكل العرض**: عدّل المولّد `scripts/gen_reference.py` ثم أعِد التوليد:
+```bash
+pip install pyyaml
+python scripts/gen_reference.py --fetch dev    # أو --fetch sadlang للقناة المستقرّة
+```
+
+بدونها يفشل `mdbook build` لأنّ `SUMMARY.md` يشير إليها. لتعديل محتواها:
+
+- الخطأ في **البيانات** (كلمة/نوع/عامل): أصلِح `language-truth/` في المستودع الأساسيّ.
+- الخطأ في **شكل العرض**: عدّل [`scripts/gen_reference.py`](scripts/gen_reference.py)،
+  ثمّ **حدّث الذهبيّ عمدًا** وراجع خلافه في الـPR:
   ```bash
-  python scripts/gen_reference.py --source-dir <مسار-مستودع-اللغة>
+  python -m unittest discover -s tests -v      # سيحمرّ — هذا مقصود
+  python scripts/gen_reference.py     --source-dir tests/fixtures/sot-dev-1138f5e1 --source-ref dev     --out-dir tests/golden/dev
   ```
-- سير `sync.yml` يُعيد التوليد دوريًّا ويفتح PR تلقائيًّا عند تغيّر SoT.
+  التفصيل في [`tests/README.md`](tests/README.md).
 
 ## سير العمل
 
@@ -32,6 +40,8 @@ git clone https://github.com/sadlang/sadlang-docs
 cd sadlang-docs
 cargo install mdbook mdbook-mermaid     # مرّة واحدة
 mdbook-mermaid install .
+pip install pyyaml
+python scripts/gen_reference.py --fetch dev   # لازم: صفحات المرجع غير مودَعة
 mdbook serve --open                     # حرّر تحت src/ وشاهد فوريًّا
 ```
 
@@ -52,5 +62,8 @@ mdbook serve --open                     # حرّر تحت src/ وشاهد فور
 
 ## الـCI
 
-- **ci.yml**: على كل PR — يبني الكتاب ويفحص الروابط بـ lychee. يجب أن يمرّ.
-- **deploy.yml**: على الدمج في `main` — ينشر إلى GitHub Pages تلقائيًّا.
+- **ci.yml**: على كل PR **وعلى الدفع إلى `main`** — ثلاث بوّابات حاجبة:
+  1. اختبارات المولّد الذهبيّة (`python -m unittest discover -s tests`).
+  2. توليد المرجع + بناء mdBook على **القناتين** (`sadlang` و`dev`).
+  3. فحص الروابط بـ lychee.
+- **deploy.yml**: على الدمج في `main` — ينشر القناتين إلى GitHub Pages تلقائيًّا.

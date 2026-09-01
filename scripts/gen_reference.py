@@ -11,11 +11,16 @@
 #      Channel-aware via --source-ref (sadlang=stable, dev=next).
 # ----------------------------------------------------------------------------
 # الاستعمال / Usage:
-#   python scripts/gen_reference.py --source-dir <repo-root>
-#         [--source-ref sadlang] [--out-dir src/reference] [--check]
-#   --check: لا يكتب؛ يفشل (خروج 1) إن اختلف المُولَّد عن الموجود (لفحص CI).
+#   python scripts/gen_reference.py --fetch dev            # يجلب SoT بنفسه
+#   python scripts/gen_reference.py --source-dir <repo-root> [--source-ref sadlang]
+#         [--out-dir src/reference] [--check]
+#   --fetch <ref>: يستنسخ language-truth/ من الفرع المطلوب استنساخًا ضحلًا متفرّقًا
+#         إلى خبيئة محلّيّة (.sot-cache/) ثمّ يولّد منها — مسارُ جلبٍ **واحد**
+#         يستعمله المساهم وسير الفحص وسير النشر معًا، فلا تنجرف نسخةٌ رابعة.
+#   --check: لا يكتب؛ يفشل (خروج 1) إن اختلف المُولَّد عن الموجود.
 # ============================================================================
 import argparse
+import subprocess
 import sys
 from pathlib import Path
 
@@ -32,6 +37,55 @@ except ImportError:
     sys.exit("خطأ: pyyaml غير مثبّت. ثبّته بـ: pip install pyyaml")
 
 REPO = "sadlang/s-programming-language"
+CLONE_URL = f"https://github.com/{REPO}.git"
+CACHE_ROOT = Path(".sot-cache")
+
+
+def _git(*argv: str, cwd: Path = None) -> str:
+    """تشغيل git وإرجاع مخرجه؛ يرفع CalledProcessError عند الفشل."""
+    res = subprocess.run(
+        ["git", *argv], cwd=str(cwd) if cwd else None,
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
+    if res.returncode != 0:
+        raise subprocess.CalledProcessError(
+            res.returncode, ["git", *argv], output=res.stdout, stderr=res.stderr
+        )
+    return res.stdout.strip()
+
+
+def fetch_sot(ref: str, cache_root: Path = CACHE_ROOT) -> Path:
+    """(AR) يجلب language-truth/ من الفرع المطلوب إلى خبيئة محلّيّة ويُرجع جذرها.
+
+    استنساخ ضحل (--depth 1) ومتفرّق (sparse) على language-truth/ وحده، فالجلب
+    ثوانٍ لا دقائق. الخبيئة تُعاد استعمالها بين النداءات؛ نُحدّثها في كل مرّة كي
+    لا نولّد من لقطةٍ بائتة صامتة.
+    """
+    dest = cache_root / ref.replace("/", "_")
+    try:
+        if not (dest / ".git").is_dir():
+            dest.mkdir(parents=True, exist_ok=True)
+            _git("init", "-q", str(dest))
+            _git("remote", "add", "origin", CLONE_URL, cwd=dest)
+            _git("sparse-checkout", "set", "--cone", "language-truth", cwd=dest)
+        _git("fetch", "--depth", "1", "origin", ref, cwd=dest)
+        _git("checkout", "-q", "--detach", "FETCH_HEAD", cwd=dest)
+        sha = _git("rev-parse", "--short", "HEAD", cwd=dest)
+    except FileNotFoundError:
+        sys.exit("خطأ: الأمر git غير موجود في المسار — --fetch يحتاجه.")
+    except subprocess.CalledProcessError as exc:
+        tail = (exc.stderr or "").strip().splitlines()
+        sys.exit(
+            "\n".join([
+                f"خطأ: تعذّر جلب الفرع «{ref}» من {REPO}.",
+                "      تحقّق من اسم الفرع ومن الاتّصال بالشبكة.",
+                f"      git: {tail[-1] if tail else exc}",
+            ])
+        )
+    if not (dest / "language-truth").is_dir():
+        sys.exit(f"خطأ: الفرع «{ref}» لا يحوي language-truth/ — أهو فرع مستودع اللغة؟")
+    print(f"جُلب SoT: {ref} @ {sha} → {dest}")
+    return dest
 
 # ── لافتة تُوضَع رأس كل ملف مُولَّد ───────────────────────────────────────────
 BANNER = (
@@ -290,6 +344,40 @@ def gen_ui_props(src_dir: Path, ref: str) -> str:
     return "\n".join(out) + "\n"
 
 
+# (AR) أقلّ حجمٍ معقول لصفحةٍ مُولَّدة — يكشف الجذاذة التي يُنشئها mdBook تلقائيًّا
+# (عنوانٌ وحده، ~32 بايتًا) حين يكون الملفّ غائبًا. قِيس: mdBook لا يفشل على
+# ملفٍّ غائبٍ مذكورٍ في SUMMARY، بل يُنشئ جذاذةً ويبني بنجاح — فتُنشَر صفحةٌ بيضاء.
+MIN_PAGE_BYTES = 500
+MARKER = "ملف مُولَّد آليًّا"
+
+
+def verify(out_dir: Path) -> int:
+    """(AR) يتحقّق أنّ صفحات المرجع مُولَّدةٌ فعلًا قبل البناء/النشر.
+
+    لا يحتاج SoT ولا شبكة — يقرأ القرص وحده، فيصلح خطوةً حاجبةً قبل
+    `mdbook build` في كلّ سيرٍ وعند المساهم.
+    """
+    problems = []
+    for name in GENERATORS:
+        page = out_dir / name
+        if not page.is_file():
+            problems.append(f"{page}: غير موجودة.")
+            continue
+        text = page.read_text(encoding="utf-8")
+        if len(text.encode("utf-8")) < MIN_PAGE_BYTES:
+            problems.append(f"{page}: جذاذة ({len(text)} محرفًا) — لم تُولَّد.")
+        elif MARKER not in text:
+            problems.append(f"{page}: بلا لافتة التوليد — محرَّرةٌ يدويًّا أو بائتة.")
+    if problems:
+        print("حارس الصفحات المُولَّدة: فشل.")
+        for problem in problems:
+            print(f"  ✗ {problem}")
+        print("شغّل:  python scripts/gen_reference.py --fetch dev")
+        return 1
+    print(f"✓ صفحات المرجع الأربع مُولَّدةٌ وسليمة في {out_dir}")
+    return 0
+
+
 GENERATORS = {
     "keywords.md": gen_keywords,
     "operators.md": gen_operators,
@@ -300,17 +388,35 @@ GENERATORS = {
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="مولّد صفحات المرجع من language-truth/")
-    ap.add_argument("--source-dir", required=True,
-                    help="جذر مستودع لغة ص (يحوي language-truth/)")
+    ap.add_argument("--source-dir",
+                    help="جذر مستودع لغة ص (يحوي language-truth/) — بديلٌ عن --fetch")
+    ap.add_argument("--fetch", metavar="REF",
+                    help="اجلب language-truth/ من هذا الفرع بنفسك (يضبط --source-ref تلقائيًّا)")
     ap.add_argument("--source-ref", default="sadlang",
                     help="فرع/وسم المصدر — يُستعمل في روابط المصدر (sadlang=مستقرّ، dev=قادم)")
     ap.add_argument("--out-dir", default="src/reference",
                     help="مجلّد إخراج صفحات المرجع")
+    ap.add_argument("--verify", action="store_true",
+                    help="لا يولّد؛ يتحقّق فقط أنّ صفحات --out-dir مُولَّدةٌ وغير جذاذات")
     ap.add_argument("--check", action="store_true",
                     help="لا يكتب؛ يفشل إن اختلف المُولَّد عن الموجود (لفحص CI)")
     args = ap.parse_args()
 
-    src_dir = Path(args.source_dir)
+    out_dir_early = Path(args.out_dir)
+    if args.verify:
+        if args.fetch or args.source_dir:
+            ap.error("--verify يقرأ القرص وحده — لا يقبل --fetch ولا --source-dir.")
+        return verify(out_dir_early)
+
+    if bool(args.fetch) == bool(args.source_dir):
+        ap.error("مرّر إمّا --fetch <ref> أو --source-dir <مسار>، لا كليهما ولا واحدًا منهما.")
+
+    if args.fetch:
+        src_dir = fetch_sot(args.fetch)
+        # الفرع المجلوب هو مصدر روابط المصدر — لا يُترك للمستعمِل ليخطئ فيه.
+        args.source_ref = args.fetch
+    else:
+        src_dir = Path(args.source_dir)
     out_dir = Path(args.out_dir)
     if not (src_dir / "language-truth").is_dir():
         sys.exit(f"خطأ: لم يُعثر على {src_dir / 'language-truth'} — تحقّق من --source-dir")
