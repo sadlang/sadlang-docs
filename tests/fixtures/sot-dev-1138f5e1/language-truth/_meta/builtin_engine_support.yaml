@@ -12,7 +12,7 @@
 # ============================================================================
 version: 1
 kind: measurement
-measured_commit: 1138f5e165e781bde09cdcf6c0c45d4de6e46ec9
+measured_commit: 062b1718aba9fcc4c91a36628e38805bf6f0a1f6
 measured_binaries:
 - path: sad-run.exe
   sha256: 15fea78140a19480
@@ -22,24 +22,29 @@ measured_binaries:
   sha256: f93d345298728fd5
   bytes: 92635136
   built_at: '2026-09-01T09:49:19'
-elapsed_seconds: 239
+elapsed_seconds: 242
 method:
   interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى؛ الحكمُ SEM047
   granularity: اسمٌ واحدٌ لكلّ تشغيل — الدفعةُ تبتُرُ فتكذب
 calibration:
   seed: 11
-  absent_sample: 25
-  absent_agreed: 25
-  present_sample: 25
-  present_agreed: 25
+  strategy: طبقيٌّ بحسب المجموعة
+  per_namespace: 3
+  absent_namespaces: 40
+  present_namespaces: 25
+  absent_sample: 113
+  absent_agreed: 113
+  present_sample: 66
+  present_agreed: 66
+  disagreements: []
 counts:
   declared: 1205
   compiler: 678
-  interpreter: 392
-  both: 280
+  interpreter: 391
+  both: 279
   interpreter_only: 112
-  compiler_only: 398
+  compiler_only: 399
   neither: 415
 functions:
 - canonical: إضافة_عنصر
@@ -5326,7 +5331,7 @@ functions:
   namespace: UIWidgets
   module: NONE
   compiler: true
-  interpreter: true
+  interpreter: false
 - canonical: وسط
   namespace: UIWidgets
   module: NONE
