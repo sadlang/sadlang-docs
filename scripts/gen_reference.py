@@ -95,6 +95,25 @@ BANNER = (
     "     يحرسه CI: اختبارات ذهبيّة (tests/) + حارس --verify قبل كلّ بناء. -->\n\n"
 )
 
+TYPE_FORMS = {
+    "مفرد": "نوع", "مفرد_صفة": "مدمج",
+    "مثنى": "نوعان", "مثنى_صفة": "مدمجان",
+    "جمع": "أنواع", "جمع_صفة": "مدمجة",
+    "منصوب": "نوعًا", "منصوب_صفة": "مدمجًا",
+}
+PROP_FORMS = {
+    "مفرد": "مفتاح", "مثنى": "مفتاحان", "جمع": "مفاتيح", "منصوب": "مفتاحًا",
+}
+
+
+def TYPES_COUNT_PHRASE(n: int) -> str:
+    return counted(n, TYPE_FORMS)
+
+
+def PROPS_COUNT_PHRASE(n: int) -> str:
+    return counted(n, PROP_FORMS)
+
+
 ASSOC_AR = {"left": "يسار", "right": "يمين", "none": "بلا"}
 ARITY_AR = {"binary": "ثنائيّ", "unary": "أحاديّ", "ternary": "ثلاثيّ"}
 OP_CATEGORY_AR = {
@@ -119,8 +138,54 @@ TYPE_CATEGORY_AR = {
 
 
 def md_escape(text) -> str:
-    """تهريب الرموز التي تكسر جداول ماركداون (أهمّها العمود |)."""
+    """تهريبٌ لمحتوى **مدى شيفرة** (بين علامتَي `): العمود | وحده.
+
+    لا يجوز هنا تهريب < و> بكيانات HTML: مدى الشيفرة لا يفكّ الكيانات، فتظهر
+    `&lt;` حرفيًّا. لذلك للنثر دالّةٌ أخرى — md_text.
+    """
     return str(text).replace("|", "\\|")
+
+
+def md_text(text) -> str:
+    """تهريبٌ لخليّة **نثريّة** (خارج مدى الشيفرة).
+
+    قِيس: وصف SoT «مصفوفة<T> ديناميكية» كان يُصيَّر «مصفوفة ديناميكية» —
+    mdBook يعدّ <T> وسمَ HTML مفتوحًا فيبتلعه ويحذّر
+    (unclosed HTML tag `<t>`)، فيفقد القارئ معامل النوع كلّه.
+    """
+    return (
+        str(text)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("|", "\\|")
+    )
+
+
+# ── العدد العربيّ وتمييزه ────────────────────────────────────────────────────
+# القاعدة: ٣–١٠ ⇒ جمعٌ مجرور («٩ أنواعٍ مدمجة»)، ١١–٩٩ ⇒ مفردٌ منصوب
+# («١٧ نوعًا مدمجًا»)، ١٠٠ فأكثر ⇒ مفردٌ مجرور. كان النصّ يقول «17 أنواع
+# مدمجة» — صحيحًا مصادفةً عند ٩ ثمّ خاطئًا عند ١١ فأكثر. الصفةُ تتبع التمييز.
+def counted(number: int, forms: dict) -> str:
+    """يبني عبارةَ عددٍ وتمييزٍ وصفةٍ صحيحةً نحويًّا.
+
+    forms: مفرد، مثنى، جمع، منصوب — ولكلٍّ صفته الاختياريّة بلاحقة `_صفة`.
+    """
+    if number == 1:
+        key = "مفرد"
+    elif number == 2:
+        key = "مثنى"
+    elif 3 <= number <= 10:
+        key = "جمع"
+    elif number >= 100:
+        key = "مفرد"
+    else:
+        key = "منصوب"
+
+    noun = forms[key]
+    adjective = forms.get(key + "_صفة", "")
+    prefix = "" if number in (1, 2) else f"{number} "
+    return (prefix + noun + (" " + adjective if adjective else "")).strip()
 
 
 def load_yaml(path: Path):
@@ -183,7 +248,7 @@ def gen_keywords(src_dir: Path, ref: str) -> str:
         out.append("|--------|-------------|------|")
         for kw in items:
             aliases = "، ".join(kw.get("aliases", [])) or "—"
-            out.append(f"| `{md_escape(kw['word'])}` | {kw['english']} | {aliases} |")
+            out.append(f"| `{md_escape(kw['word'])}` | {md_text(kw['english'])} | {md_text(aliases)} |")
         out.append("")
 
     out.append("---\n")
@@ -231,7 +296,8 @@ def gen_operators(src_dir: Path, ref: str) -> str:
         assoc = ASSOC_AR.get(op.get("associativity", ""), op.get("associativity", "—"))
         cat = OP_CATEGORY_AR.get(op.get("category", ""), op.get("category", "—"))
         arity = ARITY_AR.get(op.get("arity", ""), op.get("arity", "—"))
-        out.append(f"| {op.get('precedence', '—')} | `{sym}` | {op['name_ar']} | {assoc} | {cat} | {arity} |")
+        out.append(f"| {op.get('precedence', '—')} | `{sym}` | {md_text(op['name_ar'])} | "
+                   f"{assoc} | {cat} | {arity} |")
     out.append("")
 
     # رموز أمان العدم من بيانات الفرع الفعليّة (تختلف بين القنوات)
@@ -280,7 +346,7 @@ def gen_types(src_dir: Path, ref: str) -> str:
     ty_url = blob(ref, "language-truth/types.yaml")
     out = [banner("keywords.yaml (builtin_types) + types.yaml", ref), "# الأنواع المدمجة\n"]
     out.append(
-        f"تُقدّم لغة ص **{len(builtin)} أنواع مدمجة**. أسماؤها يُصدرها المعجمي "
+        f"تُقدّم لغة ص **{TYPES_COUNT_PHRASE(len(builtin))}**. أسماؤها يُصدرها المعجمي "
         "**مُعرِّفات** (لا كلمات محجوزة)، فيجوز استعمالها أسماءً خارج موضع النوع.\n"
     )
     out.append(f"> **المصدر:** [`keywords.yaml`]({kw_url}) (فئة `builtin_types`) + "
@@ -290,7 +356,7 @@ def gen_types(src_dir: Path, ref: str) -> str:
     for t in builtin:
         cat = TYPE_CATEGORY_AR.get(t.get("subcategory", ""), t.get("subcategory", "—"))
         desc = desc_by_word.get(t["word"], "—")
-        out.append(f"| `{md_escape(t['word'])}` | {t['english']} | {cat} | {md_escape(desc)} |")
+        out.append(f"| `{md_escape(t['word'])}` | {md_text(t['english'])} | {cat} | {md_text(desc)} |")
     out.append("")
     out.append("## القيم الحرفيّة المحجوزة\n")
     out.append("```sad\nمتغير يعمل = صحيح     # true\nمتغير متوقّف = خطأ    # false\nمتغير قيمة = لاشيء    # null\n```\n")
@@ -314,7 +380,7 @@ def gen_ui_props(src_dir: Path, ref: str) -> str:
     out.append("> واجهة SadUI **عربيّة RTL-أوّلًا**: محتوى الشاشة يبدأ من **اليمين**. "
                "تُوصَف العناصر بخصائص عربيّة قانونيّة معرَّفة في مصدر الحقيقة.\n")
     out.append(f"> **المصدر:** [`language-truth/ui_props.yaml`]({url}) — "
-               f"{len(keys)} مفتاحًا. لكلّ مفتاح ثابت مولَّد `sad::ui::props::<ID>` يُقرأ "
+               f"{PROPS_COUNT_PHRASE(len(keys))}. لكلّ مفتاح ثابت مولَّد `sad::ui::props::<ID>` يُقرأ "
                "في كود الرسوميّات (لا سلاسل خام).\n")
 
     out.append("## المحاذاة المتقاطعة\n")
@@ -334,9 +400,9 @@ def gen_ui_props(src_dir: Path, ref: str) -> str:
     for k in keys:
         cid = k.get("id", "")
         canon = md_escape(k.get("canonical", ""))
-        vt = md_escape(k.get("value_type", "—"))
+        vt = md_text(k.get("value_type", "—"))
         latin = "✔" if k.get("latin_alias") else ""
-        desc = md_escape(k.get("description_ar", "—"))
+        desc = md_text(k.get("description_ar", "—"))
         out.append(f"| `{canon}` | `{cid}` | {vt} | {latin} | {desc} |")
     out.append("")
     out.append("> التفصيل المعماريّ (المحاور، الأوضاع، الهامش/الأوزان، الحرّاس) في مستودع "

@@ -26,6 +26,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import gen_reference  # noqa: E402
 
+BS = chr(92)  # الشرطة المائلة — تُكتب هكذا لتجنّب تحذير الهروب غير الصالح
+
 # (اسم القناة، مجلّد اللقطة المجمَّدة) — القناتان معًا: النشر يبني الاثنتين،
 # فلا يجوز أن يُقاس المولّد على واحدةٍ فقط.
 CHANNELS = [
@@ -128,6 +130,57 @@ class VerifyGuardTest(unittest.TestCase):
         src = ROOT / "tests" / "fixtures" / CHANNELS[0][1]
         page = gen_reference.GENERATORS["types.md"](src, CHANNELS[0][0])
         self.assertIn(gen_reference.MARKER, page)
+
+
+class ArabicCountTest(unittest.TestCase):
+    """تمييز العدد وصفتُه: «17 أنواع مدمجة» كان صحيحًا مصادفةً عند 9 وحدها."""
+
+    def test_three_to_ten_uses_plural(self):
+        self.assertEqual("9 أنواع مدمجة",
+                         gen_reference.counted(9, gen_reference.TYPE_FORMS))
+
+    def test_eleven_to_ninetynine_uses_accusative_singular(self):
+        self.assertEqual("17 نوعًا مدمجًا",
+                         gen_reference.counted(17, gen_reference.TYPE_FORMS))
+        self.assertEqual("94 مفتاحًا",
+                         gen_reference.counted(94, gen_reference.PROP_FORMS))
+
+    def test_one_and_two_have_their_own_forms(self):
+        self.assertEqual("نوع مدمج", gen_reference.counted(1, gen_reference.TYPE_FORMS))
+        self.assertEqual("نوعان مدمجان", gen_reference.counted(2, gen_reference.TYPE_FORMS))
+
+    def test_hundred_and_above_uses_singular(self):
+        self.assertEqual("100 نوع مدمج",
+                         gen_reference.counted(100, gen_reference.TYPE_FORMS))
+
+    def test_every_branch_is_reachable(self):
+        # حارس: لو التقت فرعان على صيغةٍ واحدة لصار الاختبار أخضرَ بلا معنى.
+        phrases = {gen_reference.counted(n, gen_reference.TYPE_FORMS)
+                   for n in (1, 2, 5, 17, 100)}
+        self.assertEqual(5, len(phrases))
+
+
+class EscapingTest(unittest.TestCase):
+    """< و> في النثر تُبتلع وسمَ HTML؛ وفي مدى الشيفرة لا تُفكّ الكيانات."""
+
+    def test_prose_escapes_angle_brackets(self):
+        # الوصف الحقيقيّ في types.yaml: «مصفوفة<T> ديناميكية».
+        self.assertEqual("مصفوفة&lt;T&gt; ديناميكية",
+                         gen_reference.md_text("مصفوفة<T> ديناميكية"))
+
+    def test_code_span_keeps_angle_brackets_raw(self):
+        # عوامل مثل <= تعيش داخل ` ` — والكيان يظهر حرفيًّا هناك.
+        self.assertEqual("<=", gen_reference.md_escape("<="))
+
+    def test_both_escape_the_table_pipe(self):
+        self.assertEqual("أ " + BS + "| ب", gen_reference.md_text("أ | ب"))
+        self.assertEqual(BS + "|" + BS + "|", gen_reference.md_escape("||"))
+
+    def test_generated_types_page_has_no_raw_tag(self):
+        src = ROOT / "tests" / "fixtures" / CHANNELS[0][1]
+        page = gen_reference.GENERATORS["types.md"](src, CHANNELS[0][0])
+        self.assertIn("مصفوفة&lt;T&gt;", page)
+        self.assertNotIn("مصفوفة<T>", page)
 
 
 if __name__ == "__main__":
