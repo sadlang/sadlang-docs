@@ -14,18 +14,18 @@
 # ============================================================================
 version: 2
 kind: measurement
-measured_commit: f04bc0cc23540e11ea58bd0eadb11b0b1f216025
+measured_commit: a2fbcb52d039c20a8e0d16b1ed6ef9e833c55a09
 measured_binaries:
 - path: sad-run.exe
-  sha256: 15fea78140a19480
-  bytes: 6283264
-  built_at: '2026-09-01T09:33:42'
+  sha256: 1a5dcd4a5348a84a
+  bytes: 6300672
+  built_at: '2026-09-01T18:15:18'
 - path: sad-build.exe
-  sha256: f93d345298728fd5
+  sha256: fba01be09a2ef513
   bytes: 92635136
-  built_at: '2026-09-01T09:49:19'
+  built_at: '2026-09-01T18:21:34'
 stale_binaries_allowed: false
-elapsed_seconds: 119
+elapsed_seconds: 125
 method:
   interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم — ولا يُنفَّذُ مدمَجٌ واحدٌ في المِجَسِّ ولا في معايرتِه
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى، ترجمةٌ بلا ربط (-c)؛ الغيابُ SEM047 ثمّ «غير معرّفة»، والحضورُ رمزُ خروجٍ صفرٍ أو تشخيصٌ يسمّي المدمَجَ
@@ -65,10 +65,10 @@ calibration:
 unmeasured:
 - canonical: خطأ
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpyk4mj_lg\c.ص: error: Error: Only '
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpufjb3uxn\c.ص: error: Error: Only '
 - canonical: زاوج
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpyk4mj_lg\c.ص: error: (AR) متوقع '''
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpufjb3uxn\c.ص: error: (AR) متوقع '''
 - canonical: عشوائي_آمن
   engine: compiler
   reason: 'رمز 3221225477: فارغ'
