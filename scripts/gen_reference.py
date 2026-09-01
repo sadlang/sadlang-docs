@@ -462,7 +462,10 @@ MODULE_IMPORT_AR = {
     "STRINGS": "نصوص", "BASICS": "أساسيات", "MATH": "رياضيات",
     "ASSERTIONS": "تأكيدات", "MAPS": "خرائط", "ASYNC": "تزامن_متقدم",
     "PLATFORM": "منصة", "NETWORK": "شبكة", "SOCKETS": "مقابس",
-    "CRYPTO": "تشفير", "PROCESSES": "منصة",
+    # (AR) 🔑 `PROCESSES` كانت مكتوبةً «منصة» — نسخةٌ ثانيةٌ من حقيقةٍ انجرفت،
+    #      فكان التوثيقُ يوصي بـ`استورد منصة` لمدمَجاتِ العمليّاتِ فلا تحلّ.
+    #      المرجعُ: `shared/builtins/include/module_definitions.h` في مستودعِ اللغة.
+    "CRYPTO": "تشفير", "PROCESSES": "عمليات",
 }
 
 BUILTIN_FORMS = {"مفرد": "دالّة", "مفرد_صفة": "مدمجة", "مثنى": "دالّتان",
