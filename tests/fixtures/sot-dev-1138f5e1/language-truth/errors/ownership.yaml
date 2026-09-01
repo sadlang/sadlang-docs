@@ -1,0 +1,26 @@
+# ownership.yaml -- أخطاء الملكية/الاستعارة (ownership/borrow) في لغة ص
+# ============================================================================
+# (AR) الحقيقة (مُدقَّقة من الكود 2026-06-08 — GR-01):
+#      لا توجد أكواد أخطاء ملكية في نظام ErrorCode الحالي.
+#      مكتبة فحص الملكية/الاستعارة (Borrow Checker / Lifetime) أُزيلت من
+#      المترجم — راجع compiler/CMakeLists.txt:519 "Borrow Checker / Lifetime
+#      Library — REMOVED" و:563 (ownership_annotations.cpp مُزال).
+#      لذلك فئة ownership فارغة عمداً (errors: []) ولا تُملأ بأكواد مُختلَقة.
+#      عند إعادة تفعيل فحص الملكية، تُضاف الأكواد هنا من
+#      shared/errors/include/error_codes.h بنفس بنية runtime.yaml.
+#
+# (EN) Truth (audited from code 2026-06-08 — GR-01):
+#      No ownership error codes exist in the current ErrorCode enum.
+#      The Borrow Checker / Lifetime library was REMOVED from the compiler
+#      (see compiler/CMakeLists.txt:519, :563). This category is intentionally
+#      empty (errors: []) — not filled with fabricated codes. When ownership
+#      checking is re-enabled, add codes here from error_codes.h.
+# ============================================================================
+
+version: "1.0"
+category: ownership
+description_ar: "أخطاء الملكية/الاستعارة — غير مُنفَّذة حالياً (نظام الفحص مُزال)"
+description_en: "Ownership/borrow errors — currently not implemented (checker removed)"
+status: not_implemented
+implemented_in_code: false
+errors: []

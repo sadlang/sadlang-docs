@@ -1,0 +1,44 @@
+version: 1
+namespace_group: CompilerIo
+description_ar: دوال مترجم CompilerIo (3 دالة)
+description_en: Compiler builtins CompilerIo (3)
+functions:
+- cpp_id: IO_0
+  canonical: نم
+  namespace: CompilerIo
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: نم
+  description_en: compiler builtin (builtins_io_utils)
+  params: []
+  lookup_table: name_only
+- cpp_id: IO_1
+  canonical: قراءة_سطر
+  namespace: CompilerIo
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة_سطر
+  description_en: compiler builtin (builtins_io_utils)
+  params: []
+  lookup_table: name_only
+- cpp_id: IO_2
+  canonical: مسح_الشاشة
+  namespace: CompilerIo
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مسح_الشاشة
+  description_en: compiler builtin (builtins_io_utils)
+  params: []
+  lookup_table: name_only

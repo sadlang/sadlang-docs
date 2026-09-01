@@ -1,0 +1,321 @@
+version: 1
+namespace_group: sadnet
+description_ar: وحدة sadnet (22 دالة)
+description_en: sadnet module (22 functions)
+functions:
+- cpp_id: NODE_NEW
+  canonical: عقدة_جديدة
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عقدة_جديدة
+  description_en: عقدة_جديدة
+  params: []
+  lookup_table: name_only
+- cpp_id: NODE_ID
+  canonical: معرف_العقدة
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معرف_العقدة
+  description_en: معرف_العقدة
+  params: []
+  lookup_table: name_only
+- cpp_id: SHA256
+  canonical: تشفير_sha256
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تشفير_sha256
+  description_en: تشفير_sha256
+  params: []
+  lookup_table: name_only
+- cpp_id: RANDOM_BYTES
+  canonical: بايتات_عشوائية
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بايتات_عشوائية
+  description_en: بايتات_عشوائية
+  params: []
+  lookup_table: name_only
+- cpp_id: STORE_FILE
+  canonical: تخزين_ملف
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تخزين_ملف
+  description_en: تخزين_ملف
+  params: []
+  lookup_table: name_only
+- cpp_id: RETRIEVE_FILE
+  canonical: استرجاع_ملف
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استرجاع_ملف
+  description_en: استرجاع_ملف
+  params: []
+  lookup_table: name_only
+- cpp_id: ENCRYPTED_MSG
+  canonical: رسالة_مشفرة
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رسالة_مشفرة
+  description_en: رسالة_مشفرة
+  params: []
+  lookup_table: name_only
+- cpp_id: PROOF_OF_WORK
+  canonical: إثبات_عمل
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إثبات_عمل
+  description_en: إثبات_عمل
+  params: []
+  lookup_table: name_only
+- cpp_id: PEER_REPUTATION
+  canonical: سمعة_قرين
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: سمعة_قرين
+  description_en: سمعة_قرين
+  params: []
+  lookup_table: name_only
+- cpp_id: PEER_BAN
+  canonical: حظر_قرين
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حظر_قرين
+  description_en: حظر_قرين
+  params: []
+  lookup_table: name_only
+- cpp_id: PEER_TRUSTED
+  canonical: قرين_موثوق
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قرين_موثوق
+  description_en: قرين_موثوق
+  params: []
+  lookup_table: name_only
+- cpp_id: IDENTITY_NEW
+  canonical: هوية_جديدة
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هوية_جديدة
+  description_en: هوية_جديدة
+  params: []
+  lookup_table: name_only
+- cpp_id: BROADCAST_NEW
+  canonical: بث_جديد
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بث_جديد
+  description_en: بث_جديد
+  params: []
+  lookup_table: name_only
+- cpp_id: BROADCAST_STOP
+  canonical: بث_إيقاف
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بث_إيقاف
+  description_en: بث_إيقاف
+  params: []
+  lookup_table: name_only
+- cpp_id: NODE_DESTROY
+  canonical: تدمير_عقدة
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تدمير_عقدة
+  description_en: تدمير_عقدة
+  params: []
+  lookup_table: name_only
+# ═══════════════════════════════════════════════════════════════════════
+# (AR) الدوالُّ السبعُ الآتيةُ كانت **منفَّذةً في الشيفرةِ وغيرَ معلَنةٍ ههنا**:
+#      لامبداتٌ مكتملةٌ في builtin_module_sadnet.cpp تُبنى داخلَ كتلةٍ `{ }`
+#      ثمّ تموتُ محلّيّةً بلا `registerBuiltinFunction`. ولم يكشفها أحدٌ لأنّ
+#      الملفَّ كلَّه خلفَ `#ifdef HAS_SADNET` لم يصدُقْ قطّ — فلا مترجّمٌ رآها
+#      ولا حارسُ تغطيةٍ عدَّها. أُعلِنت ههنا ورُبِطت هناك.
+#      🔑 وبُذِرت لها `arity` مشتقّةً من حارسِ كلِّ ذراعٍ (`args.size() < N`)
+#         ثمّ **نُزِعت**: حارسُ «رتبةُ المدمجِ من مصدرِ الحقيقة» أحمرَّ عليها
+#         بـ«إعلاناتُ arity لا تفرضُها ذراع ⇒ عقدٌ لا يُطبَّق» — والمترجّمُ
+#         بلا ذراعٍ لِـSadNet البتّة (صفرُ ذكرٍ في compiler/src). فالإعلانُ
+#         كان سيَعِدُ بفرضٍ لا يقعُ. والرتبُ المقيسةُ محفوظةٌ ههنا نصًّا حتّى
+#         تُكتَبَ أذرعُ المترجّم، فتُبذَرَ حينَها ويُفرَضَ العقد:
+#           dht_تخزين ٣ · dht_بحث ٢ · dns_تسجيل ٣ · dns_حل ٢
+#           cdn_نشر ٤ · cdn_محتوى ٢ · snet_إصدار ٠
+# (EN) The seven functions below were IMPLEMENTED but UNDECLARED: complete
+#      lambdas built into a bare `{ }` block and never registered. Nothing
+#      caught it because the whole TU sat behind an #ifdef that never held.
+#      Arities were derived from each lambda's own guard, then removed: no
+#      compiler arm exists for SadNet, so a declared arity would be a contract
+#      nobody applies. The measured values are recorded above for when arms land.
+# ═══════════════════════════════════════════════════════════════════════
+- cpp_id: DHT_STORE
+  canonical: dht_تخزين
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: تخزين قيمة في الجدول الموزع مقابل مفتاح
+  description_en: Store a value in the DHT under a key
+  params: []
+  lookup_table: name_only
+- cpp_id: DHT_LOOKUP
+  canonical: dht_بحث
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: البحث عن قيمة في الجدول الموزع بمفتاحها
+  description_en: Look up a value in the DHT by key
+  params: []
+  lookup_table: name_only
+# (AR) 🔑 اسمُه `DNS_REGISTER` أوّلَ مرّة، فاصطدمَ بماكرو Win32:
+#      `ddeml.h:378  #define DNS_REGISTER 0x0001` — يصلُ عبر windows.h. والمعالجُ
+#      الأوّليُّ يستبدلُه داخلَ `Names::SadNet::DNS_REGISTER` فتنهارُ الترجمةُ
+#      بـ٤٠٨ أخطاءٍ متتالية أوّلُها C2589. 🔑 **مُعرِّفُ الـcpp_id يدخلُ فضاءَ
+#      ماكروهات كلِّ رأسِ منصّةٍ يُدرجُه المستهلك**؛ فالاسمُ القصيرُ العامُّ
+#      بأحرفٍ كبيرةٍ لغمٌ — يُطوَّلُ ويُخصَّص. لا تُعِدْه إلى `DNS_REGISTER`.
+# (EN) Was DNS_REGISTER; collides with the Win32 macro in ddeml.h (via windows.h).
+#      A cpp_id lands in the macro namespace of every platform header the consumer
+#      pulls in — keep such identifiers long and specific. Do not revert.
+- cpp_id: DNS_NAME_REGISTER
+  canonical: dns_تسجيل
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: تسجيل اسم لامركزي مقابل عنوان
+  description_en: Register a decentralized name against an address
+  params: []
+  lookup_table: name_only
+- cpp_id: DNS_RESOLVE
+  canonical: dns_حل
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: حل اسم لامركزي إلى عنوان
+  description_en: Resolve a decentralized name to an address
+  params: []
+  lookup_table: name_only
+- cpp_id: CDN_PUBLISH
+  canonical: cdn_نشر
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: نشر محتوى في الشبكة اللامركزية وإرجاع معرفه
+  description_en: Publish content to the decentralized CDN and return its id
+  params: []
+  lookup_table: name_only
+- cpp_id: CDN_CONTENT
+  canonical: cdn_محتوى
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: طلب محتوى من الشبكة اللامركزية بمعرفه
+  description_en: Request content from the decentralized CDN by id
+  params: []
+  lookup_table: name_only
+- cpp_id: NET_VERSION
+  canonical: snet_إصدار
+  namespace: SadNet
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: إصدار مكتبة الشبكة اللامركزية
+  description_en: Decentralized network library version
+  params: []
+  lookup_table: name_only

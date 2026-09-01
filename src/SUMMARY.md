@@ -33,9 +33,11 @@
 
 # الجزء الرابع · المرجع التقنيّ
 
-- [الكلمات المحجوزة الأربعون](reference/keywords.md)
+- [الكلمات المحجوزة](reference/keywords.md)
 - [العوامل والأسبقيّة](reference/operators.md)
 - [الأنواع المدمجة](reference/types.md)
 - [خصائص واجهة SadUI والتخطيط](reference/sadui-properties.md)
+- [الدوالّ المدمجة](reference/builtins.md)
+- [رموز الأخطاء](reference/errors.md)
 - [قواعد النحو (Grammar)](reference/grammar.md)
 - [مصدر الحقيقة الموحّد (SoT)](reference/sot.md)

@@ -1,0 +1,45 @@
+description_ar: فهرس ملفات builtins/ — يُحدَّث تلقائياً
+description_en: Index of builtins/ files — auto-updated
+files:
+- core.yaml
+- types.yaml
+- concurrency.yaml
+- math.yaml
+- strings.yaml
+- arrays.yaml
+- basics.yaml
+- assertions.yaml
+- crypto.yaml
+- maps.yaml
+- sockets.yaml
+- processes.yaml
+- http_client.yaml
+- http_server.yaml
+- network_utils.yaml
+- websocket_client.yaml
+- websocketserver.yaml
+- platform.yaml
+- kernel.yaml
+- sadnet.yaml
+- ui_widgets.yaml
+- ui_platform.yaml
+- async_advanced.yaml
+- exceptions.yaml
+- ffi.yaml
+- kernel_audio.yaml
+- kernel_cpu.yaml
+- kernel_gpu.yaml
+- kernel_memory.yaml
+- kernel_network.yaml
+- kernel_serial.yaml
+- kernel_storage.yaml
+- compiler_io_utils.yaml
+- compiler_os_core.yaml
+- compiler_os_hardware.yaml
+- compiler_os_system.yaml
+- compiler_security.yaml
+- compiler_simd.yaml
+- compiler_system.yaml
+- compiler_embedded.yaml
+- compiler_uefi.yaml
+- compiler_ui.yaml

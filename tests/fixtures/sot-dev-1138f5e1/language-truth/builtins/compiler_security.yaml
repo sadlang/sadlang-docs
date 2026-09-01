@@ -1,0 +1,50 @@
+version: 1
+namespace_group: CompilerSec
+description_ar: دوال مترجم CompilerSec (3 دالة)
+description_en: Compiler builtins CompilerSec (3)
+functions:
+- cpp_id: SEC_0
+  canonical: تحقق
+  namespace: CompilerSec
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تحقق
+  description_en: compiler builtin (builtins_security)
+  params: []
+  lookup_table: name_only
+- cpp_id: SEC_1
+  canonical: تأكد_مساواة
+  namespace: CompilerSec
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد_مساواة
+  description_en: compiler builtin (builtins_security)
+  params: []
+  lookup_table: name_only
+- cpp_id: SEC_2
+  canonical: تاكد_مساواة
+  namespace: CompilerSec
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تاكد_مساواة
+  description_en: compiler builtin (builtins_security)
+  params: []
+  lookup_table: name_only

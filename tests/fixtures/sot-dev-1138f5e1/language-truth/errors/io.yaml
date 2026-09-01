@@ -1,0 +1,30 @@
+# io.yaml -- أخطاء الإدخال/الإخراج (I/O) في لغة ص
+# ============================================================================
+# (AR) الحقيقة (مُدقَّقة من الكود 2026-06-08 — GR-01):
+#      أخطاء الملفات/الإدخال-الإخراج مُنفَّذة فعلاً، لكنها مُصنَّفة ضمن فئة
+#      runtime في نظام ErrorCode وليست فئة مستقلة:
+#        - RUN_FILE_ERROR (RUN007) — shared/errors/include/error_codes.h:129
+#      هذا الملف يشير إلى السجل عبر see_also بدل تكراره. السجل الكامل في
+#      errors/runtime.yaml تحت RUN007. تبقى errors: [] لعدم وجود بادئة IO_.
+#
+# (EN) Truth (audited from code 2026-06-08 — GR-01):
+#      File/I-O errors DO exist but are categorized under `runtime` in the
+#      ErrorCode enum, not a standalone category:
+#        - RUN_FILE_ERROR (RUN007) — error_codes.h:129
+#      Cross-references rather than duplicates. errors: [] kept because there
+#      are no IO_-prefixed codes in the actual code.
+# ============================================================================
+
+version: "1.0"
+category: io
+description_ar: "أخطاء الإدخال/الإخراج — مُصنَّفة تحت runtime في الكود (RUN007)"
+description_en: "I/O errors — categorized under runtime in code (RUN007)"
+status: implemented_under_runtime
+implemented_in_code: true
+see_also:
+  - code: RUN_FILE_ERROR
+    id: RUN007
+    category: runtime
+    source: shared/errors/include/error_codes.h
+    record: errors/runtime.yaml
+errors: []

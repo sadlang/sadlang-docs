@@ -1,0 +1,134 @@
+version: 1
+namespace_group: Core
+description_ar: دوال IO الأساسية (8 دوال)
+description_en: Core I/O functions (5 functions)
+functions:
+- cpp_id: PRINT
+  canonical: اطبع
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: طباعة قيمة على الشاشة بدون سطر جديد
+  description_en: Print a value without newline
+  params:
+  - قيمة
+  examples:
+  - code: اطبع("مرحبا")
+    runnable: true
+  lookup_table: CORE_IO
+- cpp_id: PRINTLN
+  canonical: اطبع_سطر
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: طباعة قيمة مع سطر جديد
+  description_en: Print a value with newline
+  params:
+  - قيمة
+  examples:
+  - code: اطبع_سطر("مرحبا بالعالم")
+    runnable: true
+  lookup_table: CORE_IO
+- cpp_id: READ
+  canonical: اقرأ
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة مدخل نصي من المستخدم (رسالة اختيارية)
+  description_en: Read text input from user (optional prompt)
+  params:
+  - رسالة؟
+  examples:
+  - code: 'متغير الاسم = اقرأ("ادخل اسمك: ")'
+    runnable: false
+  lookup_table: CORE_IO
+- cpp_id: LENGTH
+  canonical: طول
+  namespace: Core
+  arity:
+    min: 1
+    max: 1
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: إرجاع طول مجموعة أو نص
+  description_en: Return length of a collection or string
+  params:
+  - قيمة
+  returns: رقم
+  lookup_table: name_only
+- cpp_id: TYPE
+  canonical: نوع
+  namespace: Core
+  arity:
+    min: 1
+    max: 1
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: إرجاع نوع القيمة كنص
+  description_en: Return type of a value as string
+  params:
+  - قيمة
+  returns: نص
+  lookup_table: name_only
+- cpp_id: EXPECT
+  canonical: متوقع
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: 'Branch hint: expect true'
+  description_en: 'Branch hint: expect true'
+  params:
+  - شرط
+  lookup_table: name_only
+- cpp_id: EXPECT_FALSE
+  canonical: غير_متوقع
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: 'Branch hint: expect false'
+  description_en: 'Branch hint: expect false'
+  params:
+  - شرط
+  lookup_table: name_only
+- cpp_id: INPUT
+  canonical: ادخل
+  namespace: Core
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة مدخل (اسم VM)
+  description_en: Input (VM name)
+  params:
+  - قيمة
+  lookup_table: name_only

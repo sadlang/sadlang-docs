@@ -1,7 +1,7 @@
 # التوثيق التقنيّ للغة ص · Sad Language Technical Docs
 
 > المرجع التقنيّ الرسميّ للغة البرمجة العربية **ص** (Sad): النحو، الكلمات المحجوزة
-> الأربعون، الأنواع المدمجة، العوامل وأسبقيّتها، والميزات المتقدّمة — مكتوبًا كـ
+> الأنواع المدمجة، العوامل وأسبقيّتها، والميزات المتقدّمة — مكتوبًا كـ
 > **mdBook عربيّ (RTL)** يُنشَر آليًّا على GitHub Pages.
 
 [![نشر التوثيق](https://github.com/sadlang/sadlang-docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/sadlang/sadlang-docs/actions/workflows/deploy.yml)
@@ -32,6 +32,18 @@
 لكلّ قناة تُعاد توليد صفحات المرجع من `language-truth/` في فرعها — فمثلًا تظهر رموز
 أمان العدم بصيغتها المنشورة في «المستقرّ» وبصيغتها القادمة في «القادم» تلقائيًّا.
 لافتة أعلى كل صفحة تتيح التنقّل بين القناتين. يبنيهما [`deploy.yml`](.github/workflows/deploy.yml).
+
+### عمودا «المترجّم» و«المفسّر» — مقيسان لا معلَنان
+
+صفحة [الدوالّ المدمجة](src/reference/builtins.md) تقول لكلّ دالّةٍ على أيّ محرّكٍ
+تعمل. هذان العمودان **لا يُشتقّان من حقل `status`** في مصدر الحقيقة: الـ١٢٠٥
+مدمَجًا كلُّها معلَنةٌ `stable` بينما يرفض المترجّم مئاتٍ منها بالرمز `SEM047`.
+مصدرهما `language-truth/_meta/builtin_engine_support.yaml` — سِجِلُّ قياسٍ يُنتجه
+مِجَسٌّ في مستودع اللغة يسأل المحرّكَين أنفسهما، اسمًا اسمًا.
+
+حدُّ القياس مُعلَنٌ في الصفحة نفسها: المقيسُ **حلُّ الاسم** في المحرّك، لا صحّةُ
+التنفيذ. وإن غاب السِّجِلُّ عن فرعٍ حُذف العمودان وقيلت العلّة — ولا تُملأ خانةٌ
+بقيمةٍ مخمَّنة.
 
 ### النثر المشروط بقناة
 
@@ -73,6 +85,8 @@
 | `src/reference/operators.md` | `language-truth/operators.yaml` |
 | `src/reference/types.md` | `language-truth/keywords.yaml` + `types.yaml` |
 | `src/reference/sadui-properties.md` | `language-truth/ui_props.yaml` |
+| `src/reference/builtins.md` | `language-truth/builtins/*.yaml` + `_meta/builtin_engine_support.yaml` |
+| `src/reference/errors.md` | `language-truth/errors/*.yaml` |
 
 ```bash
 python scripts/gen_reference.py --fetch dev        # يجلب SoT بنفسه ويولّد

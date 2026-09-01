@@ -1,0 +1,781 @@
+version: '1.0'
+category: semantic
+description_ar: أخطاء semantic
+description_en: semantic errors
+errors:
+- code: SEM_UNDEFINED_VARIABLE
+  id: SEM001
+  category: semantic
+  title:
+    ar: متغير غير معرَّف
+    en: Undefined variable
+  brief:
+    ar: المتغير '{name}' غير معرَّف{suggestion}
+    en: Variable '{name}' is not defined{suggestion}
+  fix_hint:
+    ar: 'عرّف المتغير قبل استخدامه: متغير {name} = <قيمة>'
+    en: 'Declare the variable before use: متغير {name} = <value>'
+  placeholders:
+  - name
+  - suggestion
+  detailed:
+    ar: لغة ص تتطلّب تعريف كل متغيّر بـ'متغير' أو 'ثابت' قبل الاستخدام. هذا الخطأ يحدث عند الإشارة لاسم لم يُعرَّف في النطاق الحالي ولا في النطاقات الأعلى. غالباً يكون السبب خطأً إملائياً أو نسيان التعريف.
+    en: Sad requires every variable declared with 'متغير' or 'ثابت' before use. This error fires when referencing a name not defined in the current scope or any enclosing scope. Usually caused by typos or forgotten declarations.
+- code: SEM_TYPE_MISMATCH
+  id: SEM002
+  category: semantic
+  title:
+    ar: عدم تطابق الأنواع
+    en: Type mismatch
+  brief:
+    ar: متوقع '{expected}' لكن وُجد '{found}'
+    en: Expected '{expected}' but found '{found}'
+  placeholders:
+  - expected
+  - found
+  fix_hint:
+    ar: 'حوّل القيمة إلى ''{expected}'' باستخدام دالة التحويل: رقم(ق)، نص(ق)، عشري(ق)، منطقي(ق).'
+    en: 'Convert value to ''{expected}'' via conversion functions: رقم(v), نص(v), عشري(v), منطقي(v).'
+  detailed:
+    ar: 'لغة ص تفحص الأنواع في وقت التشغيل (وأحياناً وقت الترجمة). العمليات والإسنادات تتطلّب توافق الأنواع. مثال: لا يمكن جمع نص ورقم مباشرة — استخدم نص(الرقم) أولاً.'
+    en: 'Sad checks types at runtime (sometimes compile-time). Operations and assignments require type compatibility. Example: you can''t directly add a string and number — use نص(number) first.'
+- code: SEM_REDEFINITION
+  id: SEM003
+  category: semantic
+  title:
+    ar: إعادة تعريف
+    en: Redefinition
+  brief:
+    ar: '''{name}'' معرَّف مسبقاً'
+    en: '''{name}'' is already defined'
+  placeholders:
+  - name
+  fix_hint:
+    ar: احذف التعريف المكرّر، أو غيّر الاسم. لإعادة الإسناد لمتغيّر موجود، أزل كلمة 'متغير' من السطر الجديد.
+    en: Remove the duplicate definition or rename it. To reassign an existing variable, drop the 'متغير' keyword on the new line.
+  detailed:
+    ar: كل اسم في نطاق واحد يُعرَّف مرّة واحدة فقط. تكرار 'متغير اسم = ...' مرّتين في نفس النطاق يُربك المحلّل الدلالي. الإسناد العادي 'اسم = ...' بدون 'متغير' يُحدّث قيمة موجودة بأمان.
+    en: Each name in a single scope is defined only once. Repeating 'متغير name = ...' twice in the same scope confuses semantic analysis. Plain assignment 'name = ...' without 'متغير' safely updates an existing value.
+- code: SEM_UNDEFINED_FUNCTION
+  id: SEM004
+  category: semantic
+  title:
+    ar: دالة غير معرَّفة
+    en: Undefined function
+  brief:
+    ar: الدالة '{name}' غير معرَّفة
+    en: Function '{name}' is not defined
+  placeholders:
+  - name
+  fix_hint:
+    ar: 'عرّف الدالة قبل استدعائها، أو استورد الوحدة المناسبة. مثال: استورد رياضيات، ثم رياضيات.جذر(9).'
+    en: 'Define the function before calling it, or import the right module. Example: استورد رياضيات then رياضيات.جذر(9).'
+  detailed:
+    ar: الدوال يجب أن تُعرَّف (بـ'دالة') أو تُستورد قبل استدعائها. هذا الخطأ يظهر عند استدعاء اسم غير موجود في نطاق الدوال. تحقّق من الإملاء والاستيرادات والترتيب.
+    en: Functions must be defined (with 'دالة') or imported before calling. This error fires when calling a name not found in the function scope. Check spelling, imports, and ordering.
+- code: SEM_WRONG_ARG_COUNT
+  id: SEM005
+  category: semantic
+  title:
+    ar: عدد معاملات خاطئ
+    en: Wrong argument count
+  brief:
+    ar: الدالة '{name}' تتوقّع {expected} من المعاملات، لكن مُرِّر {found}
+    en: Function '{name}' expects {expected} argument(s) but got {found}
+  placeholders:
+  - name
+  - expected
+  - found
+  fix_hint:
+    ar: مرّر بالضبط {expected} من المعاملات. راجع توقيع الدالة '{name}' لمعرفة المعاملات المطلوبة وترتيبها.
+    en: Pass exactly {expected} argument(s). Check the signature of '{name}' for required parameters and order.
+  detailed:
+    ar: لغة ص تفحص عدد المعاملات بصرامة عند الاستدعاء. مرّرت {found} لكن الدالة تتوقّع {expected}. لجعل دالة تقبل عدداً متغيّراً، استخدم بناء '...اسم' في تعريفها.
+    en: Sad strictly checks argument count at call site. You passed {found} but the function expects {expected}. To accept variadic args, use '...name' in the function definition.
+- code: SEM_INVALID_OPERATION
+  id: SEM006
+  category: semantic
+  title:
+    ar: عملية غير صالحة
+    en: Invalid operation
+  brief:
+    ar: لا يمكن تطبيق '{op}' على '{type}'
+    en: Cannot apply '{op}' to '{type}'
+  placeholders:
+  - op
+  - type
+  fix_hint:
+    ar: العامل '{op}' غير مدعوم للنوع '{type}'. إن أردت سلوكاً مخصّصاً، عرّف 'عامل {op}' داخل الصنف.
+    en: Operator '{op}' is not supported for type '{type}'. For custom behavior, define 'عامل {op}' inside the class.
+  detailed:
+    ar: 'كل عامل (+، -، *، /، <، == ...) يعمل على مجموعة محدّدة من الأنواع. مثلاً: ''/'' للأرقام فقط، ''+'' للأرقام والنصوص (تجميع)، ''<'' للأرقام والنصوص (مقارنة). الأنواع المخصّصة (الأصناف) تحتاج تحميل العامل (عامل overloading).'
+    en: 'Each operator (+, -, *, /, <, == ...) works on a specific set of types. For example: ''/'' for numbers only, ''+'' for numbers and strings (concat), ''<'' for numbers and strings (compare). Custom types (classes) need operator overloading.'
+- code: SEM_CONST_ASSIGNMENT
+  id: SEM007
+  category: semantic
+  title:
+    ar: إسناد لثابت
+    en: Assignment to constant
+  brief:
+    ar: لا يمكن تعديل الثابت '{name}'
+    en: Cannot modify constant '{name}'
+  fix_hint:
+    ar: غيّر 'ثابت {name}' إلى 'متغير {name}' في موضع التعريف، أو احذف محاولة الإسناد.
+    en: Change 'ثابت {name}' to 'متغير {name}' at the declaration site, or remove the reassignment attempt.
+  placeholders:
+  - name
+  detailed:
+    ar: الكلمة 'ثابت' تجعل القيمة غير قابلة للتعديل بعد التعريف الأوّل. هذه قيود وقت الترجمة لضمان عدم تغيير القيم الحسّاسة. إن احتجت تعديلاً، استخدم 'متغير' بدلاً منها.
+    en: '''ثابت'' (const) makes a value immutable after first assignment. This is a compile-time constraint preventing mutation of sensitive values. If mutation is needed, use ''متغير'' (var) instead.'
+- code: SEM_UNDEFINED_CLASS
+  id: SEM008
+  category: semantic
+  title:
+    ar: صنف غير معرَّف
+    en: Undefined class
+  brief:
+    ar: الصنف '{name}' غير معرَّف
+    en: Class '{name}' is not defined
+  placeholders:
+  - name
+  fix_hint:
+    ar: عرّف الصنف بـ'صنف {name} ... نهاية'، أو استورده من وحدة. تحقّق من الإملاء (حسّاس لحالة الأحرف اللاتينية).
+    en: Define the class with 'صنف {name} ... نهاية', or import it from a module. Check spelling (case-sensitive for Latin).
+  detailed:
+    ar: الأصناف يجب تعريفها قبل استخدامها (للوراثة، أو إنشاء كائن، أو التحقّق من النوع). يظهر هذا الخطأ غالباً مع 'يرث' أو عند 'جديد اسم(...)'. تأكّد من ترتيب الملفات والاستيرادات.
+    en: Classes must be defined before use (for inheritance, instantiation, or type check). Often appears with 'يرث' (inherits) or 'جديد name(...)'. Verify file order and imports.
+- code: SEM_PRIVATE_ACCESS
+  id: SEM009
+  category: semantic
+  title:
+    ar: وصول لعضو خاص
+    en: Access to private member
+  brief:
+    ar: العضو '{name}' خاص ولا يمكن الوصول إليه من الخارج
+    en: Member '{name}' is private and cannot be accessed externally
+  placeholders:
+  - name
+  fix_hint:
+    ar: أضف دالة 'عام' داخل الصنف للوصول إلى '{name}'، أو غيّر '{name}' من 'خاص' إلى 'عام'.
+    en: Add a 'عام' (public) method inside the class to access '{name}', or change '{name}' from 'خاص' to 'عام'.
+  detailed:
+    ar: الأعضاء المعلَّمة بـ'خاص' متاحة فقط داخل صنفها. الأعضاء المعلَّمة بـ'محمي' متاحة داخل الصنف والأصناف الوارثة. لا يوجد وصول خارجي مباشر إلا للأعضاء العامة. استخدم دوال الوصول (getters) لتعريض البيانات بأمان.
+    en: Members marked 'خاص' (private) are accessible only within their class. 'محمي' (protected) are accessible within the class and inheritors. External direct access works only for public members. Use accessor methods (getters) to safely expose data.
+- code: SEM_ONLY_EQUALITY_ALLOWED
+  id: SEM010
+  category: semantic
+  title:
+    ar: مقارنة غير مسموحة
+    en: Comparison not allowed
+  brief:
+    ar: لا تُدعَم إلا '==' و '!=' مع النوع '{type}'
+    en: Only '==' and '!=' are supported with type '{type}'
+  placeholders:
+  - type
+  fix_hint:
+    ar: استخدم == أو != فقط مع هذا النوع؛ عوامل الترتيب غير معرّفة له.
+    en: Use only == or != with this type; ordering operators are undefined for it.
+  detailed:
+    ar: النوع '{type}' لا يملك ترتيباً طبيعياً، فلا تُدعَم إلا المساواة وعدمها.
+    en: Type '{type}' has no natural ordering, so only equality/inequality are supported.
+- code: SEM_INDEXING_NOT_SUPPORTED
+  id: SEM011
+  category: semantic
+  title:
+    ar: الفهرسة غير مدعومة
+    en: Indexing not supported
+  brief:
+    ar: النوع '{type}' لا يدعم الفهرسة []
+    en: Type '{type}' does not support [] indexing
+  placeholders:
+  - type
+  fix_hint:
+    ar: الفهرسة تعمل على المصفوفات والقواميس والنصوص والصفوف؛ للكائنات عرّف عامل الفهرسة في الصنف.
+    en: Indexing works on arrays/maps/strings/tuples; for objects define an index operator.
+  detailed:
+    ar: حاولت الفهرسة على نوع لا يدعمها.
+    en: You indexed a type that doesn't support it.
+- code: SEM_INVALID_NUMBER_LITERAL
+  id: SEM012
+  category: semantic
+  title:
+    ar: ثابت عددي غير صالح
+    en: Invalid number literal
+  brief:
+    ar: 'ثابت عددي غير صالح: {detail}'
+    en: 'Invalid numeric literal: {detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: تحقّق من صيغة الرقم (تنسيق/مدى).
+    en: Check the number format/range.
+  detailed:
+    ar: تعذّر تحليل ثابت عددي في المصدر ({detail}).
+    en: A numeric literal could not be parsed ({detail}).
+- code: SEM_CONTROL_OUTSIDE_LOOP
+  id: SEM013
+  category: semantic
+  title:
+    ar: تحكّم خارج حلقة
+    en: Control outside loop
+  brief:
+    ar: '''{keyword}'' مُستخدَمة خارج حلقة'
+    en: '''{keyword}'' used outside a loop'
+  placeholders:
+  - keyword
+  fix_hint:
+    ar: '''توقف'' و''استمر'' تُستخدَمان داخل الحلقات فقط.'
+    en: Break/continue are valid only inside loops.
+  detailed:
+    ar: جملة تحكّم الحلقة '{keyword}' ظهرت خارج أي حلقة.
+    en: The loop-control statement '{keyword}' appeared outside any loop.
+- code: SEM_YIELD_OUTSIDE_GENERATOR
+  id: SEM014
+  category: semantic
+  title:
+    ar: أنتج خارج مولّد
+    en: yield outside generator
+  brief:
+    ar: أنتج (yield) لا تُستخدَم إلا داخل دالة مولّدة
+    en: yield is only valid inside a generator function
+  fix_hint:
+    ar: ضع أنتج داخل دالة مولّدة، أو استخدم ارجع.
+    en: Place yield inside a generator, or use return.
+  detailed:
+    ar: أنتج تتطلّب سياق دالة مولّدة؛ استُخدِمت خارجه.
+    en: yield requires a generator context; it was used outside one.
+- code: SEM_THIS_SUPER_UNAVAILABLE
+  id: SEM015
+  category: semantic
+  title:
+    ar: this/super غير متاح
+    en: this/super unavailable
+  brief:
+    ar: '''{keyword}'' غير متاح في هذا السياق'
+    en: '''{keyword}'' is not available in this context'
+  placeholders:
+  - keyword
+  fix_hint:
+    ar: هذا يتاح داخل طرائق الصنف، والأساس داخل صنف وارث.
+    en: this is available inside class methods, super inside a subclass.
+  detailed:
+    ar: وصول إلى '{keyword}' خارج سياقه الصحيح.
+    en: Access to '{keyword}' outside its valid context.
+- code: SEM_EMPTY_FUNCTION_BODY
+  id: SEM016
+  category: semantic
+  title:
+    ar: جسم دالة فارغ
+    en: Empty function body
+  brief:
+    ar: جسم الدالة فارغ
+    en: Function body is empty
+  fix_hint:
+    ar: أضِف جسماً للدالة أو احذف التصريح.
+    en: Add a body to the function, or remove the declaration.
+  detailed:
+    ar: حاول المفسر تنفيذ دالة بلا جسم.
+    en: The interpreter tried to execute a function with no body.
+- code: SEM_COMPARE_DIFFERENT_TYPES
+  id: SEM017
+  category: semantic
+  title:
+    ar: مقارنة أنواع مختلفة
+    en: Comparing different types
+  brief:
+    ar: لا يمكن مقارنة قيمتين من نوعين مختلفين
+    en: Cannot compare values of two different types
+  fix_hint:
+    ar: حوّل القيمتين لنفس النوع قبل المقارنة.
+    en: Convert both values to the same type before comparing.
+  detailed:
+    ar: عوامل المقارنة تتطلّب نوعين متوافقين.
+    en: Comparison operators require compatible types.
+- code: SEM_MAIN_FUNCTION_RULE
+  id: SEM018
+  category: semantic
+  title:
+    ar: قاعدة الدالة الرئيسية
+    en: Main function rule
+  brief:
+    ar: تعارض الدالة الرئيسية مع كود المستوى الأعلى
+    en: Main function conflicts with top-level code
+  fix_hint:
+    ar: اجعل رئيسية نقطة الدخول الوحيدة.
+    en: Make the main function the only entry point.
+  detailed:
+    ar: وجود دالة رئيسية يجعل كود المستوى الأعلى ملتبساً.
+    en: A main function makes top-level code ambiguous.
+- code: SEM_FREESTANDING_BUILTIN
+  id: SEM019
+  category: semantic
+  title:
+    ar: مدمجة غير متاحة في الوضع الحرّ
+    en: Builtin unavailable in freestanding mode
+  brief:
+    ar: الدالة المدمجة '{name}' غير متاحة في الوضع الحرّ (‎--freestanding‎) لأنها تعتمد على مكتبة أو خدمة نظام غائبة (نظام ملفّات/دخل قياسيّ/تحكّم طرفيّة/عشوائيّة/نوم/إنهاء عمليّة/رياضيّات libm/فرز/وقت/أمن مستضاف)
+    en: Built-in '{name}' is unavailable in freestanding mode (--freestanding); it relies on an absent hosted library or OS service (filesystem/stdin/terminal control/randomness/sleep/process exit/libm math/sort/time/hosted security)
+  placeholders:
+  - name
+  fix_hint:
+    ar: 'في نواة/وضع حرّ استعمل بدائل مباشرة (منافذ/ذاكرة/مؤقّتات عتاد) بدل دوال المكتبة القياسية، أو أزل الاستدعاء.'
+    en: 'In a kernel/freestanding target use direct primitives (ports/memory/hardware timers) instead of stdlib calls, or drop the call.'
+  detailed:
+    ar: الوضع الحرّ (‎--freestanding‎) يولّد شيفرة مستقلّة بلا مكتبة قياسية (libc) ولا نظام تشغيل؛ لا نظام ملفّات ولا دخل قياسيّ ولا تحكّم طرفيّة عبر الصدَفة ولا مصدر عشوائيّة ولا مؤقّتات نوم ولا إنهاء عمليّة ولا ساعة جدار ولا رياضيّات libm. دوال مثل قراءة/كتابة الملفّات والقراءة من الدخل ومسح الشاشة والعشوائيّة والنوم والخروج والجيب/اللوغاريتم والفرز والوقت تحتاج رموزًا (fopen/scanf/system/rand/sleep/exit/sin/qsort/time...) غير موجودة، فكانت تفشل زمن الربط برسالة غامضة. هذا التشخيص المبكّر يوقفها زمن الترجمة برسالة واضحة تسمّي الدالة.
+    en: Freestanding (--freestanding) emits a self-contained target with no libc and no OS — no filesystem, no stdin, no shell-based terminal control, no entropy source, no sleep timers, no process exit, no wall clock, no libm math. Builtins like file read/write, reading input, clearing the screen, randomness, sleeping, exiting, sine/log, sorting, or time need symbols (fopen/scanf/system/rand/sleep/exit/sin/qsort/time...) that do not exist, so they used to fail at link time with an opaque error. This early diagnostic stops them at compile time with a clear, named message.
+- code: SEM_FREESTANDING_SYS_BUILTIN_ARG
+  id: SEM020
+  category: semantic
+  title:
+    ar: معامل مدمجة نظام غير صالح في الوضع الحرّ
+    en: Invalid system-builtin argument in freestanding mode
+  brief:
+    ar: '{detail}'
+    en: '{detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: 'مرّر ثابتًا حرفيًّا مدعومًا (مثل رقم سجلّ تحكّم CR0 أو CR2 أو CR3 أو CR4)، أو أجّل الاستدعاء حتى تدعمه اللبنة التابعة.'
+    en: 'Pass a supported literal constant (e.g. a control-register number CR0, CR2, CR3, or CR4), or defer the call until a follow-up milestone supports it.'
+  detailed:
+    ar: مدمجات النظام في الوضع الحرّ (‎--freestanding‎) تُخفَّض إلى تعليمات عتاد مباشرة (مثل ‎mov %%crN‎ التي تتطلّب رقم السجلّ حرفيًّا في نصّ الأسمبلي، أو ‎lgdt/lidt‎ التي تتطلّب مؤشّر واصف). فمعامل غير ثابت أو غير مدعوم لا يمكن خفضه إلى تعليمة صالحة. هذا خطأ استعمال من المبرمج لا علّة مترجم — صحّح المعامل.
+    en: System builtins in freestanding mode (--freestanding) lower to direct hardware instructions (e.g. `mov %%crN`, which needs the register number literally in the asm text, or lgdt/lidt, which need a descriptor pointer). A non-constant or unsupported argument cannot be lowered to a valid instruction. This is a programmer usage error, not a compiler bug — fix the argument.
+- code: SEM_SYMBOL_ADDR_ARG
+  id: SEM021
+  category: semantic
+  title:
+    ar: وسيط عنوان_رمز يجب أن يكون اسم رمز ثابتًا
+    en: symbol-address argument must be a constant symbol name
+  brief:
+    ar: '{detail}'
+    en: '{detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: 'مرّر اسم الرمز كسلسلة حرفيّة ثابتة (مثل عنوان_رمز("bee_idt"))، لا متغيّرًا يُحسب وقت التشغيل.'
+    en: 'Pass the symbol name as a constant string literal (e.g. symbol_addr("bee_idt")), not a value computed at run time.'
+  detailed:
+    ar: مدمج عنوان_رمز يُصدر إحالة (relocation) إلى رمز رابط خارجيّ باسمه، فيجب أن يُعرَف الاسم وقت الترجمة كسلسلة حرفيّة ثابتة. سلسلة تُحسب وقت التشغيل لا يمكن تحويلها إلى إحالة رابط. هذا خطأ استعمال من المبرمج لا علّة مترجم — مرّر اسم الرمز حرفيًّا.
+    en: The symbol-address builtin emits a relocation to an external linker symbol by name, so the name must be known at compile time as a constant string literal. A string computed at run time cannot become a link-time relocation. This is a programmer usage error, not a compiler bug — pass the symbol name literally.
+- code: SEM_SYMBOL_NAME_CONFLICT
+  id: SEM022
+  category: semantic
+  title:
+    ar: اسم رمز @رمز مُصدَّر متصادم أو محجوز
+    en: exported @رمز symbol name conflicts or is reserved
+  brief:
+    ar: '{detail}'
+    en: '{detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: 'اختر اسم رمز مُصدَّرًا فريدًا وغير محجوز لزمن التشغيل (memset/malloc/__sad_* …). لا تُصدِّر رمزين بالاسم نفسه.'
+    en: 'Choose a unique exported symbol name that is not reserved for the runtime (memset/malloc/__sad_* …). Do not export two symbols with the same name.'
+  detailed:
+    ar: توجيه @رمز("اسم") يُصدِّر رمز رابط بربط خارجيّ (ExternalLinkage). إن تكرّر الاسم عبر مخزنين، أو صادف اسمًا محجوزًا لزمن التشغيل المضمَّن (memset/memcpy/malloc/free/strlen/__sad_heap/__divdi3…)، لأعاد الرابط تسميته صامتًا فيفقد غرضه أو يُفسد نداءات الزمن التشغيليّ. هذا خطأ استعمال — بدّل الاسم.
+    en: The @رمز("name") directive exports a linker symbol with ExternalLinkage. If the name is duplicated across two storages, or clashes with a name reserved for the embedded runtime (memset/memcpy/malloc/free/strlen/__sad_heap/__divdi3…), the linker would silently rename it, defeating its purpose or corrupting runtime calls. This is a usage error — change the name.
+
+- code: SEM_STATIC_ARRAY_SIZE
+  id: SEM023
+  category: semantic
+  title:
+    ar: حجم المصفوفة الساكنة يجب أن يكون عددًا صحيحًا موجبًا
+    en: static array size must be a positive integer
+  brief:
+    ar: '{detail}'
+    en: '{detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: 'استعمل حجمًا حرفيًّا موجبًا: «متغير ساكن جدول مصفوفة[2048]». الصفر والقيم غير الحرفيّة غير مسموحة (الحجم يُحسم زمن الترجمة).'
+    en: 'Use a positive integer literal size: "متغير ساكن جدول مصفوفة[2048]". Zero and non-literal sizes are not allowed (the size is fixed at compile time).'
+  detailed:
+    ar: مصفوفة التخزين الساكن «متغير ساكن اسم مصفوفة[N]» تحجز N بايتًا مصفَّرًا في .bss بحجم ثابت زمن الترجمة، فيجب أن يكون N عددًا صحيحًا حرفيًّا موجبًا (> 0). مصفوفة بحجم صفر بلا معنى، والحجم المتغيّر غير مدعوم (لا تخصيص ديناميكيّ في الوضع الحرّ).
+    en: The static-storage array "متغير ساكن name مصفوفة[N]" reserves N zeroed bytes in .bss with a compile-time-fixed size, so N must be a positive integer literal (> 0). A zero-size array is meaningless, and a variable size is unsupported (no dynamic allocation in freestanding mode).
+
+- code: SEM_DUP_EXPORT_SYMBOL
+  id: SEM024
+  category: semantic
+  title:
+    ar: اسم رمز مُصدَّر مكرَّر عبر @رمز
+    en: duplicate exported symbol name via @رمز
+  brief:
+    ar: 'اسم الرمز المُصدَّر «{symbol}» مُكرَّر عبر @رمز — رمزان مُعرَّفان باسم رابط واحد يتصادمان (الثاني يُفقَد). استعمل اسمًا فريدًا لكلّ رمز مُصدَّر.'
+    en: 'Exported symbol name "{symbol}" is duplicated via @رمز — two definitions under one link symbol collide (the second is lost). Use a unique name for each exported symbol.'
+  placeholders:
+  - symbol
+  fix_hint:
+    ar: 'استعمل اسم رمز فريدًا لكلّ تعريف مُصدَّر عبر @رمز — تعريفان (دالّة/دالّة أو دالّة/متغيّر) باسم رابط واحد يتصادمان.'
+    en: 'Use a unique symbol name for each definition exported via @رمز — two definitions (function/function or function/variable) under one link symbol collide.'
+  detailed:
+    ar: '@رمز("اسم") على تعريف مُعرَّف (دالّة أو متغيّر) يُصدِّره في LLVM باسم الرمز بربط خارجيّ. تعريفان مُعرَّفان بنفس اسم الرمز يتصادمان: دالّتان تُدمَجهما الخلفيّة صامتًا (جسم الثانية يُلحَق ككتلة بلا سلف ويُفقَد فعليًّا)، ودالّة تشارك متغيّرًا الاسمَ تُعيد LLVM تسمية أحدهما صامتًا (@اسم.1) فيَضيع عقد الـABI ⇒ كودٌ خاطئ صامت. لذا يُرفَض تكرار اسم الرمز المُصدَّر بخطأ قاتل. (الدوالّ الخارجيّة «دالة خارجية» بلا جسم = استيراد، فلا تتصادم.)'
+    en: '@رمز("name") on a defined entity (function or variable) exports it in LLVM under the symbol name with external linkage. Two definitions with the same symbol name collide: two functions are silently merged by the backend (the second body is appended as a predecessor-less block and effectively lost), and a function sharing the name with a variable makes LLVM silently rename one (@name.1), losing the ABI contract ⇒ silent wrong code. Duplicate exported symbol names are therefore rejected with a fatal error. (Extern functions "دالة خارجية" have no body = import, so they do not collide.)'
+
+- code: SEM_ASM_UNKNOWN_MNEMONIC
+  id: SEM025
+  category: semantic
+  title:
+    ar: منمنمة تجميع غير معجميّة
+    en: unknown assembly mnemonic
+  brief:
+    ar: 'المنمنمة «{mnemonic}» غير موجودة في معجم لهجة التجميع. هل تقصد: {suggestions}؟'
+    en: 'Mnemonic "{mnemonic}" is not in the assembly-dialect lexicon. Did you mean: {suggestions}?'
+  placeholders:
+  - mnemonic
+  - suggestions
+  fix_hint:
+    ar: 'استعمل منمنمة من معجم معماريّة الهدف (انقل/اجمع/قارن/اقفز/عطّل_المقاطعات/أوقف محمولة على المعماريّات كلّها)، أو أضِفها بقرار لغويّ في language-truth/dialects/assembly_mnemonics/<المعماريّة>.yaml. وقد تكون المنمنمة معجميّة على معماريّة أخرى ولا نظير لها هنا — مدّ_الإشارة_للبيانات وحمّل_سجل_المهمة وبادئة كرّر لا وجود لها في AArch64.'
+    en: 'Use a mnemonic from the target architecture''s lexicon (انقل/اجمع/قارن/اقفز/عطّل_المقاطعات/أوقف are portable across all architectures), or add it by a language decision in language-truth/dialects/assembly_mnemonics/<arch>.yaml. The mnemonic may exist on another architecture and have no counterpart here — مدّ_الإشارة_للبيانات, حمّل_سجل_المهمة and the كرّر prefix do not exist on AArch64.'
+  detailed:
+    ar: كتلة «تجميع … نهاية» تفحص كلّ منمنمة مقابل معجم المنمنمات العربيّ المولَّد من مصدر الحقيقة. منمنمة غير معجميّة تُرفَض هنا بخطأ كتالوج (مع أقرب البدائل) بدل تمريرها صامتةً إلى الخلفيّة — وهو تشخيص يستحيل مع سلاسل الأسمبلي الخام المعتمة.
+    en: An "تجميع … نهاية" block validates every mnemonic against the Arabic mnemonic lexicon generated from the SoT. A non-lexicon mnemonic is rejected here with a catalog error (plus nearest suggestions) instead of being passed opaquely to the backend — a diagnostic impossible with raw asm strings.
+
+- code: SEM_ASM_OPERAND_COUNT
+  id: SEM026
+  category: semantic
+  title:
+    ar: عدد معاملات منمنمة تجميع مخالف للمعجم
+    en: assembly mnemonic operand-count mismatch
+  brief:
+    ar: 'المنمنمة «{mnemonic}» تتطلّب {expected} معاملًا، ووُجد {found}.'
+    en: 'Mnemonic "{mnemonic}" requires {expected} operand(s), but found {found}.'
+  placeholders:
+  - mnemonic
+  - expected
+  - found
+  fix_hint:
+    ar: 'طابِق عدد المعاملات لِما يعرّفه المعجم للمنمنمة (مثال: «انقل وجهة، مصدر» معاملان؛ «أوقف» بلا معاملات).'
+    en: 'Match the operand count to what the lexicon defines for the mnemonic (e.g. "انقل dest, src" takes two; "أوقف" takes none).'
+  detailed:
+    ar: كلّ منمنمة في المعجم تعرّف عدد معاملاتها وأصنافها. عددٌ مخالف يُرفَض هنا زمن التحليل بخطأ كتالوج قبل الوصول إلى llvm — لا خفض لتعليمة غير صالحة صامتًا.
+    en: Each lexicon mnemonic defines its operand count and classes. A mismatched count is rejected at parse time with a catalog error before reaching llvm — no silent lowering to an invalid instruction.
+
+- code: SEM_DIALECT_COMPILER_ONLY
+  id: SEM027
+  category: semantic
+  title:
+    ar: كتلة لهجة متاحة في المترجم فقط
+    en: dialect block available in the compiler only
+  brief:
+    ar: 'كتلة لهجة «{dialect}» تُخفَض في المترجم sadc فقط، وليست مدعومة في المفسّر. استعمل sadc لترجمة هذا البرنامج.'
+    en: 'The "{dialect}" dialect block lowers in the sadc compiler only and is not supported in the interpreter. Use sadc to build this program.'
+  placeholders:
+  - dialect
+  fix_hint:
+    ar: 'ترجم البرنامج بـsadc (لهجة التجميع تُخفَض إلى تعليمات عتاد أصليّة عبر llvm::InlineAsm) — المفسّر لا ينفّذ تعليمات العتاد.'
+    en: 'Build with sadc (the assembly dialect lowers to native instructions via llvm::InlineAsm) — the interpreter does not execute hardware instructions.'
+  detailed:
+    ar: لهجة التجميع نموذجٌ دلاليّ يُخفَض إلى تعليمات معالج أصليّة، وهذا لا معنى له في المفسّر الذي ينفّذ شجرةً مجرّدةً على مستوًى عالٍ. فالكتلة تُرفَض في المفسّر بخطأ كتالوج صريح (نمط بوّابة @غير_آمن/SEM019) وتُخفَض في المترجم sadc فقط.
+    en: The assembly dialect is a semantic model lowered to native CPU instructions, which is meaningless in the tree-walking interpreter. The block is rejected in the interpreter with an explicit catalog error (like the @غير_آمن/SEM019 gate) and lowers in sadc only.
+
+- code: SEM_ASM_MULTIPLE_OUTPUTS
+  id: SEM028
+  category: semantic
+  title:
+    ar: أكثر من متغيّر ص مكتوب في كتلة تجميع
+    en: more than one written sad var in an asm block
+  brief:
+    ar: 'كتلة التجميع تكتب إلى {count} متغيّرات ص؛ م١ تدعم متغيّر خرج واحدًا لكلّ كتلة. قسّم الكتلة أو اكتب خرجًا واحدًا.'
+    en: 'The asm block writes to {count} sad vars; M1 supports one output var per block. Split the block or write a single output.'
+  placeholders:
+  - count
+  fix_hint:
+    ar: 'اكتب إلى متغيّر ص واحد لكلّ كتلة «تجميع … نهاية» في م١ (الخلفيّة تدعم نتيجة InlineAsm واحدة). قسّم الحساب على كتلتين أو استعمل سجلًّا وسيطًا.'
+    en: 'Write to a single sad var per "تجميع … نهاية" block in M1 (the backend supports one InlineAsm result). Split into two blocks or use a scratch register.'
+  detailed:
+    ar: خفض م١ يربط متغيّرات ص المقروءة بمدخلات InlineAsm ويعيد متغيّرًا مكتوبًا واحدًا كنتيجة تُخزَّن. تعدّد المخرجات يتطلّب بنية إرجاع مركّبة مؤجّلة لمرحلة لاحقة؛ فيُرفَض هنا صراحةً بدل خفض صامت خاطئ.
+    en: M1 lowering binds read sad vars to InlineAsm inputs and returns a single written var as the stored result. Multiple outputs need an aggregate return deferred to a later milestone; rejected here explicitly instead of silently lowering wrong code.
+
+- code: SEM_ASM_UNDEFINED_LABEL
+  id: SEM029
+  category: semantic
+  title:
+    ar: لصيقة قفز غير معرَّفة في كتلة التجميع
+    en: undefined jump label in an asm block
+  brief:
+    ar: 'هدف القفز «{label}» غير معرَّف كلصيقة داخل كتلة التجميع نفسها. عرّف «{label}:» أو صحّح الاسم.'
+    en: 'Jump target "{label}" is not defined as a label inside the same asm block. Define "{label}:" or fix the name.'
+  placeholders:
+  - label
+  fix_hint:
+    ar: 'كلّ قفز (اقفز/اقفز_إذا_…) و«نادِ» في م١ يستهدف لصيقة معرَّفة داخل الكتلة نفسها بصيغة «اسم:». النداء إلى رمز خارجيّ حقيقيّ خارج نطاق م١.'
+    en: 'Every jump (اقفز/اقفز_إذا_…) and "نادِ" in M1 targets a label defined inside the same block as "name:". Calling a real external symbol is out of M1 scope.'
+  detailed:
+    ar: اللصائق تُخفَض إلى لصائق محلّيّة رقميّة داخل نصّ InlineAsm، فيجب أن يكون هدف كلّ قفز لصيقةً معرَّفةً في الكتلة. هدف غير معرَّف كان سيُخفَض سابقًا إلى «0f» فيصدر خطأ LLVM معتمًا؛ الآن يُرفَض زمن البناء برسالة واضحة تسمّي اللصيقة.
+    en: Labels lower to numeric local labels inside the InlineAsm text, so every jump target must be a label defined in the block. An undefined target used to lower to "0f" and produce an opaque LLVM error; it is now rejected at build time with a clear, named message.
+
+- code: SEM_ASM_DUPLICATE_LABEL
+  id: SEM030
+  category: semantic
+  title:
+    ar: لصيقة مكرَّرة في كتلة التجميع
+    en: duplicate label in an asm block
+  brief:
+    ar: 'اللصيقة «{label}» معرَّفة أكثر من مرّة في كتلة التجميع نفسها. اجعل كلّ لصيقة فريدةً.'
+    en: 'Label "{label}" is defined more than once in the same asm block. Make each label unique.'
+  placeholders:
+  - label
+  fix_hint:
+    ar: 'أعطِ كلّ لصيقة قفز اسمًا فريدًا داخل الكتلة — تكرار الاسم يجعل دلالة القفز الخلفيّ «الأقرب» تغيّر الوجهة صامتًا.'
+    en: 'Give each jump label a unique name within the block — duplicate names make the "nearest backward" jump semantics silently change the destination.'
+  detailed:
+    ar: اللصائق تُخفَض إلى أرقام محلّيّة، والقفز إليها يستعمل دلالة «الأقرب» (b/f). لصيقتان بالاسم نفسه تُخفَضان إلى الرقم نفسه، فيصير القفز غامضًا ويغيّر وجهته بصمت. يُرفَض التكرار زمن البناء.
+    en: Labels lower to local numbers and jumps use "nearest" (b/f) semantics. Two labels with the same name lower to the same number, making the jump ambiguous and silently changing its destination. Duplicates are rejected at build time.
+
+- code: SEM_ASM_UNDEFINED_VAR
+  id: SEM031
+  category: semantic
+  title:
+    ar: متغيّر ص غير معرَّف في كتلة التجميع
+    en: undefined sad var in an asm block
+  brief:
+    ar: 'المتغيّر «{name}» المُشار إليه بين قوسين معقوفين في كتلة التجميع غير معرَّف في نطاقه. عرّفه قبل الكتلة.'
+    en: 'Variable "{name}" referenced with a brace operand in the asm block is undefined in scope. Declare it before the block.'
+  placeholders:
+  - name
+  fix_hint:
+    ar: 'صرّح المتغيّر (مثل «متغير {name} = 0») قبل كتلة «تجميع … نهاية» — الربط التلقائيّ لمعامل «{name}» يتطلّب متغيّرًا معرَّفًا.'
+    en: 'Declare the variable (e.g. "متغير {name} = 0") before the "تجميع … نهاية" block — the automatic brace-reference binding requires a defined variable.'
+  detailed:
+    ar: 'المعامل «{name}» بين قوسين معقوفين يربط متغيّر ص بقيد InlineAsm (قراءةً أو خرجًا يُخزَّن). متغيّر غير معرَّف لا يمكن ربطه؛ فيُرفَض هنا زمن البناء بخطأ كتالوج بدل تجاهل الربط أو التخزين صامتًا.'
+    en: 'A brace-referenced sad var binds to an InlineAsm constraint (as input or a stored output). An undefined variable cannot be bound; rejected here at build time with a catalog error instead of silently dropping the binding or store.'
+
+- code: SEM_ASM_MEMORY_FORM
+  id: SEM032
+  category: semantic
+  title:
+    ar: صيغة عنونة غير مدعومة في كتلة التجميع
+    en: unsupported memory-addressing form in an asm block
+  brief:
+    ar: 'صيغة عنونة غير مدعومة في م١: يُسمَح بقاعدة واحدة فقط (سجلّ أو متغيّر ص) مع إزاحة عدديّة اختياريّة، بلا مزج قاعدتين ولا فهرس×حجم.'
+    en: 'Unsupported memory-addressing form in M1: exactly one base (a register or a sad var) with an optional integer displacement is allowed — no mixing two bases and no index*scale.'
+  fix_hint:
+    ar: 'م١ تدعم عنونة «[سجلّ]» و«[سجلّ + إزاحة]» وعنونة متغيّر ص بين قوسين معقوفين مع إزاحة اختياريّة. لا تمزج قاعدتين (سجلّ ومتغيّر ص) في معامل عنونة واحد.'
+    en: 'M1 supports "[reg]", "[reg + disp]", and brace-referenced sad-var addressing with an optional displacement. Do not mix two bases (a register and a sad var) in one memory operand.'
+  detailed:
+    ar: معامل العنونة يُخفَض إلى صيغة AT&T «disp(base)». قاعدة واحدة فقط مسموحة في م١ (سجلّ أو متغيّر ص)، مع إزاحة عدديّة اختياريّة. صيغة غير مدعومة (قاعدتان، أو فهرس×حجم) كانت تُسقِط أجزاءً صامتًا (مثل ضياع الإزاحة)؛ الآن تُرفَض صراحةً.
+    en: A memory operand lowers to AT&T "disp(base)". Only one base is allowed in M1 (a register or a sad var), with an optional integer displacement. An unsupported form (two bases, or index*scale) used to silently drop parts (e.g. a lost displacement); it is now rejected explicitly.
+
+- code: SEM_ASM_UNKNOWN_REGISTER
+  id: SEM033
+  category: semantic
+  title:
+    ar: سجلّ تجميع غير معجميّ
+    en: unknown assembly register
+  brief:
+    ar: 'السجلّ «{register}» غير موجود في معجم سجلّات لهجة التجميع. هل تقصد: {suggestions}؟'
+    en: 'Register "{register}" is not in the assembly-dialect register lexicon. Did you mean: {suggestions}?'
+  placeholders:
+  - register
+  - suggestions
+  fix_hint:
+    ar: 'استعمل اسم سجلّ معجميًّا من معجم i686 (المركم/القاعدة/العدّاد/البيانات/رأس_المكدّس …)، أو أضِفه بقرار لغويّ في language-truth/dialects/assembly_mnemonics/i686.yaml.'
+    en: 'Use a register name from the i686 lexicon (المركم/القاعدة/العدّاد/البيانات/رأس_المكدّس …), or add it by a language decision in language-truth/dialects/assembly_mnemonics/i686.yaml.'
+  detailed:
+    ar: مواضع السجلّ في كتلة «تجميع … نهاية» (معامل سجلّ، وقاعدة عنونة داخل [ … ]، وهدف يلوّث) تُفحص مقابل معجم السجلّات العربيّ المولَّد من مصدر الحقيقة. اسم غير معجميّ في موضع سجلّ يُرفَض بهذا الخطأ مع أقرب البدائل من السجلّات — رسالة مميَّزة عن SEM025 (منمنمة مجهولة) كي لا يُسمّى السجلّ «منمنمة» خطأً.
+    en: Register positions inside an "تجميع … نهاية" block (a register operand, an addressing base inside [ … ], and a يلوّث clobber target) are validated against the Arabic register lexicon generated from the SoT. A non-lexicon name in a register position is rejected with this error plus nearest register suggestions — distinct from SEM025 (unknown mnemonic) so a register is never misnamed a "mnemonic".
+
+- code: SEM_ASM_WRITES_SOURCE_VAR
+  id: SEM034
+  category: semantic
+  title:
+    ar: متغيّر ص في موضع مصدر منمنمة تكتب مصدرها
+    en: sad var in the source position of a source-writing mnemonic
+  brief:
+    ar: 'المنمنمة «{mnemonic}» تكتب معاملها المصدر أيضًا، وربط م١ يعامل «{name}» مدخلًا صِرفًا — قيمة حيّة قد تُفسَد صامتًا. استعمل سجلًّا صريحًا في موضع المصدر.'
+    en: 'Mnemonic "{mnemonic}" also writes its source operand, and the M1 binding treats "{name}" as a pure input — a live value could be silently corrupted. Use an explicit register in the source position.'
+  placeholders:
+  - mnemonic
+  - name
+  fix_hint:
+    ar: 'انقل قيمة «{name}» إلى سجلّ صريح (مثل «انقل القاعدة، {name}») ثمّ استعمل السجلّ مصدرًا للمنمنمة «{mnemonic}»، وأعِد القيمة إلى المتغيّر بعدها إن لزم.'
+    en: 'Move the value of "{name}" into an explicit register (e.g. "انقل القاعدة، {name}"), use that register as the source of "{mnemonic}", and store it back afterwards if needed.'
+  detailed:
+    ar: المنمنمات الموسومة writes_source في المعجم (بادل/xchg) تكتب معاملها الثاني كما تكتب الأوّل، لكنّ خفض م١ يربط متغيّر ص في موضع المصدر قيدَ مدخل صِرف («r»)، فلا تُصرَّح الكتابة العكسيّة لـllvm ويصير لمخصّص السجلّات حرّيّة إبقاء القيمة القديمة أو إفسادها — كود خاطئ صامت. يُرفَض المتغيّر هنا صراحةً حتى اكتمال تمثيل الكتابة المزدوجة بعد م١؛ السجلّات الصريحة في موضع المصدر تبقى مسموحةً لأنّ كتابتها لا تمسّ ربط متغيّرات ص.
+    en: Mnemonics flagged writes_source in the lexicon (بادل/xchg) write their second operand as well as the first, but the M1 lowering binds a sad var in the source position as a pure-input ("r") constraint, so the write-back is never declared to llvm and the register allocator is free to keep or corrupt the old value — silent wrong code. The variable is rejected explicitly here until the dual-write representation lands after M1; explicit registers in the source position remain allowed because writing them does not affect sad-var bindings.
+
+- code: SEM_ASM_INVALID_PREFIX_OPERAND
+  id: SEM035
+  category: semantic
+  title:
+    ar: منمنمة لا تصلح تابعةً لبادئة تكرار
+    en: mnemonic invalid as a repeat-prefix operand
+  brief:
+    ar: 'المنمنمة «{mnemonic}» لا تصلح تابعةً للبادئة «{prefix}» — كتاباتها الضمنيّة تتجاوز ما تصرّح به البادئة، فتُفسَد سجلّات حيّة صامتًا.'
+    en: 'Mnemonic "{mnemonic}" is not valid as an operand of the "{prefix}" prefix — its implicit writes exceed what the prefix declares, silently corrupting live registers.'
+  placeholders:
+  - mnemonic
+  - prefix
+  fix_hint:
+    ar: 'اتبع البادئة «{prefix}» بمنمنمة سلاسل يصرّح المعجم باحتواء كتاباتها الضمنيّة في كتابات البادئة (خزّن_بايت/خزّن_مربّعًا/انقل_بايت/انقل_مربّعًا)، أو اكتب «{mnemonic}» تعليمةً مستقلّةً بلا بادئة.'
+    en: 'Follow the "{prefix}" prefix with a string mnemonic whose lexicon implicit writes are contained in the prefix''s (خزّن_بايت/خزّن_مربّعًا/انقل_بايت/انقل_مربّعًا), or write "{mnemonic}" as a standalone instruction without the prefix.'
+  detailed:
+    ar: التلويث الضمنيّ يُصرَّح لـllvm من بند البادئة وحده، والمنمنمة التابعة تُصدَر نصًّا داخل قالب البادئة بلا بند مستقلّ. فإن كانت كتاباتها الضمنيّة (implicit_writes في المعجم) غير محتواة في كتابات البادئة المصرَّحة، أفسدت سجلّاتٍ حيّةً لا يعلم بها مخصّص السجلّات — كود خاطئ صامت. يُرفَض التركيب هنا زمن التحليل بفحص احتواء مبنيّ على بيانات المعجم المولَّدة لا على قوائم مكتوبة يدويًّا.
+    en: Implicit clobbers are declared to llvm from the prefix item alone, while the sub-mnemonic is emitted textually inside the prefix template with no item of its own. If its lexicon implicit writes are not contained in the prefix's declared writes, it corrupts live registers the register allocator knows nothing about — silent wrong code. The combination is rejected at parse time by a containment check driven by the generated lexicon data, not hand-written lists.
+
+- code: SEM_NON_EXHAUSTIVE_MATCH
+  id: SEM036
+  category: semantic
+  title:
+    ar: مطابقة غير مستنفِدة
+    en: Non-exhaustive match
+  brief:
+    ar: 'مطابقة التعداد «{enum}» غير مستنفِدة — لم تُغطَّ المعاملات: {missing}'
+    en: 'Match on enum "{enum}" is not exhaustive — uncovered variant(s): {missing}'
+  placeholders:
+  - enum
+  - missing
+  fix_hint:
+    ar: 'أضف فرع «عندما» لكلّ معامل غير مُغطّى ({missing})، أو أضف «افتراضي» / «عندما _» لالتقاط الباقي.'
+    en: 'Add a "عندما" branch for each uncovered variant ({missing}), or add "افتراضي" / "عندما _" to catch the rest.'
+  detailed:
+    ar: مطابقة الأنماط على تعدادٍ بحمولة (نوع جبريّ موسوم) تلزمها تغطية كلّ معاملاته، فيثبت المحلّل الدلاليّ أنّ كلّ حالةٍ زمن التنفيذ لها فرعٌ مطابِق. إن نقص فرعٌ لمعاملٍ ولم يوجد فرعٌ شاملٌ («افتراضي» أو «عندما _» أو نمط متغيّر يلتقط الكلّ)، تُرفَض المطابقة هنا زمن التحليل بدل ترك قيمةٍ بلا فرعٍ مطابِق زمن التنفيذ. هذا الفحص لبنةٌ من حاجز الأنواع الجبريّة الموسومة في خارطة الاستضافة الذاتيّة.
+    en: Pattern matching over a tagged enum (algebraic data type) must cover all its variants, so the semantic analyzer proves every run-time case has a matching branch. If a variant's branch is missing and no catch-all exists ("افتراضي", "عندما _", or a variable pattern that binds everything), the match is rejected here at analysis time instead of leaving a value with no matching branch at run time. This check is part of the tagged-ADT barrier in the self-hosting roadmap.
+- code: SEM_FREESTANDING_HEAP_TOO_LARGE
+  id: SEM037
+  category: semantic
+  title:
+    ar: حجم كومة الوضع الحرّ يجاوز الحدّ المعتمد لعرض الهدف
+    en: Freestanding heap size exceeds the enforced limit for the target width
+  brief:
+    ar: 'كومة الوضع الحرّ {requested_mib} م.ب تجاوز حدَّ هدفٍ بعرض {bits} بتًّا (الأقصى {maximum_mib} م.ب)'
+    en: 'Freestanding heap of {requested_mib} MiB exceeds the limit for a {bits}-bit target (maximum {maximum_mib} MiB)'
+  placeholders:
+  - requested_mib
+  - bits
+  - maximum_mib
+  fix_hint:
+    ar: 'مرّر «⁦--حجم-الكومة={maximum_mib}⁩» أو أقلّ، أو احذف العلمَ لتأخذ افتراضيَّ الهدف. (العددُ بالميغابايت.)'
+    en: 'Pass «--حجم-الكومة={maximum_mib}» or less, or drop the flag to take the target default. (The value is in megabytes.)'
+  detailed:
+    ar: 'طُلبت {requested_mib} م.ب والحدُّ {maximum_mib} م.ب على هدفٍ بعرض {bits} بتًّا. وكومة الوضع الحرّ مصفوفةٌ في قسم ‎.bss‎، والحدُّ نصفُ فضاء العنونة ليبقى مجالٌ لبقيّة الأقسام وللمكدّس — لكنّ ما يُقاس عليه النصف يختلف باختلاف العرض. على هدفٍ بعرض 32 بتًّا أو أقلّ فضاء العنونة هو 2 مرفوعًا للعرض، والدافع التفافٌ صامت: حقل حجم القسم في ELF32 عرضه 32 بتًّا، فحجم يبلغ 2^32 أو يجاوزه يلتفّ — قِيس على هدف ‎i686‎ أنّ كومة 4096 م.ب تُنتج قسمًا حجمه 496 بايتًا، ويخرج المُجمِّع والرابط بصفرٍ بلا تشخيص. والأخطر أنّ فحص الفيضان في ‎malloc‎ المولَّد يقارن بالحجم المطلوب بعرض 64 بتًّا، فيظنّ المخصِّص أنّ لديه 4096 م.ب بينما القسم مئات البايتات ⇒ كلّ تخصيصٍ بعد ذلك يكتب خارج القسم بلا صوت. أمّا على هدفٍ بعرض 64 بتًّا فحقل ‎sh_size‎ في ELF64 عرضه 64 بتًّا ولا يلتفّ، والمرجع ليس عرض الكلمة بل العنونة القانونيّة: 48 بتًّا على x86_64 و aarch64 و riscv64 بنمط Sv48، والبتّات فوقها امتداد إشارةٍ إلزاميّ، فالحدّ 2^47 أي 128 تيرابايت. ولو قِيس النصف على 2^64 لصار حارسًا لا ينطلق أبدًا، إذ مجال هذا العلم نفسه ميغابايتات بعرض 32 بتًّا فلا يبلغ ذلك السقف.'
+    en: '{requested_mib} MiB requested, limit {maximum_mib} MiB on a {bits}-bit target. The freestanding heap is an array in .bss and the limit is half the address space, leaving room for the other sections and the stack — but what that half is measured against depends on the width. At 32 bits or less the address space is 2^width and the driver is a silent wrap: the ELF32 section-size field is 32 bits, so a size at or above 2^32 wraps — measured on i686, a 4096 MiB heap yields a 496-byte section while assembler and linker both exit zero. Worse, the generated malloc''s overflow check compares against the 64-bit requested size, so the allocator believes it owns 4096 MiB while the real section is a few hundred bytes. At 64 bits ELF64 sh_size is 64 bits wide and never wraps; the reference is not the word width but the canonical address width — 48 bits on x86_64, aarch64 and riscv64 (Sv48), with the bits above it a mandatory sign extension — hence 2^47, that is 128 TiB. Measuring the half against 2^64 instead would be a guard that can never fire, since this flag''s own domain is 32-bit megabytes.'
+- code: SEM_TARGET_ARCH_UNSUPPORTED_BUILTIN
+  id: SEM038
+  category: semantic
+  title:
+    ar: مدمجة مقيّدة بعائلة معالج تُطلب لهدف من عائلة أخرى
+    en: CPU-family-constrained builtin requested for a foreign target
+  brief:
+    ar: 'المدمجة «{opcode}» تُخفَّض إلى تعليمة «{witness}» تخصّ {family}، والهدف المطلوب «{target}»'
+    en: 'Builtin «{opcode}» lowers to instruction «{witness}», which belongs to {family}; the requested target is «{target}»'
+  placeholders:
+  - opcode
+  - witness
+  - family
+  - target
+  fix_hint:
+    ar: 'ابنِ لهدف من العائلة نفسها (‎--هدف=i686-...‎ أو ‎--هدف=x86_64-...‎)، أو استبدل بالمدمجة نظيرًا محايدًا للمعماريّة، أو اعزل الاستدعاء خلف فرع خاصّ بالمعماريّة.'
+    en: 'Build for a target in the same family (--هدف=i686-... or --هدف=x86_64-...), replace the builtin with an architecture-neutral equivalent, or isolate the call behind an architecture-specific branch.'
+  detailed:
+    ar: 'بعض المدمجات تُخفَّض إلى تعليمات لا توجد إلّا في عائلة معالج بعينها: ‎cli‎ و‎sti‎ و‎hlt‎ و‎cpuid‎ و‎rdtsc‎ و‎inb/outb‎ و‎mov %crN‎ و‎lgdt/lidt‎ و‎invlpg‎ كلّها من عائلة x86 وحدها؛ فلا فضاء منافذ معزولًا ولا سجلّات تحكّم بهذه الأسماء على ARM أو RISC-V. وكان المترجم يبثّها لأيّ هدف يُطلب بخروج صفريّ، فيقع الإخفاق عند المُجمِّع برسالة لا تدلّ على السبب، أو لا يقع أصلًا فيخرج ثنائيّ لا يعمل. والقياس الذي ولّد هذا التشخيص: قراءة عدّاد الدورات بهدف aarch64 كانت تنجح وتبثّ ‎rdtsc‎. والقيد ليس خاصًّا بالوضع الحرّ بل يقع مستضافًا كذلك، لأنّ التعليمة غائبة عن المعماريّة لا عن المكتبة. وقائمة المدمجات المقيّدة مصدر حقيقة في ‎language-truth/backend/arch_specific_opcodes.yaml‎.'
+    en: 'Some builtins lower to instructions that exist only in one CPU family: cli, sti, hlt, cpuid, rdtsc, inb/outb, mov %crN, lgdt/lidt and invlpg are all x86-only, since there is no isolated port space and no control register by those names on ARM or RISC-V. The compiler used to emit them for any requested target with a zero exit, so the failure landed on the assembler with a message that did not name the cause, or did not land at all and yielded a binary that cannot run. The measurement behind this diagnostic: a timestamp-counter read targeting aarch64 succeeded and emitted rdtsc. The constraint is not freestanding-specific: it applies to hosted builds too, because the instruction is absent from the architecture, not from the library. The constrained list is a source of truth in language-truth/backend/arch_specific_opcodes.yaml.'
+- code: SEM_STATIC_LOCAL_UNSUPPORTED
+  id: SEM039
+  category: semantic
+  title:
+    ar: تخزين ساكن لمتغيّر خارج مستوى الوحدة المباشر غير مدعوم بعد
+    en: Static storage duration outside direct module level is not yet supported
+  brief:
+    ar: 'المتغيّر «{name}» صُرِّح ساكنًا داخل كتلة، ومدّة التخزين الساكنة لا تتحقّق إلّا لما يصير عامًّا'
+    en: 'Variable «{name}» is declared static inside a block; static storage duration only holds for declarations that become globals'
+  placeholders:
+  - name
+  fix_hint:
+    ar: 'انقل التصريح إلى مستوى الوحدة **المباشر** — أي ابنًا مباشرًا للبرنامج، لا داخل دالّة ولا داخل كتلة «إذا»/«بينما»/«لكل» ولو كانت في أعلى الملفّ. أو أسقط «ساكن» إن كان المقصود متغيّرًا عاديًّا. وللتخزين الساكن داخل الدوالّ استعمل صيغة المصفوفة: «متغير ساكن اسم مصفوفة[N]».'
+    en: 'Move the declaration to *direct* module level — a direct child of the program, not inside a function and not inside an if/while/for block even at the top of the file. Or drop «ساكن» if an ordinary variable was intended. For static storage inside functions use the array form: «متغير ساكن اسم مصفوفة[N]».'
+  detailed:
+    ar: 'مدّة التخزين الساكنة تعني أنّ الخانة تُهيَّأ مرّة واحدة وتبقى قيمتها بين النداءات. وهي لا تتحقّق إلّا للتصاريح التي تصير عوامَّ، وذلك مقيس: حلقة تسجيل العوامّ في المترجم تمسح أبناء البرنامج المباشرين وحدهم، فما دونهم يهبط alloca في إطار النداء ويزول بزواله؛ والمفسّر يعرّف بالنسخ في نطاق النداء ولا يملك خانة معمّرة تُربط بموقع التصريح. ولذلك البوّابة تقيس عمق الكتلة لا عمق الدالّة: «متغير ساكن ب = 7» داخل «إذا … نهاية» في أعلى الملفّ ليس عامًّا وإن بدا وحدويًّا. وقبل ISSUE-120 كان «متغير ساكن ن = 0» يُبلَّغ بـSEM023 برسالة تتحدّث عن مصفوفات .bss لأنّ فرع اللبنة 3.16 كان يبتلع كلّ «ساكن»؛ فصار التشخيص يسمّي الحدّ الحقيقيّ بدل أن يحيل على صيغة لا صلة لها. أمّا مصفوفة التخزين الساكن «متغير ساكن اسم مصفوفة[N]» فتعمل في الموضعين لأنّها تُبثّ في قسم .bss لا في إطار النداء.'
+    en: 'Static storage duration means the slot is initialized once and keeps its value across calls. It only holds for declarations that become globals, and this is measured: the compiler''s global-registration loop scans direct children of the program only, so anything deeper lowers to an alloca in the call frame and dies with it; the interpreter defines by copy in the call scope with no persistent slot keyed to the declaration site. Hence the gate measures block depth, not function depth: «متغير ساكن ب = 7» inside an if-block at the top of the file is not a global even though it looks module-level. Before ISSUE-120 this was reported as SEM023 with a message about .bss arrays, because the Brick 3.16 branch swallowed every «ساكن»; the diagnostic now names the real limit. The static storage array form does work in both positions, because it is emitted into .bss rather than the call frame.'
+- code: SEM_VOID_NOT_A_VALUE_TYPE
+  id: SEM040
+  category: semantic
+  title:
+    ar: «{void_word}» نوعُ إرجاعٍ لا نوعُ قيمة
+    en: «{void_word}» is a return type, not a value type
+  brief:
+    ar: 'الخانة «{name}» صُرِّح نوعُها «{void_word}»، و«{void_word}» يعني «لم تُرجَع قيمةٌ أصلًا» فلا خانةَ تحمله'
+    en: 'Slot «{name}» is declared «{void_word}», which means «no value was ever returned» — no slot can hold it'
+  placeholders:
+  - name
+  - void_word
+  - null_word
+  fix_hint:
+    ar: 'إن كان المقصودُ خانةً تقبل «لاشيء» فاكتب «{null_word}» — وهو نوعُ القيمةِ العدميّةِ الصريحة. وإن كان المقصودُ استنتاجَ النوعِ من المُهيّئ فاحذف النوعَ رأسًا.'
+    en: 'If a slot that accepts «لاشيء» was intended, write «{null_word}» — the type of the explicit null value. If type inference was intended, drop the type annotation entirely.'
+  detailed:
+    ar: 'مصدرُ الحقيقة يفصل الغيابَين فصلًا صريحًا: «{void_word}» هو ما لم يُرجَع أصلًا (مفتاحٌ غائب، بحثٌ بلا مطابقة)، و«{null_word}» هو قيمةُ «لاشيء» الصريحة. والفصلُ ليس تسميةً: «{null_word}» يُنزَل إلى عددٍ صحيحٍ بحارسٍ مميَّز فله تمثيلٌ يُخزَّن، أمّا «{void_word}» فيُنزَل إلى نوعِ ‎void‎ في LLVM ولا ثابتَ صفريَّ له. ولذلك كان «متغير {void_word} س = لاشيء» يُسقِط المترجّم برسالةٍ داخليّة «Cannot create a null constant of that type! UNREACHABLE»، بينما يقبله المفسّرُ ويحذّر تحذيرًا كاذبًا عن إسنادِ عدمٍ إلى فراغ — تباعُدُ محرّكَين وانهيارٌ من عيبٍ واحد. والقياسُ الذي ولّد هذا التشخيص: ISSUE-113، حيث كان لفظُ «{null_word}» نفسُه يُخفَّض إلى {void_word} في سبعةِ مواضع، فلمّا فُصلا بقي الانهيارُ قائمًا على «{void_word}» صراحةً — عيبٌ مستقلٌّ كشفه الفصل. والرفضُ يقع في المحلّلِ لا في خلفيّةٍ بعينها، فيتّفق المحرّكان بالبناءِ لا بالمصادفة.'
+    en: 'The source of truth separates the two absences explicitly: «{void_word}» is what was never returned (a missing key, a search with no match), while «{null_word}» is the explicit null value. The separation is not cosmetic: «{null_word}» lowers to an integer with a distinguished sentinel, so it has a representation that can be stored, whereas «{void_word}» lowers to LLVM''s void type, for which no zero constant exists. Hence «متغير {void_word} س = لاشيء» used to crash the compiler with the internal message «Cannot create a null constant of that type! UNREACHABLE», while the interpreter accepted it and emitted a false warning about assigning null to void — an engine divergence and a crash from one defect. The measurement behind this diagnostic is ISSUE-113: the word «{null_word}» itself was being lowered to {void_word} in seven places, and once the two were separated the crash remained on «{void_word}» proper — an independent defect the separation exposed. The rejection lives in the parser rather than in one backend, so both engines agree by construction rather than by coincidence.'
+- code: SEM_IMPLICIT_CTOR_REQUIRES_ARGS
+  id: SEM041
+  category: semantic
+  title:
+    ar: الإنشاءُ الضمنيُّ لا يصلح لصنفٍ بانيه يشترط وسائط
+    en: Implicit construction does not apply to a class whose constructor requires arguments
+  brief:
+    ar: 'الخانة «{name}» صُرِّح نوعُها الصنفَ «{class_name}»، وبانيه لا يُستدعى بلا وسائط (المطلوب: {required}) فلا سبيلَ إلى إنشائه بلا تهيئة'
+    en: 'Slot «{name}» is declared of class «{class_name}», whose constructor requires {required} argument(s), so it cannot be constructed without an initializer'
+  placeholders:
+  - name
+  - class_name
+  - required
+  fix_hint:
+    ar: 'اكتب التهيئةَ صراحةً مع وسائطِ الباني: «{class_name} {name} = {class_name}(…)».'
+    en: 'Write the initializer explicitly with the constructor arguments: «{class_name} {name} = {class_name}(…)».'
+  detailed:
+    ar: 'قرارُ المالك (2026-08-15) جعل «{class_name} {name}» بلا تهيئةٍ مكافئةً لـ«{class_name} {name} = {class_name}()» حرفًا بحرف: تُملأ الحقولُ بقيمِ أنواعِها الافتراضيّةِ تعاوديًّا، ثمّ يُستدعى الباني فيكتب فوقَها. وهذا الترتيبُ يفترض بانيًا يمكن استدعاؤه بلا وسائط. فإن اشترط الباني وسائطَ لم يبقَ للإنشاءِ الضمنيِّ معنًى: لا قيمةَ يمكن للغةِ أن تختلقها للوسيط. والقياسُ الذي ولّد هذا التشخيص: كان المحرّكان يقبلان الصيغةَ صامتَين ويملآن الوسيطَ الناقصَ بـ«لاشيء»، فيُنفَّذ جسمُ الباني على عدمٍ ويخرج الحقلُ «لاشيء» — أي أنّ الخانةَ تحمل غيابًا في نوعٍ غيرِ عدميّ، وهو نقضُ العقدِ الذي تقوم عليه القاعدةُ أصلًا. والرفضُ أوضحُ من القبولِ الصامتِ لأنّ الكاتبَ يعرف وسائطَ بانيه ولا تعرفها اللغة. ⚠️ وحُذف من العلاجِ اقتراحٌ سابقٌ بكتابةِ «{class_name} عدمي {name} = لاشيء»: قِيست الصيغةُ المقترَحةُ حرفًا بحرفٍ فتبيّن أنّ المحلّلَ كان يقرأ «عدمي» اسمًا للمتغيّرِ ويُسقِط الاسمَ الحقيقيَّ **صامتًا**، فيرفع SEM041 ثانيةً ويقترح الصيغةَ الفاسدةَ نفسَها في حلقةٍ مغلقة. ⚠️ وتبدّل هذا في 2026-08-17: صار الفرعُ يشخّص المعرِّفَ الزائدَ بـSYN016 في المحرّكَين، فانقطعت الحلقةُ — «عدّاد عدمي ك» يُرفَض صراحةً بدل أن يُقبَل بمعنًى غيرِ الذي كُتِب. **ولا صيغةَ عاملةً اليومَ لخانةٍ صنفيّةٍ عدميّة**: الرفضُ الصريحُ ليس قبولًا، والقبولُ يلزمه دعمُ الخلفيّةِ لخانةٍ صنفيّةٍ عدميّة وهو غيرُ منجَز. والدرسُ: **العلاجُ المقترَحُ في التشخيصِ يُقاس كما يُقاس الرفضُ نفسُه** — تشخيصٌ صادقُ الرفضِ يحمل علاجًا كاذبًا يُضلُّ أكثرَ ممّا يهدي.'
+    en: 'The owner decision (2026-08-15) makes «{class_name} {name}» without an initializer equivalent to «{class_name} {name} = {class_name}()»: fields are filled with their types'' default values recursively, then the constructor runs over them. That order presupposes a constructor callable with no arguments. If the constructor requires arguments, implicit construction has no meaning — the language cannot invent a value for the argument. The measurement behind this diagnostic: both engines accepted the form silently and padded the missing argument with «لاشيء», so the constructor body ran on null and the field came out «لاشيء» — a non-nullable slot holding an absence, which is precisely the contract the rule exists to uphold. Rejecting is clearer than accepting silently, because the author knows the constructor''s arguments and the language does not.'
+- code: SEM_COMPILER_FIELD_TYPE_UNSUPPORTED
+  id: SEM042
+  category: semantic
+  title:
+    ar: نوعُ الحقلِ لا يخفضه المترجّمُ بعد
+    en: Field type not yet lowered by the compiler
+  brief:
+    ar: 'الحقل «{name}» في «{owner}» نوعُه الصنفُ «{class_name}»، والمترجّمُ لا يخفض حقلًا صنفيًّا بعد — فيُرفَض هنا بدل أن يُبنى برنامجٌ ينهار'
+    en: 'Field «{name}» in «{owner}» has class type «{class_name}», which the compiler does not lower yet — rejected here instead of building a program that crashes'
+  placeholders:
+  - name
+  - owner
+  - class_name
+  fix_hint:
+    ar: 'شغّل هذا الملفَّ بالمفسّرِ (فالقاعدةُ مطبَّقةٌ فيه)، أو استبدل بالحقلِ الصنفيِّ حقولًا من أنواعٍ بسيطة حتّى يُخفَّض الحقلُ الصنفيّ.'
+    en: 'Run this file with the interpreter (the rule is implemented there), or replace the class-typed field with primitive fields until class-typed fields are lowered.'
+  detailed:
+    ar: 'مسارُ البنيةِ في المترجّمِ كان يُسقِط نوعَ الحقلِ الصنفيِّ إلى «رقم» في الفرعِ الافتراضيّ، فتصير الخانةُ عددًا صحيحًا يحمل صفرًا، ثمّ يُفكُّ بوصفِه مؤشّرًا عند أوّلِ وصولٍ إلى عضو. والمقيسُ (2026-08-15، ثلاثُ تشغيلات): البناءُ ينجح برمزِ خروجٍ **صفر** ثمّ ينهار البرنامجُ المُنتَجُ بـSIGSEGV (رمز 139). وهذا أسوأُ مخرَجٍ ممكن: رمزُ خروجِ البناءِ يقول «تمّ» وأداةُ البناءِ لا تشي بشيء، فتمرُّ العلّةُ إلى المستعمِل. والرفضُ هنا **ليس تضييقًا للغة** بل إعلانٌ عن حدٍّ قائمٍ أصلًا: القاعدةُ نفسُها مطبَّقةٌ في المفسّرِ وتعمل. ويُرفَع هذا الرمزُ يومَ يُخفَّض الحقلُ الصنفيُّ في المترجّم. والدرسُ: **حدٌّ لا يُعلَن يُنفَّذ انهيارًا**، والرفضُ الصريحُ أصدقُ من بناءٍ ناجحٍ يكذب.'
+    en: 'The compiler''s struct path fell through to «Integer» for class-typed fields, so the slot became an integer holding zero which was then dereferenced as a pointer on first member access. Measured (2026-08-15, three runs): the build succeeds with exit code ZERO and the produced program then crashes with SIGSEGV (139) — the worst possible outcome, because the build reports success and nothing warns. Rejecting is not a narrowing of the language but the declaration of a limit that already exists: the same rule is implemented and working in the interpreter. This code is retired the day class-typed fields are lowered.'
+- code: SEM_OPTIONAL_CALL_RECEIVER_NOT_SIMPLE
+  id: SEM043
+  category: semantic
+  title:
+    ar: الوصولُ الآمنُ بنداءِ طريقةٍ يلزمه مستقبِلٌ بسيط
+    en: Safe method call requires a simple receiver
+  brief:
+    ar: 'المستقبِلُ في «؟.{method}()» تعبيرٌ قد يقع أثرُه مرّتَين — أسنِدْه إلى متغيّرٍ أوّلًا ثمّ نادِه'
+    en: 'The receiver of «?.{method}()» is an expression whose side effect could happen twice — bind it to a variable first, then call'
+  placeholders:
+  - method
+  fix_hint:
+    ar: 'متغير مستقبل = <التعبير> ثمّ «مستقبل؟.{method}()». والمستقبِلُ المقبولُ اليومَ: متغيّرٌ، أو «هذا»، أو عضوٌ منهما.'
+    en: 'Bind first: «متغير r = <expr>» then «r?.{method}()». Accepted receivers today: a variable, «هذا», or a member of them.'
+  detailed:
+    ar: 'صياغةُ الخلفيّةِ للنداءِ الآمنِ تفحص المستقبِلَ ثمّ تُعيد بناءَه في فرعِ النداء، فتقرؤه **مرّتَين**. وذلك سليمٌ لقراءةِ متغيّرٍ أو «هذا» أو عضوٍ منهما — لا أثرَ جانبيَّ لها — وغيرُ سليمٍ لمستقبِلٍ هو نداءٌ أو إسناد: يقع أثرُه مرّتَين. 🔑 والرفضُ هنا أصدقُ من البناء: أثرٌ جانبيٌّ مضاعَفٌ **عطبٌ لا يُرى في مخرَجٍ صحيح** — يعطي البرنامجُ الجوابَ المتوقَّعَ ويكتب في السجلِّ سطرَين أو يزيد عدّادًا مرّتَين، فلا بذرةَ تُخفِق ولا مستعمِلَ يشكّ. وهو الصنفُ نفسُه الذي يُحذِّر منه هذا الكتالوجُ في SEM041: تشخيصٌ صادقُ الرفضِ خيرٌ من قبولٍ صامتٍ يكذب. ⚠️ وهذا حدُّ **صياغةٍ** لا حدُّ لغة: يُرفَع يومَ تُخزَّن نتيجةُ المستقبِلِ في سجلٍّ يُعاد استعمالُه في الفرعَين بدل إعادةِ بنائِه. والمفسّرُ لا يحمل هذا الحدَّ أصلًا — يُقيّم المستقبِلَ مرّةً واحدةً — فالحدُّ في المترجِّمِ وحدَه، وهو تباعُدٌ **مُعلَنٌ** لا مسكوتٌ عنه.'
+    en: 'The backend lowering for a safe call tests the receiver and then rebuilds it inside the call branch, reading it TWICE. That is sound for a variable, «this», or a member of them (no side effects) and unsound for a call or assignment receiver, whose effect would happen twice. Rejecting is more honest than building: a duplicated side effect is a defect NO correct output reveals — the program returns the expected value while writing two log lines or incrementing a counter twice, so no seed fails and no user suspects. This is a LOWERING limit, not a language limit: it is retired the day the receiver is materialised into a register reused by both branches. The interpreter does not carry this limit (it evaluates the receiver once), so the divergence is DECLARED, not silent.'
+- code: SEM_ASM_ARCH_UNSUPPORTED
+  id: SEM044
+  category: semantic
+  title:
+    ar: لهجة التجميع لا معجم لها على معماريّة الهدف
+    en: assembly dialect has no lexicon for the target architecture
+  brief:
+    ar: 'كتلة «تجميع … نهاية» على هدف معماريّته «{arch}» ولا معجم منمنمات لها — المعماريّات المدعومة: {supported}'
+    en: 'An "تجميع … نهاية" block targets architecture "{arch}", which has no mnemonic lexicon — supported: {supported}'
+  placeholders:
+  - arch
+  - supported
+  fix_hint:
+    ar: 'صرّف لهدف من {supported}، أو استبدل بالكتلة مدمجات ص الأصيلة (فهي مُخفَّضة لكلّ الأهداف)، أو أضِف معجم المعماريّة في language-truth/dialects/assembly_mnemonics/{arch}.yaml وأدرجها في architectures بـassembly.yaml.'
+    en: 'Compile for one of {supported}, or replace the block with native Sad builtins (they lower for every target), or add language-truth/dialects/assembly_mnemonics/{arch}.yaml and list it under architectures in assembly.yaml.'
+  detailed:
+    ar: '🔑 هذا الرمز وُلد من عطب مقيس (١٩ آب ٢٠٢٦): اللهجة كانت تُعلن «architectures: [i686]» بينما المترجّم يخفض كتلة «تجميع» إلى منمنمات i686 **لأيّ هدف** بلا بوّابة معماريّة واحدة — صفرُ ذكرٍ للمعماريّة في خافض الكتلة كلّه. فعلى macos-14-arm64 كانت ثمانية اختبارات موجبة تموت في المُجمِّع بـ«unrecognized instruction mnemonic» على «cli» و«ltr w9» و«lea 8(%ebx), %eax»، بينما تمرّ الاثنا عشر اختبارًا السالبة **بحقّ** لأنّ مرساة كلٍّ منها رمزُ خطأ دلاليّ يسبق التوليد. أي أنّ الأخضر كان يقيس الطبقة الدلاليّة وحدها والأحمر يأتي من طبقة لم يحرسها أحد. والرفض هنا أصدق من الخفض: منمنمة معماريّة تُخفَض لمعماريّة أخرى إمّا يرفضها المُجمِّع — وهو المخرج الرحيم — أو **يقبلها بدلالة أخرى**، وهو كودٌ خاطئ صامت.'
+    en: 'This code was born from a measured defect (2026-08-19): the dialect declared «architectures: [i686]» while the compiler lowered «تجميع» blocks to i686 mnemonics for ANY target, with not a single architecture reference in the whole block lowering. On macos-14-arm64 eight positive tests died in the assembler with "unrecognized instruction mnemonic" on cli, ltr w9 and lea 8(%ebx), %eax, while the twelve negative tests passed LEGITIMATELY because each is anchored to a semantic error code that precedes codegen — green measured only the semantic layer, and red came from a layer no guard covered. Rejecting is more honest than lowering: a mnemonic of one architecture emitted for another is either rejected by the assembler (the merciful outcome) or ACCEPTED WITH A DIFFERENT MEANING, which is silent wrong code.'

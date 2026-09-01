@@ -1,0 +1,278 @@
+version: 1
+namespace_group: CompilerCpuCtl
+description_ar: دوال مترجم CompilerCpuCtl (21 دالة)
+description_en: Compiler builtins CompilerCpuCtl (21)
+functions:
+- cpp_id: CPUCTL_0
+  canonical: معلومات_المعالج
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: معلومات_المعالج
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_1
+  canonical: ميزات_المعالج
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ميزات_المعالج
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_2
+  canonical: اقرأ_سجل_نموذج
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اقرأ_سجل_نموذج
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_3
+  canonical: اكتب_سجل_نموذج
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اكتب_سجل_نموذج
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_4
+  canonical: اقرأ_سجل_تحكم
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اقرأ_سجل_تحكم
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_5
+  canonical: اكتب_سجل_تحكم
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اكتب_سجل_تحكم
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_6
+  canonical: تقرير_المعالج
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_المعالج
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_7
+  canonical: هيئ_جدول_واصفات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_جدول_واصفات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_8
+  canonical: حمل_جدول_واصفات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: حمل_جدول_واصفات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_9
+  canonical: تقرير_واصفات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_واصفات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_10
+  canonical: هيئ_ترحيل
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_ترحيل
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_11
+  canonical: رحل_صفحة
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: رحل_صفحة
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_12
+  canonical: الغ_ترحيل
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الغ_ترحيل
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_13
+  canonical: افرغ_ذاكرة_ترجمة
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: افرغ_ذاكرة_ترجمة
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_14
+  canonical: تقرير_ترحيل
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_ترحيل
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_15
+  canonical: هيئ_جدول_مقاطعات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_جدول_مقاطعات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_16
+  canonical: حمل_جدول_مقاطعات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: حمل_جدول_مقاطعات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_17
+  canonical: سجل_معالج_مقاطعة
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: سجل_معالج_مقاطعة
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_18
+  canonical: فعل_طلب_مقاطعة
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: فعل_طلب_مقاطعة
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_19
+  canonical: تقرير_مقاطعات
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_مقاطعات
+  description_en: compiler builtin (builtins_os_core)
+  params: []
+  lookup_table: name_only
+- cpp_id: CPUCTL_20
+  canonical: عنوان_رمز
+  namespace: CompilerCpuCtl
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عنوان رمز رابط خارجيّ (address-of-symbol) — يعيد العنوان كـرقم
+  description_en: address-of external linker symbol — returns address as integer
+  params: []
+  lookup_table: name_only

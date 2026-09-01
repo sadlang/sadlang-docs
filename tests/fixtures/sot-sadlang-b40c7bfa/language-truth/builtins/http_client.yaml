@@ -1,0 +1,239 @@
+version: 1
+namespace_group: HttpClient
+description_ar: وحدة شبكة عميل HTTP (18 دالة)
+description_en: HTTP client module (18 functions)
+functions:
+- cpp_id: NEW_CLIENT
+  canonical: أنشئ_متصفح
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء عميل HTTP
+  description_en: New HTTP client
+  params: []
+  lookup_table: name_only
+- cpp_id: FREE_CLIENT
+  canonical: أغلق_متصفح
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحرير العميل
+  description_en: Free client
+  params: []
+  lookup_table: name_only
+- cpp_id: GET
+  canonical: اجلب
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طلب GET
+  description_en: HTTP GET
+  params: []
+  lookup_table: name_only
+- cpp_id: POST
+  canonical: أرسل
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طلب POST
+  description_en: HTTP POST
+  params: []
+  lookup_table: name_only
+- cpp_id: PUT
+  canonical: استبدل
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طلب PUT
+  description_en: HTTP PUT
+  params: []
+  lookup_table: name_only
+- cpp_id: DELETE_REQ
+  canonical: احذف_مورد
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طلب DELETE
+  description_en: HTTP DELETE
+  params: []
+  lookup_table: name_only
+- cpp_id: PATCH
+  canonical: عدل_مورد
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طلب PATCH
+  description_en: HTTP PATCH
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_BASE_URL
+  canonical: حدد_الموقع
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحديد الموقع
+  description_en: Set base URL
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_HEADER
+  canonical: أضف_ترويسة
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إضافة ترويسة
+  description_en: Set header
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_TIMEOUT
+  canonical: حدد_الانتظار
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحديد المهلة
+  description_en: Set timeout
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_BEARER
+  canonical: سجل_دخول_برمز
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: Bearer token
+  description_en: Set bearer
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST_ERROR
+  canonical: سبب_الفشل
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: آخر خطأ
+  description_en: Last error
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_OK
+  canonical: هل_نجح
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل نجح؟
+  description_en: Is OK
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_FREE
+  canonical: تجاهل_الرد
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تجاهل الرد
+  description_en: Free response
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_STATUS
+  canonical: رمز_الحالة
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رمز الحالة
+  description_en: Status code
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_BODY
+  canonical: نص_الرد
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نص الرد
+  description_en: Response body
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_HEADER
+  canonical: معلومة_الرد
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترويسة الرد
+  description_en: Response header
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SUCCESS
+  canonical: هل_الرد_ناجح
+  namespace: HttpClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل الرد ناجح؟
+  description_en: Response success
+  params: []
+  lookup_table: name_only

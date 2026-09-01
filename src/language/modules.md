@@ -28,4 +28,4 @@
 | `صدّر` | export | إتاحة رمز للوحدات الأخرى |
 
 تشمل المكتبة القياسيّة وحدات `core`، `io`، `math`، `string`، `network`، `graphics`.
-راجع [الكلمات المحجوزة الأربعون](../reference/keywords.md).
+راجع [الكلمات المحجوزة](../reference/keywords.md).

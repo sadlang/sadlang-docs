@@ -1,0 +1,528 @@
+version: 1
+namespace_group: Math
+description_ar: وحدة رياضيات (33 دالة)
+description_en: Math module (33 functions)
+functions:
+- cpp_id: SQRT
+  canonical: جذر
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: الجذر التربيعي
+  description_en: Square root
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: POWER
+  canonical: أس
+  namespace: Math
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: الأسّ
+  description_en: Power
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ABS
+  canonical: مطلق
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: القيمة المطلقة
+  description_en: Absolute value
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ROUND
+  canonical: تقريب
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقريب لأقرب صحيح
+  description_en: Round
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: FLOOR
+  canonical: أرضية
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: تقريب للأسفل
+  description_en: Floor
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: CEIL
+  canonical: سقف
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: تقريب للأعلى
+  description_en: Ceil
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SQUARE
+  canonical: مربع
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مربع العدد
+  description_en: Square
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: MAX
+  canonical: أكبر
+  namespace: Math
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الأكبر
+  description_en: Maximum
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: MIN
+  canonical: أصغر
+  namespace: Math
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الأصغر
+  description_en: Minimum
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SUM
+  canonical: جمع
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مجموع
+  description_en: Sum
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SIN
+  canonical: جيب
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: جيب الزاوية
+  description_en: Sine
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: COS
+  canonical: جتا
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: جتا الزاوية
+  description_en: Cosine
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: TAN
+  canonical: ظل
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: ظل الزاوية
+  description_en: Tangent
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ASIN
+  canonical: معكوس_جيب
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: جيب عكسي
+  description_en: Arc sine
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ACOS
+  canonical: معكوس_جتا
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: جتا عكسي
+  description_en: Arc cosine
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ATAN
+  canonical: معكوس_ظل
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: ظل عكسي
+  description_en: Arc tangent
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ATAN2
+  canonical: معكوس_ظل2
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: ظل عكسي ثنائي
+  description_en: Atan2
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: LOG
+  canonical: لوغ
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: لوغاريتم طبيعي
+  description_en: Natural log
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: LOG2
+  canonical: لوغ2
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: لوغاريتم ثنائي
+  description_en: Log base 2
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: LOG10
+  canonical: لوغ10
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: لوغاريتم عشري
+  description_en: Log base 10
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: EXP
+  canonical: أسي
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: الدالة الأسية
+  description_en: Exponential
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: PI
+  canonical: ط
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الثابت π
+  description_en: Pi constant
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: PI_ALT
+  canonical: باي
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الثابت π (بديل)
+  description_en: Pi alt
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: E
+  canonical: هـ
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الثابت e
+  description_en: Euler number
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: RANDOM
+  canonical: عشوائي
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عدد عشوائي [0,1)
+  description_en: Random
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: RANDOM_INT
+  canonical: عشوائي_صحيح
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صحيح عشوائي
+  description_en: Random int
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: RANDOM_RANGE
+  canonical: عشوائي_نطاق
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عشوائي في نطاق
+  description_en: Random range
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: RANDOM_FLOAT
+  canonical: عشوائي_عشري
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عشري عشوائي
+  description_en: Random float
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: CLAMP
+  canonical: حصر
+  namespace: Math
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حصر في نطاق
+  description_en: Clamp
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: TRUNCATE
+  canonical: اقتطاع
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: LLVM_INTRINSIC
+  since: 0.1.0
+  status: stable
+  description_ar: اقتطاع عشري
+  description_en: Truncate
+  params: []
+  returns: عشري
+  lookup_table: MODULE_FUNCTION
+- cpp_id: FMOD
+  canonical: باقي
+  namespace: Math
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: باقي عشري
+  description_en: Float modulo
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SIGN
+  canonical: إشارة
+  namespace: Math
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إشارة العدد
+  description_en: Sign
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: LERP
+  canonical: استيفاء_خطي
+  namespace: Math
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MATH
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استيفاء خطي
+  description_en: Lerp
+  params: []
+  lookup_table: MODULE_FUNCTION

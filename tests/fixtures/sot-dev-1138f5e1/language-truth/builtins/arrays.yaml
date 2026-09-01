@@ -1,0 +1,168 @@
+version: 1
+namespace_group: Arrays
+description_ar: عمليات مصفوفات مدمجة (10 دوال)
+description_en: Built-in array ops (10)
+functions:
+- cpp_id: ADD
+  canonical: إضافة_عنصر
+  namespace: Arrays
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إضافة عنصر
+  description_en: Add element
+  params: []
+  lookup_table: name_only
+- cpp_id: REMOVE
+  canonical: إزالة_عنصر
+  namespace: Arrays
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إزالة عنصر
+  description_en: Remove element
+  params: []
+  lookup_table: name_only
+- cpp_id: SIZE
+  canonical: حجم_مصفوفة
+  namespace: Arrays
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حجم
+  description_en: Array size
+  params: []
+  returns: رقم
+  lookup_table: name_only
+- cpp_id: INDEX_OF
+  canonical: فهرس_مصفوفة
+  namespace: Arrays
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فهرس العنصر
+  description_en: Index of
+  params: []
+  returns: رقم
+  lookup_table: name_only
+- cpp_id: ARRAY_CONTAINS
+  canonical: يحتوي_عنصر
+  namespace: Arrays
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يحوي العنصر؟
+  description_en: Contains
+  params: []
+  returns: منطقي
+  lookup_table: name_only
+- cpp_id: REVERSE
+  canonical: قلب
+  namespace: Arrays
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عكس الترتيب
+  description_en: Reverse
+  params: []
+  lookup_table: name_only
+- cpp_id: SORT
+  canonical: رتب
+  namespace: Arrays
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترتيب
+  description_en: Sort
+  params: []
+  lookup_table: name_only
+- cpp_id: FIRST
+  canonical: الأول
+  namespace: Arrays
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أول عنصر
+  description_en: First
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST
+  canonical: الأخير
+  namespace: Arrays
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: آخر عنصر
+  description_en: Last
+  params: []
+  lookup_table: name_only
+- cpp_id: SLICE
+  canonical: شريحة
+  namespace: Arrays
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريحة
+  description_en: Slice
+  params: []
+  lookup_table: name_only

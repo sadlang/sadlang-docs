@@ -64,7 +64,7 @@ class GuardTest(unittest.TestCase):
 
     def test_generators_registry_is_not_empty(self):
         # لو أفرغ أحدهم GENERATORS لمرّ اختبار الذهبيّ أخضرَ بلا صفحةٍ واحدة.
-        self.assertEqual(len(PAGES), 4, f"عدد الصفحات المولَّدة تغيّر: {PAGES}")
+        self.assertEqual(len(PAGES), 6, f"عدد الصفحات المولَّدة تغيّر: {PAGES}")
 
     def test_golden_files_are_substantial(self):
         # ذهبيٌّ فارغٌ يطابق مخرجًا فارغًا — نمنع هذا الأخضر الكاذب.
@@ -181,6 +181,89 @@ class EscapingTest(unittest.TestCase):
         page = gen_reference.GENERATORS["types.md"](src, CHANNELS[0][0])
         self.assertIn("مصفوفة&lt;T&gt;", page)
         self.assertNotIn("مصفوفة<T>", page)
+
+
+class SummarizeTest(unittest.TestCase):
+    """الاختصار يُعلَن ولا يُخفى، ولا يمسّ ما يقصر أصلًا."""
+
+    def test_short_text_untouched(self):
+        self.assertEqual("طول النص", gen_reference.summarize("طول النص"))
+
+    def test_long_text_is_cut_and_marked(self):
+        long_text = "جملةٌ أولى، " * 40
+        out = gen_reference.summarize(long_text)
+        self.assertLess(len(out), len(long_text))
+        self.assertTrue(out.endswith("…"),
+                        "الاختصارُ بلا علامةٍ يُقرأ نصًّا كاملًا.")
+
+    def test_cut_stays_within_the_limit(self):
+        out = gen_reference.summarize("الأوّل، " + "ح" * 300)
+        self.assertLessEqual(len(out), gen_reference.DESC_LIMIT + 2)
+
+    def test_no_table_row_explodes_the_cell(self):
+        # قِيس على SoT الحقيقيّ: أطول وصفٍ ٣٧٢٤ محرفًا في خليّةٍ واحدة.
+        src = ROOT / "tests" / "fixtures" / CHANNELS[0][1]
+        page = gen_reference.GENERATORS["builtins.md"](src, CHANNELS[0][0])
+        rows = [line for line in page.splitlines() if line.startswith("| `")]
+        self.assertTrue(rows, "صفحة المدمَجات بلا صفوف — المُدخَل لم يُقرأ.")
+        widest = max(len(row) for row in rows)
+        self.assertLess(widest, 400,
+                        f"خليّةٌ بعرض {widest} محرفًا تُفقِد الجدول قابليّة المسح.")
+
+
+# (AR) مُدخَلٌ صغيرٌ مصنوعٌ في الاختبار: الغرضُ قياسُ **فرعَي الشرط** لا مطابقةُ
+#      الواقع. والفرعُ الثاني (بلا سِجِلِّ قياس) ليس افتراضًا: القناةُ المستقرّةُ
+#      تسبقُ وصولَ السِّجِلِّ إليها، فيجب أن يُبنى الكتابُ ويُقالَ سببُ الغياب.
+_FAKE_BUILTIN = (
+    "functions:\n"
+    "- canonical: مدمَج_وهميّ\n"
+    "  namespace: Core\n"
+    "  module: NONE\n"
+    "  description_ar: وصف\n"
+)
+_FAKE_SUPPORT = (
+    "measured_commit: abcdef123456\n"
+    "counts: {both: 0, interpreter_only: 1, compiler_only: 0, neither: 0}\n"
+    "functions:\n"
+    "- canonical: مدمَج_وهميّ\n"
+    "  compiler: false\n"
+    "  interpreter: true\n"
+)
+
+
+class EngineColumnTest(unittest.TestCase):
+    """عمودا المحرّكَين مقيسان: يظهران بسِجِلِّ قياس، ويُحذفان بلا سِجِلّ."""
+
+    @staticmethod
+    def _make(td: str, with_record: bool) -> Path:
+        src = Path(td)
+        truth = src / "language-truth"
+        (truth / "builtins").mkdir(parents=True)
+        (truth / "builtins" / "x.yaml").write_text(_FAKE_BUILTIN, encoding="utf-8")
+        if with_record:
+            (truth / "_meta").mkdir(parents=True)
+            (truth / "_meta" / "builtin_engine_support.yaml").write_text(
+                _FAKE_SUPPORT, encoding="utf-8")
+        return src
+
+    def test_columns_absent_when_measurement_missing(self):
+        with TemporaryDirectory() as td:
+            page = gen_reference.GENERATORS["builtins.md"](
+                self._make(td, False), "sadlang")
+            self.assertNotIn("| المترجّم |", page)
+            self.assertIn("غير موجود في هذا الفرع", page)
+
+    def test_columns_present_and_verdict_is_carried_through(self):
+        with TemporaryDirectory() as td:
+            page = gen_reference.GENERATORS["builtins.md"](
+                self._make(td, True), "dev")
+            self.assertIn("| المترجّم |", page)
+            rows = [line for line in page.splitlines()
+                    if line.startswith("| `مدمَج_وهميّ`")]
+            self.assertEqual(1, len(rows), "صفُّ المدمَج مفقودٌ أو مكرّر.")
+            # الحكمُ يُنقَل كما قِيس، ولا يُقلَب: ❌ للمترجّم و✅ للمفسّر.
+            self.assertIn("| ❌ | ✅ |", rows[0])
+            self.assertIn("abcdef123456", page)
 
 
 if __name__ == "__main__":

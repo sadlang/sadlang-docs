@@ -1,0 +1,385 @@
+version: 1
+namespace_group: Basics
+description_ar: وحدة أساسيات (17 دالة)
+description_en: Basics module (18 functions)
+functions:
+- cpp_id: RANGE
+  canonical: مدى
+  namespace: Basics
+  arity:
+    min: 1
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نطاق أرقام
+  description_en: Range
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: EXIT
+  canonical: خروج
+  namespace: Basics
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنهاء البرنامج
+  description_en: Exit
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ASSERT
+  canonical: تأكد
+  namespace: Basics
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكيد شرط
+  description_en: Assert
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: READ_FILE
+  canonical: اقرأ_ملف
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة ملف
+  description_en: Read file
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: WRITE_FILE
+  canonical: اكتب_ملف
+  namespace: Basics
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: كتابة ملف
+  description_en: Write file
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: WRITE_BYTES
+  canonical: اكتب_بايتات
+  namespace: Basics
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: كتابة بايتات خام إلى ملف (تكتب حتى البايتات الصفريّة، بخلاف اكتب_ملف النصّيّة)
+  description_en: Write raw bytes to a file (writes embedded NUL bytes, unlike text write_file)
+  params:
+    - name: مسار
+      type: نص
+    - name: بايتات
+      type: مصفوفة
+  lookup_table: MODULE_FUNCTION
+- cpp_id: READ_BYTES
+  canonical: اقرأ_بايتات
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة بايتات خام من ملف (تعيد مصفوفة أعداد ٠..٢٥٥)
+  description_en: Read raw bytes from a file (returns an array of 0..255 numbers)
+  params:
+    - name: مسار
+      type: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: FILE_EXISTS
+  canonical: هل_موجود
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل موجود؟
+  description_en: File exists
+  params: []
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+- cpp_id: IS_FILE
+  canonical: هل_ملف
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل ملف؟
+  description_en: Is file
+  params: []
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+- cpp_id: REAL_PATH
+  canonical: المسار_الحقيقي
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 1.1.0
+  status: stable
+  description_ar: المسار الحقيقيّ المُحلَّل (يتبع الروابط الرمزيّة ويطبّع `..`)؛ يُرجع نصًّا فارغًا إن تعذّر الحلّ
+  description_en: Fully resolved real path (follows symlinks, normalises `..`); returns an empty string when resolution fails
+  params:
+    - name: مسار
+      type: نص
+  lookup_table: MODULE_FUNCTION
+  # (AR) المضيف: std::filesystem::canonical (المفسّر) / realpath و
+  #      GetFinalPathNameByHandleA (المصرّف). يلزم وجودُ المسار — الغياب يُرجع نصًّا
+  #      فارغًا لا خطأً، كي يميّز المستعمل «ملفٌّ جديد» من «هروبٌ برابطٍ رمزيّ» بضمّها
+  #      إلى هل_رابط_رمزي. والفارغُ لا لبسَ فيه: المسارُ المحلول لا يكون فارغًا أبدًا.
+  #      اختيرَ الفارغُ على «عدم» لتوحيد العقد بين المحرّكين: تمثيلُ العدم يختلف
+  #      بينهما فينتج انحرافَ تكافؤ — وهو ما ظهر فعلًا عند القياس.
+  #      أساسُ فرضِ احتواء المسارات (لا يكفي التطبيعُ النصّيّ: رابطٌ رمزيّ يخترقه).
+- cpp_id: ABS_PATH
+  canonical: المسار_المطلق
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 1.1.0
+  status: stable
+  description_ar: المسار المطلق بلا حلِّ الروابط الرمزيّة (يعمل على مسارٍ غير موجود)؛ نصٌّ فارغ عند الفشل
+  description_en: Absolute path without resolving symlinks (works for a non-existent path); empty string on failure
+  params:
+    - name: مسار
+      type: نص
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+  # (AR) المضيف: std::filesystem::absolute. لا يتبع الروابط ⇒ لا يصلح وحده لفرض
+  #      الاحتواء الأمنيّ؛ استعمل المسار_الحقيقي لذلك.
+- cpp_id: IS_SYMLINK
+  canonical: هل_رابط_رمزي
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 1.1.0
+  status: stable
+  description_ar: هل المدخل رابطٌ رمزيّ؟ (لا يتبع الرابط — يفحص المدخلَ نفسه)
+  description_en: Is the entry a symbolic link? (does not follow — inspects the entry itself)
+  params:
+    - name: مسار
+      type: نص
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+  # (AR) المضيف: std::filesystem::is_symlink (نظير lstat لا stat). هل_ملف/هل_مجلد
+  #      يتبعان الرابطَ فيُرجعان صفةَ الهدف — فلا يكشفان الرابطَ نفسه.
+- cpp_id: IS_DIR
+  canonical: هل_مجلد
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل المسار مجلد موجود؟ (يعيد منطقيًّا)
+  description_en: Is the path an existing directory? (returns boolean)
+  params:
+    - name: مسار
+      type: نص
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+  # (AR) مدعوم في المفسّر والمترجم. مضيف: stat/GetFileAttributes عبر sad_file_is_dir.
+  #      حرّ: كعب ضعيف يعيد 0 (تتجاوزه النواة المضيفة بنظام ملفّات حقيقيّ).
+  # (EN) Supported in interpreter and compiler. Hosted: stat/GetFileAttributes via
+  #      sad_file_is_dir. Freestanding: weak stub returning 0 (host kernel overrides with a real VFS).
+  freestanding: stub
+  runtime_note: filesystem-bridge
+- cpp_id: MKDIR
+  canonical: أنشئ_مجلد
+  namespace: Basics
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء مجلد
+  description_en: Make dir
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: DELETE_FILE
+  canonical: احذف_ملف
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حذف ملف
+  description_en: Delete file
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: EXIT_ALT
+  canonical: اخرج
+  namespace: Basics
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنهاء البرنامج (بديل)
+  description_en: Exit program (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: READ_LINES
+  canonical: اقرأ_أسطر
+  namespace: Basics
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قراءة أسطر الملف
+  description_en: Read lines
+  params: []
+  lookup_table: name_only
+- cpp_id: APPEND_FILE
+  canonical: أضف_إلى_ملف
+  namespace: Basics
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إضافة لملف
+  description_en: Append to file
+  params: []
+  lookup_table: name_only
+- cpp_id: COPY_FILE
+  canonical: انسخ_ملف
+  namespace: Basics
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نسخ ملف
+  description_en: Copy file
+  params: []
+  lookup_table: name_only
+- cpp_id: MOVE_FILE
+  canonical: انقل_ملف
+  namespace: Basics
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نقل ملف
+  description_en: Move file
+  params: []
+  lookup_table: name_only
+- cpp_id: LIST_DIR
+  canonical: اسرد_مجلد
+  namespace: Basics
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: سرد محتوى مجلد
+  description_en: List directory
+  params: []
+  lookup_table: name_only
+- cpp_id: REMOVE_DIR
+  canonical: احذف_مجلد
+  namespace: Basics
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: BASICS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حذف مجلد
+  description_en: Remove directory
+  params: []
+  lookup_table: name_only

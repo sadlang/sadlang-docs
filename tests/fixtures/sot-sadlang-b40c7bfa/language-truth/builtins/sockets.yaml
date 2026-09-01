@@ -1,0 +1,252 @@
+version: 1
+namespace_group: Sockets
+description_ar: وحدة مقابس (19 دالة)
+description_en: Sockets module (19 functions)
+functions:
+- cpp_id: TCP_NEW
+  canonical: أنشئ_وصلة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء وصلة TCP
+  description_en: Create TCP
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_CONNECT
+  canonical: اتصل_بـ
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الاتصال بخادم
+  description_en: TCP connect
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_SEND
+  canonical: أرسل_عبر_وصلة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرسال عبر TCP
+  description_en: TCP send
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_RECV
+  canonical: استقبل_عبر_وصلة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استقبال عبر TCP
+  description_en: TCP recv
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_CLOSE
+  canonical: أغلق_وصلة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إغلاق TCP
+  description_en: TCP close
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_BIND
+  canonical: خصص_منفذ
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ربط منفذ
+  description_en: TCP bind
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_LISTEN
+  canonical: انتظر_اتصالات
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الاستماع
+  description_en: TCP listen
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_ACCEPT
+  canonical: اقبل_متصل
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قبول اتصال
+  description_en: TCP accept
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_CONNECTED
+  canonical: هل_متصلة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل متصلة؟
+  description_en: Is connected
+  params: []
+  lookup_table: name_only
+- cpp_id: TCP_REMOTE_ADDR
+  canonical: عنوان_الطرف_الآخر
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عنوان الطرف الآخر
+  description_en: Remote addr
+  params: []
+  lookup_table: name_only
+- cpp_id: UDP_NEW
+  canonical: أنشئ_مرسال
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء UDP
+  description_en: Create UDP
+  params: []
+  lookup_table: name_only
+- cpp_id: UDP_BIND
+  canonical: خصص_منفذ_رسائل
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ربط UDP
+  description_en: UDP bind
+  params: []
+  lookup_table: name_only
+- cpp_id: UDP_SEND
+  canonical: أرسل_رسالة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرسال UDP
+  description_en: UDP send
+  params: []
+  lookup_table: name_only
+- cpp_id: UDP_RECV
+  canonical: استقبل_رسالة
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استقبال UDP
+  description_en: UDP recv
+  params: []
+  lookup_table: name_only
+- cpp_id: UDP_CLOSE
+  canonical: أغلق_مرسال
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إغلاق UDP
+  description_en: UDP close
+  params: []
+  lookup_table: name_only
+- cpp_id: RECV_TIMEOUT
+  canonical: حدد_انتظار_الاستقبال
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مهلة الاستقبال
+  description_en: Recv timeout
+  params: []
+  lookup_table: name_only
+- cpp_id: SEND_TIMEOUT
+  canonical: حدد_انتظار_الإرسال
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مهلة الإرسال
+  description_en: Send timeout
+  params: []
+  lookup_table: name_only
+- cpp_id: NO_DELAY
+  canonical: أرسل_فورا
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرسال فوري
+  description_en: No delay
+  params: []
+  lookup_table: name_only
+- cpp_id: LOCAL_PORT
+  canonical: منفذ_محلي
+  namespace: Sockets
+  category: MODULE_FUNCTION
+  require_import: true
+  module: SOCKETS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: المنفذ المحلي
+  description_en: Local port
+  params: []
+  lookup_table: name_only

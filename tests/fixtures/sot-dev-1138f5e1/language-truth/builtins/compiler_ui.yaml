@@ -1,0 +1,442 @@
+version: 1
+namespace_group: CompilerUi
+description_ar: دوال مترجم CompilerUi (29)
+description_en: Compiler CompilerUi (41)
+functions:
+- cpp_id: UI_2
+  canonical: مكدس
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مكدس
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_4
+  canonical: نص_عرض
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: نص_عرض
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_5
+  canonical: نص_منسق
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: نص_منسق
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_7
+  canonical: زر_نوع
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: زر_نوع
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_8
+  canonical: زر_ايقونة
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: زر_ايقونة
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_11
+  canonical: مربع_تحقق
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مربع_تحقق
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_12
+  canonical: مبدل
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مبدل
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_18
+  canonical: خط_فاصل
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: خط_فاصل
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_20
+  canonical: أضف_ابن
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أضف_ابن
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_21
+  canonical: أزل_ابن
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أزل_ابن
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_22
+  canonical: امسح_الأبناء
+  namespace: CompilerUi
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: امسح_الأبناء
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_23
+  canonical: عين_النص
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_النص
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_24
+  canonical: عين_الحجم
+  namespace: CompilerUi
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الحجم
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_25
+  canonical: عين_المرونة
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_المرونة
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_26
+  canonical: عين_الخلفية
+  namespace: CompilerUi
+  arity:
+    min: 5
+    max: 5
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الخلفية
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_27
+  canonical: عين_اللون
+  namespace: CompilerUi
+  arity:
+    min: 5
+    max: 5
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_اللون
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_28
+  canonical: عين_التباعد
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_التباعد
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_29
+  canonical: عين_الحشوة
+  namespace: CompilerUi
+  arity:
+    min: 5
+    max: 5
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الحشوة
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_30
+  canonical: عين_المحاذاة
+  namespace: CompilerUi
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_المحاذاة
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_31
+  canonical: عين_الحدود
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الحدود
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_32
+  canonical: عين_الارتفاع
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الارتفاع
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_33
+  canonical: عين_الشفافية
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الشفافية
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_34
+  canonical: عين_الظهور
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الظهور
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_35
+  canonical: انشئ_تطبيق
+  namespace: CompilerUi
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: انشئ_تطبيق
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_36
+  canonical: عين_الجذر
+  namespace: CompilerUi
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الجذر
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_37
+  canonical: خطط
+  namespace: CompilerUi
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: خطط
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_38
+  canonical: ارسم
+  namespace: CompilerUi
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ارسم
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_39
+  canonical: دمر_تطبيق
+  namespace: CompilerUi
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: دمر_تطبيق
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only
+- cpp_id: UI_40
+  canonical: دمر_عنصر
+  namespace: CompilerUi
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: دمر_عنصر
+  description_en: compiler builtin (builtins_ui)
+  params: []
+  lookup_table: name_only

@@ -1,0 +1,84 @@
+version: 1
+namespace_group: Concurrency
+description_ar: دوال التزامن الأساسية — بدون استيراد (6 دوال)
+description_en: Core concurrency functions — no import required (6 functions)
+functions:
+- cpp_id: CHANNEL
+  canonical: قناة
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء قناة للتواصل بين الخيوط الخفيفة
+  description_en: Create a channel for goroutine communication
+  params:
+  - حجم
+  lookup_table: name_only
+- cpp_id: WAIT_ALL
+  canonical: انتظر_الكل
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: انتظار انتهاء جميع الخيوط الخفيفة
+  description_en: Wait for all active goroutines to finish
+  params: []
+  lookup_table: name_only
+- cpp_id: TASK_COUNT
+  canonical: عدد_المهام
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرجاع عدد المهام النشطة حالياً
+  description_en: Return the current number of active tasks
+  params: []
+  lookup_table: name_only
+- cpp_id: WAIT_GROUP
+  canonical: مجموعة_انتظار
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء مجموعة انتظار WaitGroup
+  description_en: Create a WaitGroup for thread coordination
+  params: []
+  lookup_table: name_only
+- cpp_id: MUTEX
+  canonical: قفل
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء قفل Mutex للتزامن المتبادل
+  description_en: Create a Mutex for mutual exclusion
+  params: []
+  lookup_table: name_only
+- cpp_id: FUTURE
+  canonical: مستقبل
+  namespace: Concurrency
+  category: CORE_IO
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء مستقبل Future لاسترداد نتيجة غير متزامنة
+  description_en: Create a Future for retrieving an async result
+  params: []
+  lookup_table: name_only
