@@ -14,7 +14,7 @@
 # ============================================================================
 version: 2
 kind: measurement
-measured_commit: 246fe84d23d5b7500c20f3923649a2f197060222
+measured_commit: f04bc0cc23540e11ea58bd0eadb11b0b1f216025
 measured_binaries:
 - path: sad-run.exe
   sha256: 15fea78140a19480
@@ -25,9 +25,9 @@ measured_binaries:
   bytes: 92635136
   built_at: '2026-09-01T09:49:19'
 stale_binaries_allowed: false
-elapsed_seconds: 136
+elapsed_seconds: 119
 method:
-  interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم
+  interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم — ولا يُنفَّذُ مدمَجٌ واحدٌ في المِجَسِّ ولا في معايرتِه
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى، ترجمةٌ بلا ربط (-c)؛ الغيابُ SEM047 ثمّ «غير معرّفة»، والحضورُ رمزُ خروجٍ صفرٍ أو تشخيصٌ يسمّي المدمَجَ
   granularity: اسمٌ واحدٌ لكلّ تشغيل — الدفعةُ تبتُرُ فتكذب
   row_unit: اسمٌ قانونيٌّ واحد (الإعلاناتُ المكرّرةُ تُوحَّدُ بأدنى رتبة)
@@ -35,7 +35,7 @@ calibration:
   interpreter:
     seed: 11
     strategy: طبقيٌّ بحسب المجموعة
-    second_form: نداءٌ فعليٌّ في التوپلفل؛ الحَكَمُ SEM004
+    second_form: جارٌ مخترَعٌ يُستعلَمُ به عن سِجِلِّ المفسّر؛ لا تنفيذَ البتّة
     per_namespace: 3
     absent_namespaces: 39
     present_namespaces: 25
@@ -65,10 +65,10 @@ calibration:
 unmeasured:
 - canonical: خطأ
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmphvmirwdt\c.ص: error: Error: Only '
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpyk4mj_lg\c.ص: error: Error: Only '
 - canonical: زاوج
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmphvmirwdt\c.ص: error: (AR) متوقع '''
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpyk4mj_lg\c.ص: error: (AR) متوقع '''
 - canonical: عشوائي_آمن
   engine: compiler
   reason: 'رمز 3221225477: فارغ'
