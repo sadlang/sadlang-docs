@@ -57,6 +57,7 @@ jobs:
         run: |
           python scripts/gen_reference.py --fetch sadlang
           python scripts/gen_reference.py --verify
+          python scripts/channel_gate.py --channel sadlang --strip --guard
           cat > theme/channel-banner.js <<EOF
           (function(){var b=document.createElement("div");b.dir="rtl";
           b.style.cssText="background:#2b8a3e;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";
@@ -66,10 +67,17 @@ jobs:
           mdbook build -d site
 
       # ── القناة القادمة: من فرع dev إلى /next/ ───────────────────────────────
+      # لازم: تجريدُ القناة المستقرّة عدّل النثر **في المكان** (حذف كتل «القادم»).
+      # بلا استعادةٍ هنا تُبنى القناة القادمة من نثرٍ مجرَّد، فتفقد ما وُضع فيها
+      # أصلًا — وهو عكس الغرض تمامًا.
+      - name: استعادة النثر قبل بناء القناة القادمة
+        run: git checkout -- src/
+
       - name: بناء القناة القادمة
         run: |
           python scripts/gen_reference.py --fetch dev
           python scripts/gen_reference.py --verify
+          python scripts/channel_gate.py --channel dev --strip
           cat > theme/channel-banner.js <<EOF
           (function(){var b=document.createElement("div");b.dir="rtl";
           b.style.cssText="background:#e8590c;color:#fff;text-align:center;padding:6px 10px;font-size:.9em;";

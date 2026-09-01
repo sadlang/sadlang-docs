@@ -59,6 +59,12 @@ jobs:
       - name: التحقّق من أنّ الصفحات مُولَّدةٌ لا جذاذات
         run: python scripts/gen_reference.py --verify
 
+      # بوّابة القناة: النثر مشتركٌ بين القناتين (فرعٌ واحد يُبنى مرّتين)، فلا
+      # شيء كان يمنع فقرةً توثّق ميزةَ dev من الظهور للمستخدم في المستقرّ.
+      # القائمة مُشتقّة من SoT: (رموز dev − رموز sadlang) — لا قائمةَ إذنٍ مكتوبة.
+      - name: بوّابة القناة (${{ matrix.ref }})
+        run: python scripts/channel_gate.py --channel ${{ matrix.ref }} --strip --guard
+
       - name: تثبيت mdBook
         uses: peaceiris/actions-mdbook@v2
         with:
