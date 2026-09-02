@@ -14,18 +14,18 @@
 # ============================================================================
 version: 2
 kind: measurement
-measured_commit: a2fbcb52d039c20a8e0d16b1ed6ef9e833c55a09
+measured_commit: 0247a2e68db464e2769cc0d89ac91aec9928de53
 measured_binaries:
 - path: sad-run.exe
-  sha256: 1a5dcd4a5348a84a
-  bytes: 6300672
-  built_at: '2026-09-01T18:15:18'
+  sha256: 832fbff91e32aa90
+  bytes: 6284288
+  built_at: '2026-09-01T20:10:15'
 - path: sad-build.exe
-  sha256: fba01be09a2ef513
-  bytes: 92635136
-  built_at: '2026-09-01T18:21:34'
+  sha256: dde54b52205531ae
+  bytes: 92635648
+  built_at: '2026-09-01T20:17:07'
 stale_binaries_allowed: false
-elapsed_seconds: 125
+elapsed_seconds: 177
 method:
   interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم — ولا يُنفَّذُ مدمَجٌ واحدٌ في المِجَسِّ ولا في معايرتِه
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى، ترجمةٌ بلا ربط (-c)؛ الغيابُ SEM047 ثمّ «غير معرّفة»، والحضورُ رمزُ خروجٍ صفرٍ أو تشخيصٌ يسمّي المدمَجَ
@@ -65,20 +65,17 @@ calibration:
 unmeasured:
 - canonical: خطأ
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpufjb3uxn\c.ص: error: Error: Only '
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpcxdzkdta\c.ص: error: Error: Only '
 - canonical: زاوج
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpufjb3uxn\c.ص: error: (AR) متوقع '''
-- canonical: عشوائي_آمن
-  engine: compiler
-  reason: 'رمز 3221225477: فارغ'
+  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpcxdzkdta\c.ص: error: (AR) متوقع '''
 counts:
   declarations_in_sot: 1205
-  unmeasured: 3
-  declared: 1189
-  compiler: 665
-  interpreter: 380
-  both: 271
+  unmeasured: 2
+  declared: 1190
+  compiler: 666
+  interpreter: 381
+  both: 272
   interpreter_only: 109
   compiler_only: 394
   neither: 415
@@ -4151,6 +4148,11 @@ functions:
 - canonical: عشوائي
   namespace: Math
   module: MATH
+  compiler: true
+  interpreter: true
+- canonical: عشوائي_آمن
+  namespace: Assertions
+  module: ASSERTIONS
   compiler: true
   interpreter: true
 - canonical: عشوائي_صحيح
