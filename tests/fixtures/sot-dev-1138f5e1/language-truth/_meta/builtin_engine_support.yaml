@@ -14,18 +14,18 @@
 # ============================================================================
 version: 2
 kind: measurement
-measured_commit: 767b341430a45f417962fa13b56223a00516e17d
+measured_commit: a4c3a821391f9a16b82f65023bb73a82a917fc2a
 measured_binaries:
 - path: sad-run.exe
-  sha256: 832fbff91e32aa90
-  bytes: 6284288
-  built_at: '2026-09-01T20:10:15'
+  sha256: b67efe5d355e9db0
+  bytes: 6282240
+  built_at: '2026-09-02T15:19:10'
 - path: sad-build.exe
-  sha256: dde54b52205531ae
+  sha256: 43adbaf4d36e0aba
   bytes: 92635648
-  built_at: '2026-09-01T20:17:07'
+  built_at: '2026-09-02T15:22:35'
 stale_binaries_allowed: false
-elapsed_seconds: 137
+elapsed_seconds: 125
 method:
   interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم — ولا يُنفَّذُ مدمَجٌ واحدٌ في المِجَسِّ ولا في معايرتِه
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى، ترجمةٌ بلا ربط (-c)؛ الغيابُ SEM047 ثمّ «غير معرّفة»، والحضورُ رمزُ خروجٍ صفرٍ أو تشخيصٌ يسمّي المدمَجَ

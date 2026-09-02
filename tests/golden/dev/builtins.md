@@ -23,7 +23,7 @@
 
 > **حدّ القياس (يُذكر ولا يُخفى):** المقيسُ **حلُّ الاسم** في المحرّك، لا صحّةُ التنفيذ ولا سلامةُ العائد. «✅» تعني «المحرّك يعرفه»، ولا تعني «قِيس أثره».
 
-> القياس على الإيداع `767b341430a4` — سِجِلُّه في [`language-truth/_meta/builtin_engine_support.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/_meta/builtin_engine_support.yaml).
+> القياس على الإيداع `a4c3a821391f` — سِجِلُّه في [`language-truth/_meta/builtin_engine_support.yaml`](https://github.com/sadlang/s-programming-language/blob/dev/language-truth/_meta/builtin_engine_support.yaml).
 
 > 🟡 **المفسّر وحده** ليست عيبًا في برنامجك: شغّله بـ`sad-run` ريثما يُوصَل المدمَج بالمترجّم. والمترجّم يقولها صراحةً بالرمز `SEM047` ولا يتبخّر النداء صامتًا.
 
