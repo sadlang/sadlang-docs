@@ -14,7 +14,7 @@
 # ============================================================================
 version: 2
 kind: measurement
-measured_commit: 0247a2e68db464e2769cc0d89ac91aec9928de53
+measured_commit: 767b341430a45f417962fa13b56223a00516e17d
 measured_binaries:
 - path: sad-run.exe
   sha256: 832fbff91e32aa90
@@ -25,7 +25,7 @@ measured_binaries:
   bytes: 92635648
   built_at: '2026-09-01T20:17:07'
 stale_binaries_allowed: false
-elapsed_seconds: 177
+elapsed_seconds: 137
 method:
   interpreter: مرجعُ اسمٍ بلا نداء؛ الحكمُ SEM001 على الاسم — ولا يُنفَّذُ مدمَجٌ واحدٌ في المِجَسِّ ولا في معايرتِه
   compiler: نداءٌ برتبة arity.min في دالّةٍ لا تُنادى، ترجمةٌ بلا ربط (-c)؛ الغيابُ SEM047 ثمّ «غير معرّفة»، والحضورُ رمزُ خروجٍ صفرٍ أو تشخيصٌ يسمّي المدمَجَ
@@ -65,10 +65,10 @@ calibration:
 unmeasured:
 - canonical: خطأ
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpcxdzkdta\c.ص: error: Error: Only '
+  reason: 'رمز 1: <مؤقّت>\c.ص: error: Error: Only direct function calls are supported'
 - canonical: زاوج
   engine: compiler
-  reason: 'رمز 1: C:\Users\Admin\AppData\Local\Temp\tmpcxdzkdta\c.ص: error: (AR) متوقع '''
+  reason: 'رمز 1: <مؤقّت>\c.ص: error: (AR) متوقع ''array'' لكن وُجد ''i64'''
 counts:
   declarations_in_sot: 1205
   unmeasured: 2
