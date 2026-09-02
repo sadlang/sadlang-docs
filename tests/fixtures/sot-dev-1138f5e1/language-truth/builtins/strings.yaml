@@ -1,0 +1,340 @@
+version: 1
+namespace_group: Strings
+description_ar: وحدة نصوص (21 دالة)
+description_en: Strings module (21 functions)
+functions:
+- cpp_id: STR_LENGTH
+  canonical: طول_نص
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طول النص
+  description_en: String length
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: CHAR_CODE
+  canonical: رمز_حرف
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رمز Unicode
+  description_en: Char code
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: FIND
+  canonical: بحث
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إيجاد نص فرعي
+  description_en: Find
+  params: []
+  returns: رقم
+  lookup_table: MODULE_FUNCTION
+- cpp_id: REPLACE
+  canonical: استبدل
+  namespace: Strings
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استبدال
+  description_en: Replace
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SUBSTRING
+  canonical: استخراج
+  namespace: Strings
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استخراج جزء
+  description_en: Substring
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: TRIM
+  canonical: قص_أطراف
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حذف مسافات
+  description_en: Trim
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: TO_UPPER
+  canonical: تحويل_كبير
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حروف كبيرة
+  description_en: Uppercase
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: TO_LOWER
+  canonical: تحويل_صغير
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حروف صغيرة
+  description_en: Lowercase
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SPLIT
+  canonical: تقسيم
+  namespace: Strings
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقسيم بفاصل
+  description_en: Split
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: JOIN
+  canonical: دمج
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: دمج قائمة
+  description_en: Join
+  params: []
+  returns: نص
+  lookup_table: MODULE_FUNCTION
+- cpp_id: STARTS_WITH
+  canonical: يبدأ_ب
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يبدأ بـ
+  description_en: Starts with
+  params: []
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ENDS_WITH
+  canonical: ينتهي_ب
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ينتهي بـ
+  description_en: Ends with
+  params: []
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+- cpp_id: CONTAINS
+  canonical: يحتوي_على
+  namespace: Strings
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يحوي نص فرعي
+  description_en: Contains
+  params: []
+  returns: منطقي
+  lookup_table: MODULE_FUNCTION
+- cpp_id: APPEND
+  canonical: أضف
+  namespace: Strings
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إضافة لمصفوفة
+  description_en: Append
+  params: []
+  lookup_table: name_only
+- cpp_id: REMOVE_ELEM
+  canonical: أزل
+  namespace: Strings
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إزالة من مصفوفة
+  description_en: Remove
+  params: []
+  lookup_table: name_only
+- cpp_id: CONVERT_TO_INT
+  canonical: حول_رقم
+  namespace: Strings
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل لرقم
+  description_en: Parse number
+  params: []
+  lookup_table: name_only
+- cpp_id: TO_ARRAY
+  canonical: لمصفوفة
+  namespace: Strings
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل لمصفوفة
+  description_en: To array
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_INT
+  canonical: هو_رقم_صحيح
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل عدد صحيح؟
+  description_en: Is integer
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_FLOAT
+  canonical: هو_رقم_عشري
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل عدد عشري؟
+  description_en: Is float
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_STRING
+  canonical: هو_نص
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل نص؟
+  description_en: Is string
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_ARRAY
+  canonical: هو_مصفوفة
+  namespace: Strings
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: STRINGS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل مصفوفة؟
+  description_en: Is array
+  params: []
+  lookup_table: name_only

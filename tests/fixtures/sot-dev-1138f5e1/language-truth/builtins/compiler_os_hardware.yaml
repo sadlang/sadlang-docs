@@ -1,0 +1,383 @@
+version: 1
+namespace_group: CompilerHw
+description_ar: دوال مترجم CompilerHw (27 دالة)
+description_en: Compiler builtins CompilerHw (27)
+functions:
+- cpp_id: HW_0
+  canonical: عدد_أجهزة_ناقل
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عدد_أجهزة_ناقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_1
+  canonical: اقرأ_اعدادات_ناقل
+  namespace: CompilerHw
+  arity: {min: 4, max: 4}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اقرأ_اعدادات_ناقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_2
+  canonical: اكتب_اعدادات_ناقل
+  namespace: CompilerHw
+  arity: {min: 5, max: 5}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اكتب_اعدادات_ناقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_3
+  canonical: عدد_الأجهزة
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: عدد_الأجهزة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_4
+  canonical: تقرير_ناقل
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_ناقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_5
+  canonical: هيئ_نقل_مباشر
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_نقل_مباشر
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_6
+  canonical: ابدأ_نقل
+  namespace: CompilerHw
+  arity: {min: 3, max: 3}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ابدأ_نقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_7
+  canonical: حالة_نقل
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: حالة_نقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_8
+  canonical: تقرير_نقل
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_نقل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_9
+  canonical: هيئ_شاشة
+  namespace: CompilerHw
+  arity: {min: 2, max: 3}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_شاشة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_10
+  canonical: ارسم_نقطة
+  namespace: CompilerHw
+  arity: {min: 3, max: 3}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ارسم_نقطة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_11
+  canonical: املأ_مستطيل
+  namespace: CompilerHw
+  arity: {min: 5, max: 5}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: املأ_مستطيل
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_12
+  canonical: ارسم_نص
+  namespace: CompilerHw
+  arity: {min: 3, max: 3}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ارسم_نص
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_13
+  canonical: امسح_شاشة
+  namespace: CompilerHw
+  arity: {min: 0, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: امسح_شاشة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_14
+  canonical: تقرير_شاشة
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_شاشة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_15
+  canonical: هيئ_طاقة
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_طاقة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_16
+  canonical: ابحث_جدول_طاقة
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ابحث_جدول_طاقة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_17
+  canonical: اطفئ
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اطفئ
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_18
+  canonical: تقرير_طاقة
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تقرير_طاقة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_19
+  canonical: هيئ_قفل_دوار
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_قفل_دوار
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_20
+  canonical: اقفل_دوار
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اقفل_دوار
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_21
+  canonical: افتح_قفل_دوار
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: افتح_قفل_دوار
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_22
+  canonical: هيئ_كابح
+  namespace: CompilerHw
+  arity: {min: 0, max: 0}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_كابح
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_23
+  canonical: اقفل_كابح
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: اقفل_كابح
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_24
+  canonical: افتح_كابح
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: افتح_كابح
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_25
+  canonical: هيئ_اشارة
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_اشارة
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only
+- cpp_id: HW_26
+  canonical: هيئ_حاجز
+  namespace: CompilerHw
+  arity: {min: 1, max: 1}
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: هيئ_حاجز
+  description_en: compiler builtin (builtins_os_hardware)
+  params: []
+  lookup_table: name_only

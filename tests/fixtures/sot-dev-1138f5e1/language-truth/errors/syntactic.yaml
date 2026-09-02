@@ -1,0 +1,666 @@
+version: '1.0'
+category: syntactic
+description_ar: أخطاء syntactic
+description_en: syntactic errors
+errors:
+- code: SYN_UNEXPECTED_TOKEN
+  id: SYN001
+  category: syntactic
+  title:
+    ar: رمز غير متوقع
+    en: Unexpected token
+  brief:
+    ar: وجدتُ '{found}' لكن كنت أتوقع '{expected}'
+    en: Found '{found}' but expected '{expected}'
+  placeholders:
+  - found
+  - expected
+  fix_hint:
+    ar: 'استبدل ''{found}'' بـ ''{expected}''. تحقّق من السطر السابق: هل نسيت ''نهاية'' أو فاصلة منقوطة؟'
+    en: 'Replace ''{found}'' with ''{expected}''. Check the previous line: did you miss ''نهاية'' (end) or a semicolon?'
+  detailed:
+    ar: 'المحلّل النحوي يبني شجرة الكود وفق قواعد لغة ص. عند رؤية رمز ''{found}'' في مكان يتطلّب ''{expected}''، تتوقّف المعالجة. السبب الشائع: نسيان إغلاق كتلة بـ''نهاية''، أو خطأ إملائي في كلمة مفتاحية.'
+    en: 'The parser builds the syntax tree per Sad''s grammar. Seeing ''{found}'' where ''{expected}'' is required stops parsing. Common causes: missing ''نهاية'' (end), typo in a keyword, or wrong operator
+      order.'
+- code: SYN_MISSING_SEMICOLON
+  id: SYN002
+  category: syntactic
+  title:
+    ar: فاصلة منقوطة مفقودة
+    en: Missing semicolon
+  brief:
+    ar: متوقع ';' أو '؛' في نهاية الجملة
+    en: Expected ';' at end of statement
+  fix_hint:
+    ar: 'الفاصلة المنقوطة (؛ أو ;) بين الأسطر اختيارية تماماً؛ يُطلب وضعها فقط لفصل جملتين في السطر ذاته. مثال: متغير أ = 1؛ متغير ب = 2'
+    en: 'Semicolons (؛ or ;) between separate lines are entirely optional; required only to separate two statements on the same line. Example: var a = 1; var b = 2'
+  detailed:
+    ar: لغة ص تعتمد على نهاية السطر كفاصل افتراضي للجمل. الفاصلة المنقوطة (؛ أو ;) مطلوبة فقط عند كتابة عدّة جمل على نفس السطر. هذا الخطأ يظهر عند وجود تعبيرين متتاليين بدون فاصل صريح.
+    en: Sad uses newlines as default statement separators. Semicolons (؛ or ;) are required only when writing multiple statements on one line. This error appears when two expressions follow without an explicit
+      separator.
+- code: SYN_UNCLOSED_BRACKET
+  id: SYN003
+  category: syntactic
+  title:
+    ar: قوس غير مغلق
+    en: Unclosed bracket
+  brief:
+    ar: قوس '{bracket}' فُتح ولم يُغلق
+    en: Bracket '{bracket}' was opened but never closed
+  placeholders:
+  - bracket
+  fix_hint:
+    ar: 'أضف ''{bracket}'' المقابل لإغلاق التعبير. تحقّق من تطابق كل قوس فاتح مع قوس مغلق من نفس النوع: () [] {{}}.'
+    en: 'Add the matching ''{bracket}'' to close. Verify each opening bracket has a matching closing one of the same kind: () [] {{}}.'
+  detailed:
+    ar: 'كل قوس مفتوح في لغة ص يجب أن يُغلق بنفس نوعه: () للاستدعاءات، [] للمصفوفات، {{}} لا تُستخدم (الكتل تُغلق بـ''نهاية''). عدم التطابق يُربك المحلّل النحوي ويوقفه عند نهاية السطر أو الملف.'
+    en: 'Every opening bracket in Sad must close with the same type: () for calls, [] for arrays, {{}} unused (blocks close with ''نهاية''). Mismatches confuse the parser, halting at end-of-line or EOF.'
+- code: SYN_MISSING_IDENTIFIER
+  id: SYN004
+  category: syntactic
+  title:
+    ar: معرّف مفقود
+    en: Missing identifier
+  brief:
+    ar: متوقع اسم متغير أو دالة هنا
+    en: Expected an identifier here
+  fix_hint:
+    ar: 'ضع اسماً صالحاً هنا (حروف عربية/إنجليزية + أرقام + شرطة سفلية، لا يبدأ برقم). مثال: متغير عدد = 5'
+    en: 'Place a valid identifier (Arabic/Latin letters + digits + underscore, not starting with digit). Example: متغير عدد = 5'
+  detailed:
+    ar: 'السياقات التالية تتطلّب معرّفاً (اسم متغيّر أو دالة): بعد ''متغير''، ''ثابت''، ''دالة''، ''صنف''، ''.''، وداخل قائمة المعاملات. الخطأ يظهر عند ترك المكان فارغاً أو وضع كلمة مفتاحية بدلاً منه.'
+    en: 'These contexts require an identifier (variable/function name): after ''متغير'', ''ثابت'', ''دالة'', ''صنف'', ''.'', and inside parameter lists. The error appears if the slot is empty or holds a
+      keyword.'
+- code: SYN_INVALID_EXPRESSION
+  id: SYN005
+  category: syntactic
+  title:
+    ar: تعبير غير صالح
+    en: Invalid expression
+  brief:
+    ar: بنية التعبير غير صحيحة
+    en: Expression structure is invalid
+  fix_hint:
+    ar: 'راجع التعبير: تأكّد من توازن الأقواس، وضع المعاملات بين العوامل، وعدم وجود عوامل متتالية (مثل ''++'' أو ''*/'').'
+    en: 'Review the expression: balance parentheses, place operands between operators, avoid consecutive operators (like ''++'' or ''*/'').'
+  detailed:
+    ar: تعبير صالح في لغة ص يتكوّن من قيم (أرقام، نصوص، متغيّرات، استدعاءات) متّصلة بعوامل ثنائية (+, -, *، /, ==, <, و، أو) أو أحادية (-، ليس). الخروج عن هذه البنية يرفع هذا الخطأ.
+    en: A valid Sad expression consists of values (numbers, strings, variables, calls) connected by binary operators (+, -, *, /, ==, <, و, أو) or unary ones (-, ليس). Violations raise this error.
+- code: SYN_UNEXPECTED_EOF
+  id: SYN006
+  category: syntactic
+  title:
+    ar: نهاية ملف غير متوقعة
+    en: Unexpected end of file
+  brief:
+    ar: انتهى الملف قبل اكتمال البنية
+    en: File ended before structure was complete
+  fix_hint:
+    ar: أضف 'نهاية' لإغلاق الكتلة المفتوحة، أو علامة اقتباس " لإغلاق النص، أو قوس مغلق المتبقّي.
+    en: Add 'نهاية' to close the open block, a closing " for an unterminated string, or the missing closing bracket.
+  detailed:
+    ar: وصل المحلّل النحوي إلى نهاية الملف بينما كان يتوقّع المزيد من الرموز لإكمال بنية مفتوحة (دالة، صنف، إذا، بينما، نص، أو قوس). كل بنية مفتوحة تحتاج إغلاقاً صريحاً.
+    en: Parser reached end-of-file while expecting more tokens to complete an open construct (function, class, if, while, string, or bracket). Every open construct needs explicit closing.
+- code: SYN_MISSING_COLON
+  id: SYN007
+  category: syntactic
+  title:
+    ar: نقطتان مفقودتان
+    en: Missing colon
+  brief:
+    ar: متوقع ':' هنا
+    en: Expected ':' here
+  fix_hint:
+    ar: 'أضف '':'' في الموضع المتوقّع. مثال: ''عندما 1:'' أو ''افتراضي:'' في كتلة ''طابق''.'
+    en: 'Add '':'' at the expected location. Example: ''عندما 1:'' or ''افتراضي:'' inside a ''طابق'' block.'
+  detailed:
+    ar: 'النقطتان '':'' مطلوبتان في سياقات معيّنة: بعد ''عندما <نمط>'' و''افتراضي'' في ''طابق''، وفي بعض تعريفات الخصائص. هذا الخطأ يظهر عندما يُتوقّع '':'' لكن يأتي رمز آخر.'
+    en: 'Colon '':'' is required in specific contexts: after ''عندما <pattern>'' and ''افتراضي'' in ''طابق'' blocks, and in some property definitions. This error appears when '':'' is expected but another
+      token arrives.'
+- code: SYN_INVALID_ASSIGNMENT
+  id: SYN008
+  category: syntactic
+  title:
+    ar: إسناد غير صالح
+    en: Invalid assignment
+  brief:
+    ar: لا يمكن الإسناد إلى '{target}'
+    en: Cannot assign to '{target}'
+  placeholders:
+  - target
+  fix_hint:
+    ar: الهدف '{target}' غير قابل للإسناد. لا تُسند إلى ثابت، رقم حرفي، أو تعبير حسابي. استخدم متغيراً أو حقل كائن أو فهرس مصفوفة.
+    en: Target '{target}' is not assignable. Don't assign to constants, literals, or arithmetic expressions. Use a variable, object field, or array index.
+  detailed:
+    ar: 'اليسار من ''='' يجب أن يكون قابلاً للتعديل (lvalue): متغيّر معرّف بـ''متغير''، حقل كائن (س.ص = ...)، أو عنصر مصفوفة (س[0] = ...). الثوابت والقيم الحرفية والتعبيرات الحسابية لا تقبل الإسناد.'
+    en: 'Left side of ''='' must be modifiable (lvalue): a ''متغير''-declared variable, object field (س.ص = ...), or array element (س[0] = ...). Constants, literals, and arithmetic expressions don''t accept
+      assignment.'
+- code: SYN_EXPECTED_EXPRESSION
+  id: SYN009
+  category: syntactic
+  title:
+    ar: تعبير متوقّع مفقود
+    en: Expected expression missing
+  brief:
+    ar: توقعت تعبيرًا {ctx_ar}
+    en: Expected an expression {ctx_en}
+  placeholders:
+  - ctx_ar
+  - ctx_en
+  fix_hint:
+    ar: أكمل الجملة بتعبير صالح (قيمة حرفية، متغير، استدعاء دالة، أو عملية).
+    en: Complete the statement with a valid expression (literal, variable, call, or operation).
+  detailed:
+    ar: وصل المحلّل النحوي إلى موضع تتطلّب فيه قواعد اللغة تعبيرًا {ctx_ar}، لكنّ الرمز الموجود لا يصلح بداية تعبير. التعبير الصالح يتكوّن من قيم (أرقام، نصوص، متغيّرات، استدعاءات) تربطها عوامل ثنائية أو أحادية.
+    en: The parser reached a position where the grammar requires an expression {ctx_en}, but the current token cannot start one. A valid expression consists of values (numbers, strings, variables, calls) connected by binary or unary operators.
+- code: SYN_EXPECTED_NAME
+  id: SYN010
+  category: syntactic
+  title:
+    ar: اسم متوقّع مفقود
+    en: Expected name missing
+  brief:
+    ar: توقعت اسم {what_ar} {ctx_ar}
+    en: Expected {what_en} name {ctx_en}
+  placeholders:
+  - what_ar
+  - what_en
+  - ctx_ar
+  - ctx_en
+  fix_hint:
+    ar: ضع معرّفًا صالحًا هنا (حروف عربية/لاتينية وأرقام وشرطة سفلية، لا يبدأ برقم ولا يكون كلمة مفتاحية).
+    en: Place a valid identifier here (Arabic/Latin letters, digits, underscore; not starting with a digit and not a keyword).
+  detailed:
+    ar: هذا الموضع يتطلّب معرّفًا يسمّي {what_ar}. ترك الموضع فارغًا أو وضع كلمة مفتاحية أو رمز مكانه يوقف بناء الشجرة النحوية.
+    en: This position requires an identifier naming a {what_en}. Leaving it empty or placing a keyword/symbol instead stops syntax-tree construction.
+- code: SYN_EXPECTED_KEYWORD
+  id: SYN011
+  category: syntactic
+  title:
+    ar: كلمة مفتاحية متوقّعة مفقودة
+    en: Expected keyword missing
+  brief:
+    ar: توقعت الكلمة المفتاحية '{kw}' {ctx_ar}
+    en: Expected keyword '{kw}' {ctx_en}
+  placeholders:
+  - kw
+  - ctx_ar
+  - ctx_en
+  fix_hint:
+    ar: أضف '{kw}' في الموضع المتوقّع، وتحقّق من إملاء الكلمة المفتاحية.
+    en: Add '{kw}' at the expected position and verify the keyword spelling.
+  detailed:
+    ar: قواعد لغة ص تتطلّب الكلمة المفتاحية '{kw}' {ctx_ar}. غيابها أو استبدالها بكلمة أخرى يمنع المحلّل من إكمال البنية الحالية.
+    en: Sad's grammar requires the keyword '{kw}' {ctx_en}. Omitting it or substituting another word prevents the parser from completing the current construct.
+- code: SYN_EXPECTED_SYMBOL
+  id: SYN012
+  category: syntactic
+  title:
+    ar: رمز متوقّع مفقود
+    en: Expected symbol missing
+  brief:
+    ar: توقعت '{symbol}' {ctx_ar}
+    en: Expected '{symbol}' {ctx_en}
+  placeholders:
+  - symbol
+  - ctx_ar
+  - ctx_en
+  fix_hint:
+    ar: أضف '{symbol}' في الموضع المشار إليه.
+    en: Add '{symbol}' at the indicated position.
+  detailed:
+    ar: قواعد اللغة تتطلّب الرمز '{symbol}' {ctx_ar}. تحقّق من توازن الأقواس وعلامات الترقيم في هذه الجملة.
+    en: The grammar requires the symbol '{symbol}' {ctx_en}. Check bracket balance and punctuation in this statement.
+- code: SYN_UNCLOSED_CONSTRUCT
+  id: SYN013
+  category: syntactic
+  title:
+    ar: بنية غير مغلقة
+    en: Unclosed construct
+  brief:
+    ar: '{construct_ar} لم تُغلَق — توقعت ''{closer}'''
+    en: Unclosed {construct_en} — expected '{closer}'
+  placeholders:
+  - construct_ar
+  - construct_en
+  - closer
+  fix_hint:
+    ar: أضف '{closer}' لإغلاق {construct_ar} قبل متابعة بقية الكود.
+    en: Add '{closer}' to close the {construct_en} before continuing.
+  detailed:
+    ar: كل بنية مفتوحة في لغة ص تحتاج إغلاقًا صريحًا. بدأت {construct_ar} ولم يعثر المحلّل على '{closer}' قبل نهاية النطاق أو الملف.
+    en: Every open construct in Sad needs explicit closing. A {construct_en} was started but the parser never found '{closer}' before the scope or file ended.
+- code: SYN_REMOVED_SYNTAX
+  id: SYN014
+  category: syntactic
+  title:
+    ar: صيغة أُزيلت من اللغة
+    en: Removed syntax
+  brief:
+    ar: الصيغة '{old}' أُزيلت من اللغة — استخدم '{new}' بدلًا منها
+    en: The syntax '{old}' was removed — use '{new}' instead
+  placeholders:
+  - old
+  - new
+  - example
+  fix_hint:
+    ar: |-
+      استخدم الصيغة المعتمدة '{new}'. مثال:
+      {example}
+    en: |-
+      Use the current form '{new}'. Example:
+      {example}
+  detailed:
+    ar: هذه الصيغة القديمة أُزيلت أثناء توحيد قواعد اللغة ولم تعد مقبولة. الصيغة المعتمدة الآن هي '{new}'.
+    en: This legacy form was removed during grammar unification and is no longer accepted. The supported form is '{new}'.
+- code: SYN_ADJECTIVE_ORDER
+  id: SYN015
+  category: syntactic
+  title:
+    ar: ترتيب الصفة والموصوف
+    en: Adjective order
+  brief:
+    ar: في لغة ص الصفة تأتي بعد الموصوف — اكتب '{right}' لا '{wrong}'
+    en: In Sad, adjectives follow nouns — write '{right}' not '{wrong}'
+  placeholders:
+  - wrong
+  - right
+  fix_hint:
+    ar: "بدّل الترتيب: ❌ '{wrong}' ⇒ ✅ '{right}'."
+    en: "Swap the order: ❌ '{wrong}' ⇒ ✅ '{right}'."
+  detailed:
+    ar: في العربية الصفة تلي الموصوف، ولغة ص تتبع القاعدة نفسها؛ فالمعدِّلات تأتي بعد الكلمة الموصوفة لا قبلها.
+    en: In Arabic, adjectives follow the noun they describe, and Sad follows the same rule; modifiers come after the described keyword, not before it.
+- code: SYN_NAME_HAS_SPACE
+  id: SYN016
+  category: syntactic
+  title:
+    ar: اسم يحتوي على مسافة
+    en: Name contains a space
+  brief:
+    ar: اسم {what_ar} '{name}' يحتوي على مسافة — الأسماء لا تقبل المسافات
+    en: The {what_en} name '{name}' contains a space — names cannot contain spaces
+  placeholders:
+  - what_ar
+  - what_en
+  - name
+  - suggested
+  fix_hint:
+    ar: "استخدم شرطة سفلية '_' بدل المسافة: {suggested}"
+    en: "Use an underscore '_' instead of the space: {suggested}"
+  detailed:
+    ar: المعرّف في لغة ص وحدة واحدة متّصلة؛ عند وجود مسافة يقرأ المحلّل معرّفين متتاليين ويتوقّف. اربط الكلمات بشرطة سفلية.
+    en: An identifier in Sad is one contiguous unit; a space makes the parser read two consecutive identifiers and stop. Join the words with an underscore.
+- code: SYN_RETURN_TYPE_AFTER_PARAMS
+  id: SYN017
+  category: syntactic
+  title:
+    ar: نوع الإرجاع بعد المعاملات
+    en: Return type after parameters
+  brief:
+    ar: لا يمكن تحديد نوع الإرجاع بعد قائمة المعاملات
+    en: Cannot specify the return type after the parameter list
+  placeholders:
+  - right_form
+  fix_hint:
+    ar: "ضع نوع الإرجاع قبل اسم الدالة: {right_form}"
+    en: "Place the return type before the function name: {right_form}"
+  detailed:
+    ar: "في لغة ص يُكتب نوع الإرجاع قبل اسم الدالة لا بعد أقواس المعاملات، على نسق الصيغة: {right_form}"
+    en: "In Sad, the return type is written before the function name, not after the parameter parentheses, following the form: {right_form}"
+- code: SYN_EMPTY_CONSTRUCT
+  id: SYN018
+  category: syntactic
+  title:
+    ar: بنية فارغة
+    en: Empty construct
+  brief:
+    ar: '{construct_ar} بلا محتوى — يلزم {required_ar} على الأقل'
+    en: Empty {construct_en} — at least {required_en} is required
+  placeholders:
+  - construct_ar
+  - construct_en
+  - required_ar
+  - required_en
+  fix_hint:
+    ar: أضف {required_ar} داخل {construct_ar}.
+    en: Add {required_en} inside the {construct_en}.
+  detailed:
+    ar: قواعد اللغة لا تسمح بترك {construct_ar} فارغة؛ لا بدّ من {required_ar} واحد على الأقل ليكون للبنية معنى.
+    en: The grammar does not allow an empty {construct_en}; at least one {required_en} is required for the construct to be meaningful.
+- code: SYN_UNKNOWN_ELEMENT
+  id: SYN019
+  category: syntactic
+  title:
+    ar: عنصر غير معروف
+    en: Unknown element
+  brief:
+    ar: '{what_ar} غير معروف: ''{found}'''
+    en: "Unknown {what_en}: '{found}'"
+  placeholders:
+  - what_ar
+  - what_en
+  - found
+  - allowed
+  fix_hint:
+    ar: "القيم المتاحة هنا: {allowed}"
+    en: "Available options here: {allowed}"
+  detailed:
+    ar: "القيمة '{found}' ليست من القيم المقبولة في هذا الموضع. قارن ما كتبته بالقائمة المتاحة: {allowed}"
+    en: "The value '{found}' is not among the accepted options at this position. Compare what you wrote with the available list: {allowed}"
+- code: SYN_INVALID_CONSTRUCT_FORM
+  id: SYN020
+  category: syntactic
+  title:
+    ar: بنية مخالفة للصيغة
+    en: Construct violates expected form
+  brief:
+    ar: بنية {construct_ar} غير صحيحة
+    en: Invalid {construct_en} syntax
+  placeholders:
+  - construct_ar
+  - construct_en
+  - form
+  fix_hint:
+    ar: 'الصيغة الصحيحة: {form}'
+    en: 'Correct form: {form}'
+  detailed:
+    ar: "تعذّر تحليل {construct_ar} وفق قواعد اللغة. قارن ما كتبته بالصيغة الصحيحة: {form}"
+    en: "Failed to parse the {construct_en} per the grammar. Compare what you wrote with the correct form: {form}"
+- code: SYN_PARSE_UNKNOWN_ERROR
+  id: SYN021
+  category: syntactic
+  title:
+    ar: خطأ تحليل غير معروف
+    en: Unknown parse error
+  brief:
+    ar: خطأ غير معروف أثناء التحليل النحوي
+    en: Unknown error during syntactic analysis
+  fix_hint:
+    ar: راجع الأسطر المحيطة بالموقع المُبلَّغ؛ وإن استمرّ الخطأ دون سبب ظاهر فالرجاء الإبلاغ عن علّة في المحلّل.
+    en: Review the lines around the reported location; if the error persists with no visible cause, please file a parser bug.
+  detailed:
+    ar: التقط المحلّل استثناءً غير متوقّع أثناء بناء الشجرة النحوية ولم يستطع نسبته إلى قاعدة محدّدة. غالبًا يسبق هذا الخطأ خطأ نحوي آخر أدقّ.
+    en: The parser caught an unexpected exception while building the syntax tree and could not attribute it to a specific rule. It is usually preceded by a more precise syntax error.
+- code: SYN_ADJECTIVE_GENDER
+  id: SYN022
+  category: syntactic
+  title:
+    ar: مطابقة الصفة للموصوف جنسًا
+    en: Adjective gender agreement
+  brief:
+    ar: مطابقة الجنس تقتضي '{right}' لا '{wrong}'
+    en: Gender agreement requires '{right}', not '{wrong}'
+  placeholders:
+  - wrong
+  - right
+  - note_ar
+  - note_en
+  fix_hint:
+    ar: "بدّل الصيغة: ❌ '{wrong}' ⇒ ✅ '{right}'."
+    en: "Swap the form: ❌ '{wrong}' ⇒ ✅ '{right}'."
+  detailed:
+    ar: في العربية الصفة تطابق الموصوف في الجنس، ولغة ص تتبع القاعدة نفسها؛ {note_ar}
+    en: In Arabic, adjectives agree with their nouns in gender, and Sad follows the same rule; {note_en}
+- code: SYN_DECL_NOT_ALLOWED_HERE
+  id: SYN023
+  category: syntactic
+  title:
+    ar: تصريح غير مسموح في هذا السياق
+    en: Declaration not allowed in this context
+  brief:
+    ar: '{decl_ar} لا يُعرَّف داخل {where_ar}'
+    en: '{decl_en} cannot be declared inside {where_en}'
+  placeholders:
+  - decl_ar
+  - decl_en
+  - where_ar
+  - where_en
+  - example
+  fix_hint:
+    ar: 'انقل التصريح إلى المستوى الأعلى: {example}'
+    en: 'Move the declaration to the top level: {example}'
+  detailed:
+    ar: قواعد اللغة لا تسمح بوضع {decl_ar} داخل {where_ar} — هذا الموضع يتطلّب تصريحات ذات جسم ترتبط بالسياق المحيط، بينما ينتمي هذا التصريح إلى المستوى الأعلى للبرنامج.
+    en: The grammar does not allow {decl_en} inside {where_en} — this position requires body-carrying declarations tied to the enclosing context, while this declaration belongs at the program's top level.
+- code: SYN_DOC_ORPHAN
+  id: SYN024
+  category: syntactic
+  title:
+    ar: توثيق يتيم
+    en: Orphan doc comment
+  brief:
+    ar: تعليق توثيق لا يلتصق بأي تصريح (يفصله سطر عن التصريح التالي أو ينتهي الملف بعده)
+    en: Doc comment does not attach to any declaration (a line separates it from the next declaration, or the file ends after it)
+  fix_hint:
+    ar: ضع التوثيق فوق التصريح مباشرة بلا أسطر فاصلة، أو حوّله إلى تعليق عادي بشرطة واحدة '#'.
+    en: Place the doc comment immediately above the declaration with no separating lines, or turn it into a plain '#' comment.
+  detailed:
+    ar: تعليقات التوثيق «##» و«#** **#» تُرفَق بالتصريح الذي يليها مباشرة. أي سطر فاصل بعدها (فارغ أو تعليق عادي) يقطع الالتصاق، وكذلك وقوعها في نهاية الملف بلا تصريح بعدها — فيُهمَل التوثيق مع هذا التحذير.
+    en: Doc comments «##» and «#** **#» attach to the declaration immediately following them. Any separating line after them (blank or a plain comment) breaks the attachment, as does reaching end-of-file with no declaration after them — the doc is dropped with this warning.
+- code: SYN_DOC_TRAILING
+  id: SYN025
+  category: syntactic
+  title:
+    ar: توثيق في ذيل سطر
+    en: Trailing doc comment
+  brief:
+    ar: تعليق توثيق في ذيل سطر كود يُعامَل تعليقًا عاديًا
+    en: Doc comment trailing a code line is treated as a plain comment
+  fix_hint:
+    ar: استعمل تعليقًا عاديًا '#' في ذيل السطر، أو ضع التوثيق «##» في سطر مستقل قبل التصريح.
+    en: Use a plain '#' comment at the end of the line, or put the «##» doc comment on its own line above the declaration.
+  detailed:
+    ar: تعليق التوثيق «##» الواقع بعد كود على السطر نفسه لا ينتمي إلى أي تصريح لاحق، ولو التُقط لالتصق خطأً بالتصريح التالي. لذلك يُعامَل تعليقًا عاديًا ويصدر هذا التحذير.
+    en: A «##» doc comment appearing after code on the same line belongs to no later declaration; if captured it would wrongly attach to the next one. It is therefore treated as a plain comment, and this warning is emitted.
+- code: SYN_DECORATOR_NOT_ALLOWED
+  id: SYN026
+  category: syntactic
+  title:
+    ar: مُزخرِف في موضع لا يقبله
+    en: Decorator in a position that rejects it
+  brief:
+    ar: المُزخرِف لا يُستخدم مع {target_ar}
+    en: A decorator cannot be applied to {target_en}
+  placeholders:
+  - target_ar
+  - target_en
+  fix_hint:
+    ar: 'المُزخرِفات تسبق تصريح دالة حصرًا. احذف المُزخرِف من هنا، أو انقله فوق تصريح دالة.'
+    en: 'Decorators may only precede a function declaration. Remove it here, or move it above a function declaration.'
+  detailed:
+    ar: المُزخرِف «@اسم» يلتصق بتصريح الدالة الذي يليه مباشرة ليغلّف سلوكها. وضعه فوق {target_ar} لا معنى له لأنّ المُزخرِف يحتاج دالّةً يغلّفها، فيرفضه المحلّل بدل أن يُهمله صامتًا.
+    en: A decorator «@name» attaches to the function declaration immediately following it in order to wrap its behavior. Placing it above {target_en} is meaningless because a decorator needs a function to wrap, so the parser rejects it rather than dropping it silently.
+- code: SYN_RESERVED_AS_DECL_NAME
+  id: SYN027
+  category: syntactic
+  title:
+    ar: كلمة محجوزة في موضع اسم التصريح
+    en: Reserved keyword in a declaration-name position
+  brief:
+    ar: '«{word}» كلمة محجوزة تبدأ جملة، فلا تصلح اسمًا لتصريح'
+    en: '«{word}» is a reserved statement-starting keyword and cannot name a declaration'
+  placeholders:
+  - word
+  fix_hint:
+    ar: 'اختر اسمًا غير محجوز، أو أضف إليه سابقة أو لاحقة تميّزه (مثل: «قيمة_المدى» بدل «نهاية»).'
+    en: 'Choose a non-reserved name, or qualify it with a prefix or suffix (e.g. «قيمة_المدى» instead of «نهاية»).'
+  detailed:
+    ar: |
+      الكلمات التي **تبدأ جملة** («إذا»، «بينما»، «لكل»، «طابق»، «عندما»، «ارجع»،
+      «توقف»، «استمر»، «حاول»، «امسك»، «نهاية» …) تبقى مقبولة **أسماءَ حقولٍ
+      وطرقٍ ووسائطَ مسمّاةً وبعد النقطة** — فلا لبس هناك — وتُرفض في مواضع
+      **اسم التصريح**: المتغيّر والثابت والدالّة ومتغيّرَي الحلقة ومعاملات الدوالّ
+      والطرق والبواني و«امسك». **يبقى دَينًا مُعلَنًا:** معامل لامدا السهم
+      أحاديّ المعامل «(نهاية) => …» يمرّ (مسار إعادة تفسير تعبيرٍ قائمةَ معاملات)،
+      وسلوكه صحيح لا ضارّ لأنّ الاسم يُقرأ في موضع تعبير لا جملة. والسبب أنّ
+      الاسم المصرَّح يُقرأ لاحقًا في **موضع الجملة**: بعد «متغير بينما = 9» يُقرأ
+      السطر «بينما = 5» حلقةً لا إسنادًا، و«ارجع نهاية» تتوقّف عند «نهاية»
+      فيصير الإرجاع فارغًا وما بعده كودًا في المستوى الأعلى (SEM018 في غير موضعه).
+      الرفض هنا أرخص من تشخيص مضلّل هناك.
+
+      **ما لا يُرفض عمدًا:** «صنف» — المعجم يجرّد الشدّة فيصير الفعل العربيّ
+      «صنّف» هو «صنف»، ومنعه يقتطع اسم دالّة مشروعًا. و«حالة» سياقيّة
+      (KW-CTX-009) فلا يُصدرها المعجم رمزًا محجوزًا أصلًا.
+    en: |
+      Keywords that **begin a statement** («إذا», «بينما», «لكل», «طابق», «عندما»,
+      «ارجع», «توقف», «استمر», «حاول», «امسك», «نهاية» …) remain usable as field
+      names, method names, named arguments and after a dot — no ambiguity arises
+      there — but are rejected in **declaration-name positions**: variable,
+      constant, function, both loop variables, and function/method/constructor/catch
+      parameters. **Declared debt:** the single-parameter arrow lambda «(نهاية) => …»
+      still passes (a distinct path that reinterprets an expression as a parameter
+      list); its behaviour is correct, not silently wrong. A declared name is later
+      read in **statement position**: after «متغير بينما = 9» the line «بينما = 5»
+      parses as a loop, and «ارجع نهاية» stops at «نهاية», emptying the return and
+      spilling the rest to top level (a misplaced SEM018). Rejecting here is cheaper
+      than misdiagnosing there.
+
+      **Deliberately not rejected:** «صنف» — the lexer strips the shadda, so the
+      legitimate Arabic verb «صنّف» becomes «صنف»; banning it would truncate a
+      valid function name. And «حالة» is contextual (KW-CTX-009), never emitted
+      as a reserved token.
+- code: SYN_PARENS_FORM_REMOVED
+  id: SYN028
+  category: syntactic
+  title:
+    ar: صيغة الأقواس أُزيلت من هذه البنية
+    en: The parenthesised form of this construct was removed
+  brief:
+    ar: '«{construct}» لا تُكتب بأقواس'
+    en: '«{construct}» is not written with parentheses'
+  placeholders:
+  - construct
+  fix_hint:
+    ar: 'احذف القوسين حول ما بعد «{construct}» واترك ما بينهما كما هو'
+    en: 'Remove the parentheses after «{construct}» and keep their contents as-is'
+  detailed:
+    ar: |
+      كانت هذه البنية تُكتب بأقواس حول عنصرها، ثمّ أُزيلت الصيغة توحيدًا لشكل الجمل
+      في اللغة: «إذا» و«بينما» تحتفظان بالأقواس لأنّ ما بينهما شرط، أمّا «لكل»
+      و«حالة» و«امسك» فما بعدها ليس شرطًا فلا قوسين. المحلّل يتابع بعد هذا الخطأ فلا
+      يُقطع التشخيص عند أوّل موضع، لكنّه **يُخرج رموزًا تابعة**: في حالة «لكل» يكون
+      التسلسل المقيس SYN028 ثمّ SYN001 ثمّ SYN030 ثمّ SYN001 — أربعة رموز سببها هذا
+      الرمز وحده، مُقاسةٌ لا مُفترَضة.
+    en: |
+      This construct used to take parentheses around its element; the form was removed
+      to unify statement shape. «إذا»/«بينما» keep their parentheses because what they
+      enclose is a condition; «لكل»/«حالة»/«امسك» do not. The parser keeps going so
+      diagnostics are not truncated at the first occurrence, but it does emit FOLLOW-ON codes:
+      for the for-each form the measured sequence is SYN028, SYN001, SYN030, SYN001 — four
+      codes whose sole cause is this one; measured, not assumed.
+- code: SYN_FOR_RANGE_MISSING_TO
+  id: SYN029
+  category: syntactic
+  title:
+    ar: حدّ النهاية مفقود في حلقة المدى
+    en: Missing range terminator in a counted loop
+  brief:
+    ar: 'توقّعت «{to_kw}» بعد بداية المدى في حلقة «{from_kw}»'
+    en: 'Expected «{to_kw}» after the range start in a «{from_kw}» loop'
+  placeholders:
+  - from_kw
+  - to_kw
+  - for_kw
+  fix_hint:
+    ar: 'اكتب المدى كاملًا: {for_kw} عدّاد {from_kw} بداية {to_kw} نهاية'
+    en: 'Write the full range: {for_kw} counter {from_kw} start {to_kw} end'
+  detailed:
+    ar: |
+      حلقة المدى تأخذ حدَّين اثنين لا حدًّا واحدًا، والمدى **شامل الطرفين**: «{from_kw} ١
+      {to_kw} ٣» تدور ثلاث مرّات. بغير «{to_kw}» لا يعرف المحلّل أين ينتهي تعبير
+      البداية فيبتلع ما بعده، ويظهر الخطأ عندئذٍ في موضع بعيد عن سببه.
+    en: |
+      A counted loop takes two bounds, and the range is **inclusive**: «{from_kw} 1
+      {to_kw} 3» iterates three times. Without «{to_kw}» the parser cannot tell where the
+      start expression ends, so it swallows what follows and the error surfaces far from
+      its cause.
+- code: SYN_FOR_MISSING_ITERATOR_KEYWORD
+  id: SYN030
+  category: syntactic
+  title:
+    ar: كلمة التكرار مفقودة بعد متغيّر الحلقة
+    en: Missing iteration keyword after the loop variable
+  brief:
+    ar: 'توقّعت «{in_kw}» أو «{from_kw}» بعد متغيّر حلقة «{for_kw}»'
+    en: 'Expected «{in_kw}» or «{from_kw}» after the «{for_kw}» loop variable'
+  placeholders:
+  - for_kw
+  - in_kw
+  - from_kw
+  - to_kw
+  fix_hint:
+    ar: 'للتكرار على مجموعة: {for_kw} عنصر {in_kw} مجموعة — وللمدى: {for_kw} عدّاد {from_kw} ١ {to_kw} ٣'
+    en: 'To iterate a collection: {for_kw} item {in_kw} collection — for a range: {for_kw} counter {from_kw} 1 {to_kw} 3'
+  detailed:
+    ar: |
+      لحلقة «{for_kw}» صيغتان لا ثالثة لهما: التكرار على مجموعة بـ«{in_kw}»، والمدى
+      العدديّ بـ«{from_kw} … {to_kw} …». وما بعد متغيّر الحلقة يجب أن يكون إحداهما، وإلّا
+      لم يعرف المحلّل ما الذي يدور عليه فيترك المجموعة فارغة.
+    en: |
+      The «{for_kw}» loop has exactly two forms: collection iteration with «{in_kw}», and a
+      numeric range with «{from_kw} … {to_kw} …». What follows the loop variable must be one of
+      them; otherwise the parser has nothing to iterate and leaves the collection empty.
+- code: SYN_MATCH_WRONG_ARM_KEYWORD
+  id: SYN031
+  category: syntactic
+  title:
+    ar: كلمة خاطئة في موضع ذراع المطابقة
+    en: Wrong keyword in a match-arm position
+  brief:
+    ar: '«{found}» لا تُستخدم داخل «{match_kw}»'
+    en: '«{found}» cannot be used inside «{match_kw}»'
+  placeholders:
+  - found
+  - match_kw
+  - when_kw
+  - default_kw
+  fix_hint:
+    ar: 'أذرع «{match_kw}» تبدأ بـ«{when_kw}» أو «{default_kw}» — استبدل «{found}» بإحداهما.'
+    en: 'Arms of «{match_kw}» start with «{when_kw}» or «{default_kw}» — replace «{found}» with one of them.'
+  detailed:
+    ar: |
+      «{match_kw}» و«{found}» بنيتان مختلفتان لا مترادفتان: «{found}» جملة تفرّع مستقلّة
+      أذرعها «{when_kw}»، و«{match_kw}» مطابقة أنماط أذرعها «{when_kw}» و«{default_kw}».
+      وهذا التشخيص **لا يتعافى**: بعده يتتابع SYN011 (توقّعت «{when_kw}») ثمّ SYN001، فيقرأ
+      المستعمل شلّالًا سببه واحد. الرمز الأوّل وحده هو الحقيقة، وما بعده تَبَعٌ له. (سلوكٌ
+      سابقٌ لتسجيل هذا الرمز، مُقاسٌ لا مُفترَض.)
+    en: |
+      «{match_kw}» and «{found}» are distinct constructs, not synonyms: «{found}» is a
+      standalone branching statement whose arms are «{when_kw}», while «{match_kw}» is
+      pattern matching whose arms are «{when_kw}» and «{default_kw}». This diagnostic does
+      NOT recover: SYN011 (expected «{when_kw}») and then SYN001 follow, so the user reads a
+      cascade with a single cause. Only the first code is the truth. (Pre-existing behaviour,
+      measured rather than assumed.)
+- code: SYN_DEFAULT_CLAUSE_NOT_LAST
+  id: SYN032
+  category: syntactic
+  title:
+    ar: بند «{default_kw}» ليس آخرَ بنود «{construct_kw}»
+    en: The «{default_kw}» clause is not the last one in «{construct_kw}»
+  brief:
+    ar: 'بعد «{default_kw}» جاء بند «{when_kw}» — و«{default_kw}» آخرُ البنود'
+    en: 'A «{when_kw}» clause follows «{default_kw}», which must come last'
+  placeholders:
+  - construct_kw
+  - when_kw
+  - default_kw
+  fix_hint:
+    ar: 'انقل بند «{default_kw}» إلى ما بعد كلّ بنود «{when_kw}» — فهو المُلتقِط الأخير.'
+    en: 'Move the «{default_kw}» clause after every «{when_kw}» clause — it is the final catch-all.'
+  detailed:
+    ar: |
+      «{default_kw}» هو المُلتقِط الذي يُطابِق ما لم تُطابِقه البنود قبله، فلا معنى لبندٍ
+      بعده. وقبل تسجيل هذا الرمز كان جسم «{default_kw}» **يبتلع** ما يليه في البناءين معًا:
+      ففي «حالة» يُقرأ «{when_kw}» اسمَ متغيّرٍ لا كلمةً مفتاحيّة، فيُنفِّذ المفسّر جسمَي
+      البندين معًا ثمّ يُخطئ SEM001 «متغيّر غير معرَّف» ويقول المصرّف Undefined variable؛
+      وفي «طابق» يقع التشخيص SYN001 على النقطتين «:» في السطر التالي. ثلاثة تشخيصات
+      تقود بعيدًا عن السبب الواحد. (سلوكٌ سابقٌ لتسجيل هذا الرمز، مُقاسٌ لا مُفترَض.)
+    en: |
+      «{default_kw}» is the catch-all matching whatever the preceding clauses did not, so a
+      clause after it is meaningless. Before this code was registered the «{default_kw}» body
+      **swallowed** what followed: «{when_kw}» was read as a variable name rather than a
+      keyword, so the interpreter ran both bodies and then reported SEM001 "undefined
+      variable" while the compiler said Undefined variable; in a match statement the
+      diagnostic instead landed as SYN001 on the colon of the following line. Three
+      diagnostics for one cause. (Pre-existing behaviour, measured rather than assumed.)

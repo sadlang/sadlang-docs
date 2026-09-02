@@ -1,0 +1,77 @@
+version: 1
+namespace_group: TypeCtor
+description_ar: بانيات الأنواع — بدون استيراد (4 دوال)
+description_en: Type constructors — no import required (4 functions)
+functions:
+- cpp_id: TO_INT
+  canonical: رقم
+  namespace: TypeCtor
+  arity:
+    min: 1
+    max: 1
+  category: TYPE_CONSTRUCTOR
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل إلى عدد صحيح
+  description_en: Convert to integer
+  params:
+  - قيمة
+  returns: رقم
+  lookup_table: TYPE_CONSTRUCTOR
+- cpp_id: TO_FLOAT
+  canonical: عشري
+  namespace: TypeCtor
+  arity:
+    min: 1
+    max: 1
+  category: TYPE_CONSTRUCTOR
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل إلى عدد عشري
+  description_en: Convert to float
+  params:
+  - قيمة
+  returns: عشري
+  lookup_table: TYPE_CONSTRUCTOR
+- cpp_id: TO_STRING
+  canonical: نص
+  namespace: TypeCtor
+  arity:
+    min: 1
+    max: 1
+  category: TYPE_CONSTRUCTOR
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل إلى نص
+  description_en: Convert to string
+  params:
+  - قيمة
+  returns: نص
+  lookup_table: TYPE_CONSTRUCTOR
+- cpp_id: TO_BOOL
+  canonical: منطقي
+  namespace: TypeCtor
+  arity:
+    min: 1
+    max: 1
+  category: TYPE_CONSTRUCTOR
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل إلى منطقي
+  description_en: Convert to boolean
+  params:
+  - قيمة
+  returns: منطقي
+  lookup_table: TYPE_CONSTRUCTOR

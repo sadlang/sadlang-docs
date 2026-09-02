@@ -1,0 +1,174 @@
+version: 1
+namespace_group: WebSocketClient
+description_ar: وحدة شبكة WebSocket (13 دالة)
+description_en: WebSocket client (13 functions)
+functions:
+- cpp_id: NEW_CLIENT
+  canonical: أنشئ_عميل_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء عميل WebSocket
+  description_en: New WS client
+  params: []
+  lookup_table: name_only
+- cpp_id: FREE_CLIENT
+  canonical: أزل_عميل_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحرير العميل
+  description_en: Free WS client
+  params: []
+  lookup_table: name_only
+- cpp_id: CONNECT
+  canonical: اتصل_بويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الاتصال
+  description_en: WS connect
+  params: []
+  lookup_table: name_only
+- cpp_id: CLOSE
+  canonical: أغلق_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إغلاق الاتصال
+  description_en: WS close
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_CONNECTED
+  canonical: هل_متصل_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل متصل؟
+  description_en: WS connected
+  params: []
+  lookup_table: name_only
+- cpp_id: SEND
+  canonical: أرسل_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرسال رسالة
+  description_en: WS send
+  params: []
+  lookup_table: name_only
+- cpp_id: PING
+  canonical: نبض_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إرسال ping
+  description_en: WS ping
+  params: []
+  lookup_table: name_only
+- cpp_id: RECEIVE
+  canonical: استقبل_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استقبال رسالة
+  description_en: WS receive
+  params: []
+  lookup_table: name_only
+- cpp_id: HAS_MESSAGE
+  canonical: يوجد_رسالة_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يوجد رسالة؟
+  description_en: WS has msg
+  params: []
+  lookup_table: name_only
+- cpp_id: GET_URL
+  canonical: رابط_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الرابط
+  description_en: WS URL
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST_ERROR
+  canonical: خطأ_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: آخر خطأ
+  description_en: WS last error
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_RECV_TIMEOUT
+  canonical: حدد_مهلة_استقبال_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مهلة الاستقبال
+  description_en: WS recv timeout
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_SEND_TIMEOUT
+  canonical: حدد_مهلة_إرسال_ويبسوكت
+  namespace: WebSocketClient
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مهلة الإرسال
+  description_en: WS send timeout
+  params: []
+  lookup_table: name_only

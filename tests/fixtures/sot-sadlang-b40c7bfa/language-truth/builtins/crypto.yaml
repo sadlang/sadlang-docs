@@ -1,0 +1,575 @@
+version: 1
+namespace_group: Crypto
+description_ar: وحدة تشفير (دوال هاش/MAC حديثة — بلايك3)
+description_en: Crypto module (modern hash/MAC functions — BLAKE3)
+functions:
+- cpp_id: BLAKE3_HASH
+  canonical: بلايك3
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يُرجع هاش BLAKE3 لنصّ كسلسلة ست عشريّة من 64 حرفًا (256 بت). BLAKE3 أحدث
+    وأسرع من SHA-256 (المستعمَل في هاش)، وذاتيّ التنفيذ بالكامل (بلا OpenSSL)
+    فيعمل على هدف الوضع الحرّ كذلك. التنفيذ مطابق حرفيًّا بين المفسّر
+    (interpreter/src/builtins/builtin_module_crypto.cpp) والمترجم
+    (tools/compiler/runtime/sad_embedded_runtime.c، دالّة sad_blake3_hash) —
+    نفس المدخل يُنتج نفس الهاش عبر كلا المحرّكين. مُتحقَّق مقابل شعاعات
+    BLAKE3 الرسميّة (test_vectors.json من مستودع BLAKE3-team) لمجموعة أطوال
+    مدخلات تغطّي المسارات الحرجة (كتلة واحدة/عدّة كتل/عدّة قطع في شجرة
+    Merkle الداخليّة).
+  description_en: >-
+    Returns the BLAKE3 hash of a string as a 64-character hex string (256
+    bits). BLAKE3 is newer and faster than SHA-256 (used by هاش), and fully
+    self-implemented (no OpenSSL), so it also works on the freestanding
+    target. Identical behavior between interpreter and compiler. Verified
+    against the official BLAKE3 test vectors across input-length boundaries
+    (single block / multi-block / multi-chunk Merkle tree).
+  params:
+    - نص — القيمة المراد حساب هاشها (تُحوَّل إلى نصّ عبر toString إن لم تكن نصًّا أصلًا).
+  examples:
+    - code: |
+        استورد تشفير
+        اطبع_سطر(بلايك3(""))
+      runnable: true
+  returns: نص
+  lookup_table: name_only
+- cpp_id: BLAKE3_KEYED_HASH
+  canonical: هاش_مفتاح
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    مصادقة رسالة (Message Authentication) عبر نمط BLAKE3 المُفتاح (keyed
+    mode) الرسميّ — أحدث وأبسط من بناء HMAC التقليديّ (لا يحتاج BLAKE3 حماية
+    HMAC من هجمات امتداد الطول length-extension، فالنمط المُفتاح جزء أصيل من
+    تصميم الخوارزميّة). المفتاح: إن كان طوله 32 بايت يُستعمَل مباشرة؛ غير ذلك
+    يُشتقّ منه مفتاح 32 بايت عبر بلايك3(مفتاح) أوّلًا. يُرجع سلسلة ست عشريّة
+    من 64 حرفًا. مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Message authentication via BLAKE3's native keyed mode — modern and
+    simpler than classic HMAC (BLAKE3 doesn't need HMAC's length-extension
+    protection; keying is intrinsic to the design). If the key is exactly 32
+    bytes it's used directly; otherwise a 32-byte key is derived via
+    بلايك3(key) first. Returns a 64-character hex string. Identical behavior
+    between interpreter and compiler.
+  params:
+    - نص — الرسالة المراد مصادقتها.
+    - مفتاح — المفتاح السرّيّ (أيّ طول؛ يُشتقّ منه مفتاح 32 بايت عند الحاجة).
+  examples:
+    - code: |
+        استورد تشفير
+        اطبع_سطر(هاش_مفتاح("رسالة", "سرّ"))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: KDF_PBKDF2
+  canonical: اشتق_مفتاح_مرور
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشتقّ مفتاحًا بطيء الحساب من كلمة مرور عبر PBKDF2-HMAC-SHA256 (RFC
+    2898/8018) — مصمَّم عمدًا ليكون بطيئًا (عدد التكرارات معامل تحكّم صريح)
+    فيقاوم هجمات التخمين بالقوّة الغاشمة/GPU بخلاف استعمال هاش مباشرة على
+    كلمة المرور (بلا ملح، بلا إبطاء). يُرجع مفتاحًا 32 بايت (256 بت) كسلسلة
+    ست عشريّة من 64 حرفًا. خوارزميّة الاشتقاق مطابقة حرفيًّا بين المفسّر
+    والمترجم (نفس SHA-256/HMAC/PBKDF2 ذاتيّ التنفيذ)، ومُتحقَّقة مقابل
+    تنفيذ hashlib.pbkdf2_hmac المدقَّق في بايثون (ومقابل بناء HMAC يدويّ
+    مستقلّ) عبر حالات تغطّي تكرارًا واحدًا، عدّة كتل ناتج، كلمة مرور فارغة،
+    وبايتات صفريّة داخل المدخلات. **عدد_التكرارات يجب أن يكون أكبر من صفر**
+    (خطأ صريح خلاف ذلك، قابل للالتقاط بـحاول/امسك على المحرِّكين معًا — وقت
+    تشغيل المترجم يُرجع NULL فيرفع مولّد LLVM استثناءً عبر __sad_raise، نفس
+    آليّة عقود «يتطلب»).
+  description_en: >-
+    Derives a slow, brute-force-resistant key from a password via
+    PBKDF2-HMAC-SHA256 (RFC 2898/8018) — deliberately slow (iteration count
+    is an explicit tuning knob), unlike hashing the password directly (no
+    salt, no slowdown). Returns a 32-byte (256-bit) key as a 64-character hex
+    string. The derivation algorithm is identical between interpreter and
+    compiler (same self-implemented SHA-256/HMAC/PBKDF2), verified against
+    Python's audited hashlib.pbkdf2_hmac (and an independent manual
+    HMAC-based construction) across single-iteration, multi-block, empty
+    password, and null-byte-containing input cases. **iterations must be
+    greater than zero** (explicit error otherwise, catchable via حاول/امسك on
+    both engines — the compiler runtime returns NULL and the LLVM codegen
+    raises a catchable exception via __sad_raise, the same mechanism used for
+    `يتطلب` contracts).
+  params:
+    - كلمة_المرور — كلمة المرور المراد اشتقاق مفتاح منها.
+    - ملح — قيمة عشوائيّة فريدة لكل مستخدم/سجلّ (يُفضَّل عبر عشوائي_آمن).
+    - عدد_التكرارات — عدد جولات PBKDF2؛ كلما زاد كان الاشتقاق أبطأ وأصعب تخمينًا (يُنصح بـ100000 فأكثر).
+  examples:
+    - code: |
+        استورد تشفير
+        اطبع_سطر(اشتق_مفتاح_مرور("كلمة_سرّ", "ملح", 1))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: KDF_HKDF
+  canonical: اشتق_مفتاح
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشتقّ مفتاحًا فرعيًّا بطول محدَّد من سرّ مشترك عبر HKDF-SHA256 (RFC
+    5869: Extract-then-Expand) — يُستعمَل لتوسيع/تقسيم سرّ واحد (كناتج
+    تبادل مفاتيح) إلى عدّة مفاتيح مستقلّة لأغراض مختلفة (سياق الاستخدام
+    يفصل بينها)، بخلاف اشتق_مفتاح_مرور المصمَّم للبطء أمام تخمين كلمات
+    المرور. يُرجع سلسلة ست عشريّة طولها ضعف طول المخرَج المطلوب بالبايت.
+    خوارزميّة الاشتقاق مطابقة حرفيًّا بين المفسّر والمترجم، ومُتحقَّقة
+    حرفيًّا مقابل شعاعات RFC 5869 الرسميّة الثلاثة (Appendix A: مدخلات
+    عاديّة، مدخلات طويلة، ملح/سياق فارغان). **الطول محدود بين 1 و8160 بايت**
+    (255 × 32 بايت، حدّ HKDF-Expand في RFC 5869 §2.3 — عدّاد الكتلة بايت
+    واحد فيلتفّ صامتًا فوق هذا الحدّ)؛ خطأ صريح خارج هذا المدى، قابل للالتقاط
+    بـحاول/امسك على المحرِّكين معًا (نفس آليّة اشتق_مفتاح_مرور عبر __sad_raise).
+  description_en: >-
+    Derives a fixed-length subkey from a shared secret via HKDF-SHA256 (RFC
+    5869: Extract-then-Expand) — used to expand/split one secret (e.g. a key
+    exchange output) into several independent keys for different purposes
+    (the info/context argument separates them), unlike
+    اشتق_مفتاح_مرور which is deliberately slow for password guessing
+    resistance. Returns a hex string twice the requested output length in
+    bytes. The derivation algorithm is identical between interpreter and
+    compiler, verified byte-for-byte against all three official RFC 5869
+    Appendix A test vectors (normal-length inputs, long inputs, empty
+    salt/info). **Length is bounded to 1–8160 bytes** (255 × 32-byte hash
+    length, the RFC 5869 §2.3 HKDF-Expand limit — the one-byte block counter
+    silently wraps beyond this); explicit error outside this range, catchable
+    via حاول/امسك on both engines (same __sad_raise mechanism as
+    اشتق_مفتاح_مرور).
+  params:
+    - سرّ — السرّ المشترك المصدر (input keying material).
+    - ملح — قيمة اختياريّة تُقوّي الاستخراج (يجوز نصًّا فارغًا).
+    - سياق — معلومات سياق الاستخدام تفصل مخرَجات مختلفة عن نفس السرّ (يجوز نصًّا فارغًا).
+    - الطول — طول المفتاح المُشتقّ بالبايت (1–8160).
+  examples:
+    - code: |
+        استورد تشفير
+        اطبع_سطر(اشتق_مفتاح("سرّ_مشترك", "ملح", "سياق", 16))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: AEAD_ENCRYPT
+  canonical: شفر_موثق
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    تشفير موثَّق (AEAD) عبر ChaCha20-Poly1305 حسب RFC 8439 (IETF) — ذاتيّ
+    التنفيذ بالكامل (بلا OpenSSL/libsodium). بخلاف شفّر (SHA-256-CTR بلا
+    مصادقة) يُنتج شفّر_موثّق وسم مصادقة Poly1305 يكشف أيّ عبث بالنصّ المشفَّر
+    عند فكّه. اختير ChaCha20 على AES لأنّه ARX فقط (جمع/دوران/XOR) بلا جداول
+    S-box، فلا قناة توقيت جانبيّة تعتمد على البيانات في تنفيذ محمول بلا تسريع
+    عتاديّ (AES-NI). المفتاح: يُستعمَل مباشرةً إن كان طوله 32 بايت، وإلّا
+    يُشتقّ منه مفتاح 32 بايت عبر SHA-256(مفتاح). يُولَّد nonce عشوائيّ 12 بايت
+    جديد لكلّ استدعاء (عبر CSPRNG النظام على الأهداف المستضافة)، فتشفير النصّ
+    نفسه مرّتين يُنتج مغلَّفين مختلفين — خاصّيّة أمان مقصودة لا خلل. المغلَّف
+    سلسلة ست عشريّة: [nonce ‏12 بايت][النصّ المشفَّر][وسم Poly1305 ‏16 بايت].
+    لا معامل AAD في سطح اللغة (يُعامَل AAD طوله صفرًا حسب RFC 8439). التنفيذ
+    مطابق حرفيًّا بين المفسّر والمترجم، ومُتحقَّق حرفيًّا مقابل شعاعات RFC 8439
+    الرسميّة (§2.3.2 كتلة ChaCha20، §2.4.2 التشفير، §2.5.2 Poly1305، §2.6.2
+    توليد مفتاح Poly1305، §2.8.2 شعاع AEAD الكامل).
+  description_en: >-
+    Authenticated encryption (AEAD) via ChaCha20-Poly1305 per RFC 8439
+    (IETF), fully self-implemented (no OpenSSL/libsodium). Unlike شفّر
+    (unauthenticated SHA-256-CTR), شفّر_موثّق produces a Poly1305
+    authentication tag that detects any tampering with the ciphertext on
+    decryption. ChaCha20 was chosen over AES because it is ARX-only
+    (add-rotate-xor) with no S-box tables, hence no data-dependent timing
+    side channel in a portable implementation without hardware acceleration
+    (AES-NI). Key: used directly if exactly 32 bytes, otherwise a 32-byte
+    key is derived via SHA-256(key). A fresh random 12-byte nonce is
+    generated per call (via the OS CSPRNG on hosted targets), so encrypting
+    the same plaintext twice yields two different envelopes — an intended
+    security property, not a bug. The envelope is a hex string: [12-byte
+    nonce][ciphertext][16-byte Poly1305 tag]. No AAD parameter in the
+    language surface (AAD is treated as length-zero per RFC 8439).
+    Byte-identical between interpreter and compiler, verified against the
+    official RFC 8439 vectors (§2.3.2 ChaCha20 block, §2.4.2 encryption,
+    §2.5.2 Poly1305, §2.6.2 Poly1305 key generation, §2.8.2 full AEAD).
+  params:
+    - نص — النصّ الأصليّ المراد تشفيره ومصادقته.
+    - مفتاح — مفتاح التشفير (أيّ طول؛ يُشتقّ منه مفتاح 32 بايت عبر SHA-256 عند الحاجة).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير مغلف = شفر_موثق("سرّ حسّاس", "مفتاح_كلمة_مرور")
+        اطبع_سطر(فك_تشفير_موثق(مغلف, "مفتاح_كلمة_مرور"))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: AEAD_DECRYPT
+  canonical: فك_تشفير_موثق
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يفكّ ويصادِق مغلَّفًا أنتجه شفّر_موثّق (ChaCha20-Poly1305، RFC 8439):
+    يُعيد حساب وسم Poly1305 على النصّ المشفَّر ويقارنه بالوسم المُضمَّن بزمن
+    ثابت؛ عند التطابق يفكّ ويُرجع النصّ الأصليّ. غرض الدالّة الأساسيّ كشف
+    العبث، لذا — بخلاف فك_تشفير الذي يُرجع مدخله كما هو صامتًا على خطأ تنسيق
+    (تباعد موثَّق سابق) — يفشل فك_تشفير_موثّق **فشلًا صريحًا** عند فشل
+    المصادقة أو تشوُّه المغلَّف (hex غير صالح/طول أقصر من 28 بايت)، ولا يُرجع
+    أبدًا نصًّا مُحرَّفًا صامتًا. الفشل **قابل للالتقاط بـحاول/امسك على
+    المحرِّكين معًا**: وقت تشغيل المترجم (`sad_security_aead_decrypt` في
+    sad_embedded_runtime.c) يُرجع NULL عند الفشل بدل exit(1) سابقًا، ومولّد
+    LLVM (`security_builtins_ops.cpp`) يفحص NULL بعد النداء ويرفع استثناءً
+    قابلًا للالتقاط عبر `__sad_raise` — نفس آليّة عقود «يتطلب» (Fix BF-04)
+    مُعاد استعمالها هنا لأوّل مرّة لدالّة RUNTIME_CALL خام. التنفيذ مطابق
+    حرفيًّا بين المحرِّكين ومُتحقَّق مقابل شعاعات RFC 8439 (انظر شفّر_موثّق).
+  description_en: >-
+    Decrypts and authenticates an envelope produced by شفّر_موثّق
+    (ChaCha20-Poly1305, RFC 8439): recomputes the Poly1305 tag over the
+    ciphertext and compares it against the embedded tag in constant time; on
+    match it decrypts and returns the original plaintext. The function's core
+    purpose is tamper detection, so — unlike فك_تشفير, which silently returns
+    its input unchanged on a format error (a previously documented
+    divergence) — فك_تشفير_موثّق **fails explicitly** on authentication
+    failure or a malformed envelope (invalid hex / shorter than 28 bytes),
+    and never silently returns corrupted plaintext. The failure is
+    **catchable via حاول/امسك on both engines**: the compiler runtime
+    (`sad_security_aead_decrypt` in sad_embedded_runtime.c) now returns NULL
+    on failure instead of the previous exit(1), and the LLVM codegen
+    (`security_builtins_ops.cpp`) checks for NULL after the call and raises a
+    catchable exception via `__sad_raise` — the same mechanism already used
+    for `يتطلب` contracts (Fix BF-04), reused here for the first time for a
+    plain-C RUNTIME_CALL function. Byte-identical between engines, verified
+    against the RFC 8439 vectors (see شفّر_موثّق).
+  params:
+    - مغلّف — المغلَّف الست عشريّ الذي أنتجه شفّر_موثّق.
+    - مفتاح — نفس المفتاح المُستعمَل في التشفير (مفتاح خاطئ ⇒ فشل مصادقة).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير مغلف = شفر_موثق("رسالة", "مفتاحي")
+        اطبع_سطر(فك_تشفير_موثق(مغلف, "مفتاحي"))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: KDF_ARGON2ID
+  canonical: أرجون2
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشتقّ مفتاحًا صعب الحساب ذاكرةً وزمنًا معًا من كلمة مرور عبر Argon2id
+    (RFC 9106، الفائز بمسابقة Password Hashing Competition) — بخلاف
+    اشتق_مفتاح_مرور (PBKDF2) الذي يُبطئ بالزمن فقط، يتطلّب Argon2id أيضًا
+    تخصيص كمّيّة ذاكرة كبيرة أثناء الاشتقاق، فيقاوم تسريع الاختراق بعتاد
+    مخصَّص (ASIC/GPU) بشكل أقوى من PBKDF2. التوازي (parallelism) ثابت على 1
+    عمدًا (يبسّط التنفيذ، يتجنّب تعقيد التزامن متعدّد الخيوط في وقت
+    التشغيل المضمَّن). يُرجع مفتاحًا 32 بايت (256 بت) كسلسلة ست عشريّة من
+    64 حرفًا. خوارزميّة الاشتقاق (بما فيها BLAKE2b الداخليّة، RFC 7693)
+    مطابقة حرفيًّا بين المفسّر والمترجم، ومُتحقَّقة بايتًا بايت مقابل
+    libargon2 (عبر ربط argon2-cffi بايثون) عبر حالات تغطّي تكلفة ذاكرة/عدد
+    تكرارات/أطوال كلمة مرور وملح متنوّعة، **بما فيها تكلفة ذاكرة غير مضاعِفة
+    لـ4** (كشفت أنّ التجزئة الأوّليّة H0 كانت تستعمل خطأً قيمة تكلفة الذاكرة
+    المقرَّبة داخليًّا `m'` بدل القيمة الخام المُدخَلة — عِلَّة صامتة رصدتها
+    مراجعة أميليا فقط، لأنّ كل الشعاعات الأولى استعملت أطوالًا مضاعِفة لـ4
+    صدفة، فأنتجت مفاتيح صحيحة الشكل لكنها غير متوافقة مع RFC 9106 كلّما لم
+    تكن تكلفة الذاكرة مضاعِفة لـ4؛ أُصلحت قبل الدمج). **تكلفة_الذاكرة ≥ 8 (كيلوبايت)،
+    عدد_التكرارات ≥ 1، طول الملح ≥ 8 بايت** (الحدّ الأدنى الموصى به في
+    RFC 9106 §3.1 لمقاومة هجمات قاموس الملح المشترك)؛ خطأ صريح خارج هذه
+    الشروط، قابل للالتقاط بـحاول/امسك على المحرِّكين معًا (نفس آليّة
+    اشتق_مفتاح_مرور واشتق_مفتاح عبر __sad_raise). هذه الدالّة مُدرَجة رغم أنّ نصّ RFC توسيع مكتبة التشفير
+    الأصليّ أجّلها عمدًا خارج نطاقه الأوّليّ — أُدرِجت بطلب صريح من المالك.
+  description_en: >-
+    Derives a memory-hard AND time-hard key from a password via Argon2id
+    (RFC 9106, the Password Hashing Competition winner) — unlike
+    اشتق_مفتاح_مرور (PBKDF2), which only slows down via time, Argon2id also
+    requires allocating a large amount of memory during derivation, resisting
+    dedicated-hardware (ASIC/GPU) cracking acceleration more strongly than
+    PBKDF2. Parallelism is fixed to 1 deliberately (simplifies the
+    implementation, avoids multi-threading complexity in the embedded
+    runtime). Returns a 32-byte (256-bit) key as a 64-character hex string.
+    The derivation algorithm (including the internal BLAKE2b, RFC 7693) is
+    identical between interpreter and compiler, verified byte-for-byte
+    against libargon2 (via the argon2-cffi Python binding) across varying
+    memory cost, iteration count, and password/salt length cases.
+    **memory_cost ≥ 8 (KiB), iterations ≥ 1, salt length ≥ 8 bytes** (the
+    RFC 9106 §3.1 recommended minimum, resisting shared-salt dictionary
+    attacks); explicit error outside these bounds, catchable via حاول/امسك on
+    both engines (same __sad_raise mechanism as اشتق_مفتاح_مرور and
+    اشتق_مفتاح). This function is included even though the
+    original crypto-library-expansion RFC deliberately deferred it out of
+    its initial scope — included now at the owner's explicit request.
+  params:
+    - كلمة_المرور — كلمة المرور المراد اشتقاق مفتاح منها.
+    - ملح — قيمة عشوائيّة فريدة لكل مستخدم/سجلّ، 8 بايت على الأقلّ (يُفضَّل عبر عشوائي_آمن).
+    - تكلفة_الذاكرة — كمّيّة الذاكرة المطلوبة بالكيلوبايت (8 فأكثر؛ يُنصح بعشرات الآلاف لكلمات المرور).
+    - عدد_التكرارات — عدد جولات المرور على الذاكرة (1 فأكثر؛ يُنصح بـ2 أو 3 مع تكلفة ذاكرة كبيرة).
+  examples:
+    - code: |
+        استورد تشفير
+        اطبع_سطر(أرجون2("كلمة_سرّ", "ملح_ثماني_بايت", 8, 1))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: X25519_KEYGEN_PRIV
+  canonical: ولد_مفتاح_خاص_x25519
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يولّد مفتاحًا خاصًّا جديدًا لتبادل مفاتيح X25519 (RFC 7748): 32 بايت عشوائيّة
+    من مولّد عشوائيّة آمن (CSPRNG النظام)، تُرجَع كسلسلة ست عشريّة من 64 حرفًا.
+    المفتاح العامّ المقابل يُشتقّ حتميًّا عبر اشتق_مفتاح_عام_x25519. صُمِّمت
+    الواجهة كدالّتين منفصلتين (توليد خاصّ + اشتقاق عامّ) بدل إرجاع كائن بحقلين،
+    لأنّ كلّ مدمج تشفير في هذه المكتبة عقده «سلسلة تدخل ⇒ سلسلة تخرج» على
+    المحرّكين معًا (مفسّر ومترجم)، فلا حاجة لآليّة تعليب كائن متعدّد الحقول عبر
+    المحرّكين. المفتاح العامّ دالّة حتميّة للخاصّ (تقييد سلميّ + ضرب بالنقطة
+    الأساس)، فالفصل بلا خسارة أمان. مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Generates a new X25519 (RFC 7748) private key: 32 random bytes from a secure
+    CSPRNG, returned as a 64-character hex string. The matching public key is
+    derived deterministically via اشتق_مفتاح_عام_x25519. The surface is split
+    into two functions (private generation + public derivation) instead of
+    returning a two-field object, because every crypto builtin in this library
+    is a string-in/string-out contract on both engines; the public key is a
+    deterministic function of the private key (scalar clamp + base-point
+    multiply), so the split loses no security. Identical between engines.
+  params: []
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_x25519()
+        اطبع_سطر(طول(خاص))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: X25519_DERIVE_PUB
+  canonical: اشتق_مفتاح_عام_x25519
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشتقّ المفتاح العامّ لتبادل X25519 من مفتاح خاصّ (RFC 7748 §5): تقييد سلميّ
+    ثمّ ضرب بالنقطة الأساس u=9. المدخل مفتاح خاصّ ست عشريّ (64 حرفًا = 32 بايت)؛
+    المخرَج المفتاح العامّ ست عشريّ (64 حرفًا). المدخل غير الصالح (طول خاطئ أو
+    حروف غير ست عشريّة) خطأ صريح. مُتحقَّق مقابل شعاع RFC 7748 §6.1 (مفاتيح Alice
+    وBob العامّة). مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Derives the X25519 public key from a private key (RFC 7748 §5): scalar clamp
+    then base-point (u=9) multiplication. Input: a 64-hex-char (32-byte) private
+    key; output: a 64-hex-char public key. Malformed input (wrong length or
+    non-hex) is an explicit error. Verified against RFC 7748 §6.1 (Alice/Bob
+    public keys). Identical between engines.
+  params:
+    - مفتاح_خاص — المفتاح الخاصّ الست عشريّ (64 حرفًا = 32 بايت).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_x25519()
+        اطبع_سطر(طول(اشتق_مفتاح_عام_x25519(خاص)))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: X25519_EXCHANGE
+  canonical: تبادل_مفتاح
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    تبادل مفاتيح ديفي-هيلمان على منحنى Curve25519 (X25519، RFC 7748): يضرب
+    المفتاحَ الخاصّ بالمفتاح العامّ للطرف الآخر (سلّم مونتغومري بزمن ثابت) فيُنتج
+    سرًّا مشتركًا 32 بايت (سلسلة ست عشريّة 64 حرفًا) يتّفق عليه الطرفان دون تبادله.
+    كلا المدخلين ست عشريّان (64 حرفًا لكلٍّ)؛ مدخل غير صالح خطأ صريح. **فحص أمنيّ
+    إلزاميّ (RFC 7748 §6.1): يُرفض بخطأ أيّ سرّ مشترك كلّه أصفار** — ناتج عن
+    مفاتيح عامّة منخفضة الرتبة (low-order) قد تُمرَّر خبيثًا لإجبار سرّ متوقَّع.
+    السرّ الخامّ لا يُستعمَل مفتاحًا مباشرةً عادةً بل يُمرَّر عبر اشتق_مفتاح (HKDF).
+    مُتحقَّق مقابل شعاعات RFC 7748 §5.2 و§6.1. مطابق حرفيًّا بين المفسّر والمترجم،
+    بما في ذلك آليّة الفشل: الخطأ قابل للالتقاط بـحاول/امسك على المحرِّكين معًا
+    (وقت تشغيل المترجم يُرجع NULL فيرفع مولّد LLVM استثناءً عبر __sad_raise).
+  description_en: >-
+    Diffie-Hellman key exchange on Curve25519 (X25519, RFC 7748): multiplies a
+    private key by the peer's public key (constant-time Montgomery ladder),
+    producing a 32-byte shared secret (64-hex string) both parties agree on
+    without transmitting it. Both inputs are hex (64 chars each); malformed input
+    is an explicit error. **Mandatory security check (RFC 7748 §6.1): an
+    all-zero shared secret is rejected with an error** — it results from
+    low-order public keys that can be maliciously supplied to force a predictable
+    secret. The raw secret is normally passed through اشتق_مفتاح (HKDF) rather
+    than used directly as a key. Verified against RFC 7748 §5.2 and §6.1.
+    Identical between engines, including the failure mechanism: the error is
+    catchable via حاول/امسك on both engines (the compiler runtime returns
+    NULL and the LLVM codegen raises a catchable exception via __sad_raise).
+  params:
+    - مفتاح_خاص — مفتاحك الخاصّ الست عشريّ (64 حرفًا).
+    - مفتاح_عام_الطرف_الآخر — المفتاح العامّ للطرف الآخر الست عشريّ (64 حرفًا).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير أ_خاص = ولّد_مفتاح_خاص_x25519()
+        متغير ب_خاص = ولّد_مفتاح_خاص_x25519()
+        متغير ب_عام = اشتق_مفتاح_عام_x25519(ب_خاص)
+        اطبع_سطر(طول(تبادل_مفتاح(أ_خاص, ب_عام)))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: ED25519_KEYGEN_PRIV
+  canonical: ولد_مفتاح_خاص_توقيع
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يولّد بذرة مفتاح خاصّ جديدة لتوقيع Ed25519 (RFC 8032): 32 بايت عشوائيّة من
+    مولّد عشوائيّة آمن، تُرجَع كسلسلة ست عشريّة من 64 حرفًا. المفتاح العامّ يُشتقّ
+    حتميًّا عبر اشتق_مفتاح_عام_توقيع. نفس منطق فصل الدالّتين المعتمَد في
+    ولّد_مفتاح_خاص_x25519 (سلسلة تدخل/تخرج على المحرّكين، والعامّ حتميّ للخاصّ).
+    مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Generates a new Ed25519 (RFC 8032) private key seed: 32 random bytes from a
+    secure CSPRNG, returned as a 64-character hex string. The public key is
+    derived deterministically via اشتق_مفتاح_عام_توقيع. Same split-function
+    rationale as ولّد_مفتاح_خاص_x25519 (string-in/string-out on both engines;
+    public is deterministic from private). Identical between engines.
+  params: []
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_توقيع()
+        اطبع_سطر(طول(خاص))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: ED25519_DERIVE_PUB
+  canonical: اشتق_مفتاح_عام_توقيع
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشتقّ المفتاح العامّ لتوقيع Ed25519 من بذرة مفتاح خاصّ (RFC 8032 §5.1.5):
+    SHA-512 للبذرة ثمّ تقييد ثمّ ضرب بالنقطة الأساس وضغط النقطة. المدخل بذرة
+    خاصّة ست عشريّة (64 حرفًا = 32 بايت)؛ المخرَج مفتاح عامّ ست عشريّ (64 حرفًا).
+    مدخل غير صالح خطأ صريح. مُتحقَّق مقابل شعاعات RFC 8032 §7.1 (TEST 1/2/3).
+    مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Derives the Ed25519 public key from a private-key seed (RFC 8032 §5.1.5):
+    SHA-512 of the seed, then clamp, then base-point multiply and point
+    compression. Input: a 64-hex-char (32-byte) seed; output: a 64-hex-char
+    public key. Malformed input is an explicit error. Verified against RFC 8032
+    §7.1 (TEST 1/2/3). Identical between engines.
+  params:
+    - مفتاح_خاص — بذرة المفتاح الخاصّ الست عشريّة (64 حرفًا = 32 بايت).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_توقيع()
+        اطبع_سطر(طول(اشتق_مفتاح_عام_توقيع(خاص)))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: ED25519_SIGN
+  canonical: وقع
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يوقّع رسالة بمفتاح Ed25519 خاصّ (RFC 8032 §5.1.6): توقيع حتميّ (النتر مشتقّ
+    من هاش المفتاح والرسالة، لا عشوائيّة) طوله 64 بايت (سلسلة ست عشريّة 128 حرفًا).
+    التوقيع نفسه لنفس (الرسالة، المفتاح) في كلّ مرّة. المدخلان: الرسالة (نصّ)
+    والمفتاح الخاصّ الست عشريّ (64 حرفًا)؛ مفتاح غير صالح خطأ صريح. يُتحقَّق منه
+    عبر تحقق_توقيع بالمفتاح العامّ المقابل. مُتحقَّق مقابل شعاعات RFC 8032 §7.1.
+    مطابق حرفيًّا بين المفسّر والمترجم.
+  description_en: >-
+    Signs a message with an Ed25519 private key (RFC 8032 §5.1.6): a
+    deterministic signature (the nonce is derived from a hash of the key and
+    message, no randomness) of 64 bytes (128-hex string). The same (message,
+    key) always yields the same signature. Inputs: the message (text) and the
+    64-hex-char private key; an invalid key is an explicit error. Verified with
+    تحقق_توقيع using the matching public key. Validated against RFC 8032 §7.1.
+    Identical between engines.
+  params:
+    - رسالة — الرسالة المراد توقيعها.
+    - مفتاح_خاص — بذرة المفتاح الخاصّ الست عشريّة (64 حرفًا = 32 بايت).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_توقيع()
+        اطبع_سطر(طول(وقّع("رسالة", خاص)))
+      runnable: true
+  lookup_table: name_only
+- cpp_id: ED25519_VERIFY
+  canonical: تحقق_توقيع
+  namespace: Crypto
+  category: MODULE_FUNCTION
+  require_import: true
+  module: CRYPTO
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يتحقّق من توقيع Ed25519 (RFC 8032 §5.1.7): يُرجع صحيح إن كان التوقيع صالحًا
+    للرسالة والمفتاح العامّ، وخطأ خلاف ذلك. **دالّة استعلام لا بوّابة: لا ترمي
+    استثناءً ولا تنهي البرنامج على الفشل** — التوقيع الفاسد أو المدخل المشوَّه
+    (طول خاطئ، حروف غير ست عشريّة، توقيع غير قانونيّ S≥L) كلّها تُرجِع خطأ، إذ
+    غرض الدالّة أصلًا فحص مدخلات غير موثوقة. المدخلات: الرسالة، والتوقيع الست
+    عشريّ (128 حرفًا)، والمفتاح العامّ الست عشريّ (64 حرفًا). مُتحقَّق مقابل
+    شعاعات RFC 8032 §7.1 وحالات رفض (رسالة/توقيع/مفتاح مُعبَث بها). مطابق
+    سلوكيًّا بين المفسّر والمترجم (كلاهما يُرجع منطقيًّا، لا تباعد آليّة فشل هنا).
+  description_en: >-
+    Verifies an Ed25519 signature (RFC 8032 §5.1.7): returns true if the
+    signature is valid for the message and public key, false otherwise. **A
+    query function, not a gate: it never throws or exits on failure** — an
+    invalid signature or malformed input (wrong length, non-hex, non-canonical
+    S>=L) all return false, since the function's whole purpose is checking
+    untrusted input. Inputs: the message, the 128-hex-char signature, and the
+    64-hex-char public key. Verified against RFC 8032 §7.1 and rejection cases
+    (tampered message/signature/key). Behaviorally identical between engines
+    (both return a boolean; no failure-mechanism divergence here).
+  params:
+    - رسالة — الرسالة الأصليّة.
+    - توقيع — التوقيع الست عشريّ (128 حرفًا = 64 بايت).
+    - مفتاح_عام — المفتاح العامّ الست عشريّ (64 حرفًا = 32 بايت).
+  examples:
+    - code: |
+        استورد تشفير
+        متغير خاص = ولّد_مفتاح_خاص_توقيع()
+        متغير عام = اشتق_مفتاح_عام_توقيع(خاص)
+        متغير ت = وقّع("رسالة", خاص)
+        اطبع_سطر(تحقق_توقيع("رسالة", ت, عام))
+      runnable: true
+  returns: منطقي
+  lookup_table: name_only

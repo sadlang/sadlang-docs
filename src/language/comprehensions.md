@@ -209,4 +209,4 @@
   التعريف الكامل على مستوى القاعدة (`gr.adv.list_comprehension`،
   `gr.adv.dict_comprehension` وما يقابلهما للمجموعة) مُولَّد في
   `docs/parser_rule/_generated` بالمستودع الأساسيّ.
-- [الكلمات المحجوزة الأربعون](../reference/keywords.md) — تمييز المحجوز عن السياقيّ.
+- [الكلمات المحجوزة](../reference/keywords.md) — تمييز المحجوز عن السياقيّ.

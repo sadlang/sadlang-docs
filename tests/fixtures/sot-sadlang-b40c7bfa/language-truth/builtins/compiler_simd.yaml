@@ -1,0 +1,83 @@
+version: 1
+namespace_group: CompilerSimd
+description_ar: دوال مترجم CompilerSimd (6 دالة)
+description_en: Compiler builtins CompilerSimd (6)
+functions:
+- cpp_id: SIMD_0
+  canonical: متجه
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_1
+  canonical: متجه_بث
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_بث
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_2
+  canonical: متجه_ضرب_جمع
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_ضرب_جمع
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_3
+  canonical: متجه_جداء_قياسي
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_جداء_قياسي
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_4
+  canonical: متجه_عنصر
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_عنصر
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_5
+  canonical: متجه_ضع
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_ضع
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only

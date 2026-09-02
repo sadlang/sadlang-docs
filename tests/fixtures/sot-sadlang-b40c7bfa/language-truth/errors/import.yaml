@@ -1,0 +1,31 @@
+# import.yaml -- أخطاء الاستيراد (import) في لغة ص
+# ============================================================================
+# (AR) الحقيقة (مُدقَّقة من الكود 2026-06-08 — GR-01):
+#      أخطاء الاستيراد مُنفَّذة فعلاً، لكنها مُصنَّفة ضمن فئة runtime في
+#      نظام ErrorCode وليست فئة مستقلة:
+#        - RUN_IMPORT_ERROR (RUN008) — shared/errors/include/error_codes.h:130
+#      هذا الملف لا يُكرِّر الكود (تجنّب توثيق زائف مزدوج)؛ بل يشير إليه عبر
+#      see_also. السجل الكامل للخطأ في errors/runtime.yaml تحت RUN008.
+#      تبقى errors: [] لأن لا أكواد بادئة IMP_ في الكود الفعلي.
+#
+# (EN) Truth (audited from code 2026-06-08 — GR-01):
+#      Import errors DO exist but are categorized under `runtime` in the
+#      ErrorCode enum, not a standalone category:
+#        - RUN_IMPORT_ERROR (RUN008) — error_codes.h:130
+#      This file cross-references rather than duplicates it. errors: [] kept
+#      because there are no IMP_-prefixed codes in the actual code.
+# ============================================================================
+
+version: "1.0"
+category: import
+description_ar: "أخطاء الاستيراد — مُصنَّفة تحت runtime في الكود (RUN008)"
+description_en: "Import errors — categorized under runtime in code (RUN008)"
+status: implemented_under_runtime
+implemented_in_code: true
+see_also:
+  - code: RUN_IMPORT_ERROR
+    id: RUN008
+    category: runtime
+    source: shared/errors/include/error_codes.h
+    record: errors/runtime.yaml
+errors: []

@@ -1,0 +1,104 @@
+version: '1.0'
+category: lexical
+description_ar: أخطاء lexical
+description_en: lexical errors
+errors:
+- code: LEX_INVALID_CHARACTER
+  id: LEX001
+  category: lexical
+  title:
+    ar: رمز غير صالح
+    en: Invalid character
+  brief:
+    ar: رمز غير صالح '{char}' في المصدر
+    en: Invalid character '{char}' in source
+  fix_hint:
+    ar: احذف الرمز '{char}' أو استبدله برمز صالح من ASCII أو UTF-8 المدعوم. إن كنت تنوي كتابة نص، ضعه بين علامتي اقتباس "...".
+    en: Remove '{char}' or replace it with a valid ASCII/UTF-8 symbol. If you intended a string, wrap it in quotes "...".
+  placeholders:
+  - char
+  detailed:
+    ar: 'المحلّل المعجمي قرأ رمزاً لا ينتمي إلى أبجدية لغة ص. الرموز المسموحة هي: الحروف العربية والإنجليزية، الأرقام، الرموز الخاصة (+، -، *، /، =، (...))، والمسافات. أي رمز آخر خارج النص أو التعليق يُعدّ
+      خطأً.'
+    en: 'The lexer encountered a character outside the language alphabet. Allowed: Arabic/Latin letters, digits, operators (+, -, *, /, =, parentheses), and whitespace. Any other character outside strings
+      or comments is invalid.'
+- code: LEX_UNTERMINATED_STRING
+  id: LEX002
+  category: lexical
+  title:
+    ar: نص غير مغلق
+    en: Unterminated string
+  brief:
+    ar: نص بدأ بـ " ولم يُغلق
+    en: String literal opened with " was never closed
+  fix_hint:
+    ar: أضف علامة اقتباس " في نهاية النص. إن كان النص متعدّد الأسطر، تأكّد من إغلاقه قبل نهاية الملف.
+    en: Add a closing " at the end of the string. For multi-line strings, ensure they close before EOF.
+  detailed:
+    ar: بدأ نص بعلامة اقتباس " أو ' لكن لم يُغلق قبل نهاية السطر أو نهاية الملف. لغة ص تتطلّب إغلاق كل نص بنفس نوع علامة الاقتباس التي بدأ بها.
+    en: A string started with " or ' but was not closed before end-of-line or end-of-file. Sad requires every string to close with the same quote character it opened with.
+- code: LEX_INVALID_NUMBER
+  id: LEX003
+  category: lexical
+  title:
+    ar: صيغة رقم غير صالحة
+    en: Invalid number format
+  brief:
+    ar: الرقم '{number}' غير صالح
+    en: Number '{number}' is invalid
+  fix_hint:
+    ar: 'تحقّق من بنية الرقم ''{number}'': نقطة عشرية واحدة كحدّ أقصى، لا فراغات داخله، وأي بادئة (0x، 0b) صحيحة.'
+    en: 'Verify number syntax ''{number}'': at most one decimal point, no internal spaces, valid prefix (0x, 0b).'
+  placeholders:
+  - number
+  detailed:
+    ar: 'الأرقام في لغة ص تتبع صيغاً محدّدة: عدد صحيح (123)، عشري (3.14)، سداسي عشري (0x1F)، أو ثنائي (0b101). نقطتان عشريّتان أو رموز غير رقمية في وسط الرقم يُسبّبان هذا الخطأ.'
+    en: 'Sad numbers follow specific formats: integer (123), decimal (3.14), hex (0x1F), or binary (0b101). Multiple decimal points or non-digit characters inside the number cause this error.'
+- code: LEX_INVALID_ESCAPE
+  id: LEX004
+  category: lexical
+  title:
+    ar: تسلسل هروب غير صالح
+    en: Invalid escape sequence
+  brief:
+    ar: تسلسل '\{char}' غير معروف
+    en: Escape '\{char}' is unknown
+  placeholders:
+  - char
+  fix_hint:
+    ar: 'استخدم تسلسل هروب مدعوم: \n (سطر جديد)، \t (مسافة جدولة)، \\ (شرطة مائلة)، \" (اقتباس)، \r (رجوع).'
+    en: 'Use a supported escape: \n (newline), \t (tab), \\ (backslash), \" (quote), \r (carriage return).'
+  detailed:
+    ar: داخل النصوص، الشرطة المائلة الخلفية \ تبدأ تسلسل هروب خاص. التسلسل '\{char}' غير معروف. إن أردت شرطة مائلة فعلية، اكتب \\.
+    en: Inside strings, backslash \ starts an escape sequence. '\{char}' is unknown. To insert a literal backslash, write \\.
+- code: LEX_NUMBER_TOO_LARGE
+  id: LEX005
+  category: lexical
+  title:
+    ar: رقم كبير جداً
+    en: Number too large
+  brief:
+    ar: الرقم يتجاوز نطاق نوع رقم
+    en: Number exceeds رقم range
+  fix_hint:
+    ar: 'استخدم نطاق أصغر، أو غيّر النوع إلى عشري إن أردت دقّة أقل لكن مدى أوسع. الحدّ الأقصى للرقم الصحيح: 9223372036854775807.'
+    en: 'Use a smaller value, or switch to ''عشري'' (float) for wider range with less precision. Max integer: 9223372036854775807.'
+  detailed:
+    ar: نوع 'رقم' في لغة ص هو عدد صحيح 64-بت بإشارة، نطاقه من -9223372036854775808 إلى +9223372036854775807. الأرقام خارج هذا النطاق ترفعها هذه الرسالة معجمياً قبل الوصول لطبقة الأنواع.
+    en: Sad's 'رقم' (number) is a signed 64-bit integer, ranging from -9223372036854775808 to +9223372036854775807. Values outside trigger this lexer-level error before reaching type checking.
+- code: LEX_INVALID_UTF8
+  id: LEX006
+  category: lexical
+  title:
+    ar: ترميز UTF-8 غير صالح
+    en: Invalid UTF-8 encoding
+  brief:
+    ar: بايت UTF-8 غير صالح
+    en: Invalid UTF-8 byte sequence
+  fix_hint:
+    ar: 'احفظ الملف بترميز UTF-8 بدون BOM. في VS Code: انقر على الترميز في شريط الحالة → ''Save with Encoding'' → ''UTF-8''.'
+    en: 'Save the file as UTF-8 without BOM. In VS Code: click encoding in status bar → ''Save with Encoding'' → ''UTF-8''.'
+  detailed:
+    ar: لغة ص تقرأ الملفات حصراً بترميز UTF-8 لدعم العربية والإنجليزية معاً. الترميزات الأخرى (Windows-1256، ISO-8859-6) تُنتج بايتات غير صالحة عند قراءتها كـUTF-8. هذا الخطأ يكشف بايتاً يخالف بنية UTF-8.
+    en: Sad reads files strictly as UTF-8 to support both Arabic and Latin scripts. Other encodings (Windows-1256, ISO-8859-6) produce invalid bytes when read as UTF-8. This error flags a byte that violates
+      UTF-8 structure.

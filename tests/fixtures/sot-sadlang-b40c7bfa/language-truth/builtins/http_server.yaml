@@ -1,0 +1,252 @@
+version: 1
+namespace_group: HttpServer
+description_ar: وحدة شبكة خادم HTTP (19 دالة)
+description_en: HTTP server module (19 functions)
+functions:
+- cpp_id: NEW_SERVER
+  canonical: أنشئ_خادم
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء خادم HTTP
+  description_en: New server
+  params: []
+  lookup_table: name_only
+- cpp_id: FREE_SERVER
+  canonical: أزل_خادم
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحرير الخادم
+  description_en: Free server
+  params: []
+  lookup_table: name_only
+- cpp_id: ON_GET
+  canonical: عند_طلب_جلب
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معالج GET
+  description_en: On GET
+  params: []
+  lookup_table: name_only
+- cpp_id: ON_POST
+  canonical: عند_طلب_إرسال
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معالج POST
+  description_en: On POST
+  params: []
+  lookup_table: name_only
+- cpp_id: ON_PUT
+  canonical: عند_طلب_استبدال
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معالج PUT
+  description_en: On PUT
+  params: []
+  lookup_table: name_only
+- cpp_id: ON_DELETE
+  canonical: عند_طلب_حذف
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معالج DELETE
+  description_en: On DELETE
+  params: []
+  lookup_table: name_only
+- cpp_id: LISTEN
+  canonical: ابدأ_الاستماع
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بدء الاستماع
+  description_en: Start listen
+  params: []
+  lookup_table: name_only
+- cpp_id: STOP
+  canonical: أوقف_الخادم
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إيقاف الخادم
+  description_en: Stop server
+  params: []
+  lookup_table: name_only
+- cpp_id: ENABLE_CORS
+  canonical: اسمح_بالوصول_الخارجي
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تفعيل CORS
+  description_en: Enable CORS
+  params: []
+  lookup_table: name_only
+- cpp_id: REQ_METHOD
+  canonical: نوع_الطلب
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نوع الطلب
+  description_en: Request method
+  params: []
+  lookup_table: name_only
+- cpp_id: REQ_PATH
+  canonical: وجهة_الطلب
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مسار الطلب
+  description_en: Request path
+  params: []
+  lookup_table: name_only
+- cpp_id: REQ_BODY
+  canonical: بيانات_الطلب
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بيانات الطلب
+  description_en: Request body
+  params: []
+  lookup_table: name_only
+- cpp_id: REQ_HEADER
+  canonical: معلومة_الطلب
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترويسة الطلب
+  description_en: Request header
+  params: []
+  lookup_table: name_only
+- cpp_id: REQ_QUERY
+  canonical: قيمة_من_الرابط
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معامل URL
+  description_en: Query param
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SET_STATUS
+  canonical: عين_حالة_الرد
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تعيين حالة الرد
+  description_en: Set status
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SET_BODY
+  canonical: عين_نص_الرد
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تعيين نص الرد
+  description_en: Set body
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SET_JSON
+  canonical: عين_رد_جيسون
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رد JSON
+  description_en: Set JSON body
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SET_HTML
+  canonical: عين_رد_صفحة
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رد HTML
+  description_en: Set HTML body
+  params: []
+  lookup_table: name_only
+- cpp_id: RESP_SET_HEADER
+  canonical: عين_ترويسة_الرد
+  namespace: HttpServer
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تعيين ترويسة
+  description_en: Set resp header
+  params: []
+  lookup_table: name_only

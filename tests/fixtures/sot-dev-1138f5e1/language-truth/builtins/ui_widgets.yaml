@@ -1,0 +1,2107 @@
+version: 1
+namespace_group: ui_widgets
+description_ar: وحدة ui_widgets (86 دالة)
+description_en: ui_widgets module (86 functions)
+# (AR) عقدٌ يفرضه scripts/codegen/check_ui_props_consistency.py:
+#   • لكلّ عنصر UIWidgets ذي خاصّيّة أولى: primary_prop = معرّف مفتاحه في
+#     language-truth/ui_props.yaml، ويجب أن يطابق مفتاح المصنع الفعليّ في
+#     interpreter/src/ui/widget_builtins.cpp.
+#   • params[0] لعنصرٍ ذي primary_prop يجب أن **يبدأ** بالاسم العربيّ القانونيّ
+#     للمفتاح (مثل «عنوان: …»)؛ فإعادةُ صياغةٍ لا تحفظ البادئة تُفشِل الحارس.
+# (EN) Contract enforced by check_ui_props_consistency.py — see above.
+functions:
+- cpp_id: TEXT_WIDGET
+  canonical: نص_عنصر
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نص_عنصر
+  description_en: نص_عنصر
+  primary_prop: CONTENT
+  params:
+  - "محتوى: نصّ العنصر المعروض"
+  lookup_table: name_only
+- cpp_id: IMAGE
+  canonical: صورة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صورة
+  description_en: صورة
+  primary_prop: SOURCE
+  params:
+  - "مصدر: مسار الصورة أو رابطها"
+  lookup_table: name_only
+- cpp_id: ICON
+  canonical: أيقونة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أيقونة
+  description_en: أيقونة
+  primary_prop: NAME
+  params:
+  - "اسم: اسم الأيقونة المتجهة"
+  lookup_table: name_only
+- cpp_id: BUTTON
+  canonical: زر
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: زر
+  description_en: زر
+  primary_prop: TITLE
+  params:
+  - "عنوان: نصّ الزرّ الظاهر"
+  lookup_table: name_only
+- cpp_id: FAB
+  canonical: زر_عائم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: زر_عائم
+  description_en: زر_عائم
+  primary_prop: ICON
+  params:
+  - "أيقونة: رمز الزرّ العائم"
+  lookup_table: name_only
+- cpp_id: TEXT_BUTTON
+  canonical: زر_نصي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: زر_نصي
+  description_en: زر_نصي
+  primary_prop: TITLE
+  params:
+  - "عنوان: نصّ الزرّ"
+  lookup_table: name_only
+- cpp_id: ICON_BUTTON
+  canonical: زر_أيقونة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: زر_أيقونة
+  description_en: زر_أيقونة
+  primary_prop: ICON
+  params:
+  - "أيقونة: رمز زرّ الأيقونة"
+  lookup_table: name_only
+- cpp_id: TEXT_FIELD
+  canonical: حقل_نص
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حقل_نص
+  description_en: حقل_نص
+  primary_prop: HINT
+  params:
+  - "تلميح: نصّ إرشاديّ افتراضيّ"
+  lookup_table: name_only
+- cpp_id: TOGGLE
+  canonical: مفتاح
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مفتاح
+  description_en: مفتاح
+  primary_prop: VALUE
+  params:
+  - "قيمة: حالة التشغيل أو الإيقاف"
+  lookup_table: name_only
+- cpp_id: CHECKBOX
+  canonical: خانة_اختيار
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: خانة_اختيار
+  description_en: خانة_اختيار
+  primary_prop: VALUE
+  params:
+  - "قيمة: حالة التحديد"
+  lookup_table: name_only
+- cpp_id: SLIDER
+  canonical: منزلق
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منزلق
+  description_en: منزلق
+  primary_prop: VALUE
+  params:
+  - "قيمة: القيمة الحاليّة للمنزلق"
+  lookup_table: name_only
+- cpp_id: COLUMN
+  canonical: عمود
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عمود
+  description_en: عمود
+  params:
+  - "الأبناء: عناصر تُرتَّب عموديًّا"
+  lookup_table: name_only
+- cpp_id: ROW
+  canonical: صف
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صف
+  description_en: صف
+  params:
+  - "الأبناء: عناصر تُرتَّب أفقيًّا"
+  lookup_table: name_only
+- cpp_id: STACK
+  canonical: رصة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رصة
+  description_en: رصة
+  params:
+  - "الأبناء: عناصر تُكدَّس فوق بعضها"
+  lookup_table: name_only
+- cpp_id: GRID
+  canonical: شبكة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شبكة
+  description_en: شبكة
+  params:
+  - "الأبناء: عناصر في تخطيط شبكيّ"
+  lookup_table: name_only
+- cpp_id: CENTER
+  canonical: وسط
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: وسط
+  description_en: وسط
+  params:
+  - "ابن: عنصر يُوسَّط"
+  lookup_table: name_only
+- cpp_id: PADDING
+  canonical: حشوة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حشوة
+  description_en: حشوة
+  params:
+  - "ابن: عنصر تُضاف حوله حشوة"
+  lookup_table: name_only
+- cpp_id: ALIGN
+  canonical: محاذاة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: محاذاة
+  description_en: محاذاة
+  params:
+  - "ابن: عنصر يُحاذى في موضع محدَّد"
+  lookup_table: name_only
+- cpp_id: EXPANDED
+  canonical: موسع
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: موسع
+  description_en: موسع
+  params:
+  - "ابن: عنصر يملأ المساحة المتاحة"
+  lookup_table: name_only
+- cpp_id: FLEXIBLE
+  canonical: مرن
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مرن
+  description_en: مرن
+  params:
+  - "ابن: عنصر بحجم مرن داخل صفّ أو عمود"
+  lookup_table: name_only
+- cpp_id: SIZED_BOX
+  canonical: مقاس
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مقاس
+  description_en: مقاس
+  primary_prop: WIDTH
+  params:
+  - "عرض: العرض بالبكسل"
+  - "ارتفاع: الارتفاع بالبكسل"
+  lookup_table: name_only
+- cpp_id: SPACER
+  canonical: فاصل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فاصل
+  description_en: فاصل
+  params: []
+  lookup_table: name_only
+- cpp_id: DIVIDER
+  canonical: فاصل_خط
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فاصل_خط
+  description_en: فاصل_خط
+  params: []
+  lookup_table: name_only
+- cpp_id: WRAP
+  canonical: التفاف
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: التفاف
+  description_en: التفاف
+  params:
+  - "الأبناء: عناصر تلتفّ إلى السطر التالي"
+  lookup_table: name_only
+- cpp_id: CONTAINER
+  canonical: حاوية
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حاوية
+  description_en: حاوية
+  params:
+  - "الأبناء: عناصر داخل الحاوية"
+  lookup_table: name_only
+- cpp_id: CARD
+  canonical: بطاقة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بطاقة
+  description_en: بطاقة
+  params:
+  - "الأبناء: عناصر داخل البطاقة"
+  lookup_table: name_only
+- cpp_id: SCAFFOLD
+  canonical: هيكل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هيكل
+  description_en: هيكل
+  params:
+  - "الأبناء: أجزاء الشاشة (شريط، محتوى، زرّ عائم)"
+  lookup_table: name_only
+- cpp_id: BOX
+  canonical: صندوق
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صندوق
+  description_en: صندوق
+  params:
+  - "الأبناء: عناصر داخل الصندوق"
+  lookup_table: name_only
+- cpp_id: SCROLL_VIEW
+  canonical: عرض_تمرير
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض_تمرير
+  description_en: عرض_تمرير
+  params:
+  - "الأبناء: محتوى قابل للتمرير"
+  lookup_table: name_only
+- cpp_id: APP_BAR
+  canonical: شريط_تطبيق
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_تطبيق
+  description_en: شريط_تطبيق
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان الشريط العلويّ"
+  lookup_table: name_only
+- cpp_id: BOTTOM_NAV
+  canonical: تنقل_سفلي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنقل_سفلي
+  description_en: تنقل_سفلي
+  params:
+  - "الأبناء: عناصر شريط التنقّل"
+  lookup_table: name_only
+- cpp_id: DIALOG
+  canonical: حوار
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حوار
+  description_en: حوار
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان الحوار"
+  lookup_table: name_only
+- cpp_id: SNACKBAR
+  canonical: شريط_إشعار
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_إشعار
+  description_en: شريط_إشعار
+  primary_prop: MESSAGE
+  params:
+  - "رسالة: نصّ الإشعار"
+  lookup_table: name_only
+- cpp_id: TOOLTIP
+  canonical: تلميح
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تلميح
+  description_en: تلميح
+  primary_prop: TEXT
+  params:
+  - "نص: نصّ التلميح عند التمرير"
+  lookup_table: name_only
+- cpp_id: PROGRESS
+  canonical: شريط_تقدم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_تقدم
+  description_en: شريط_تقدم
+  primary_prop: VALUE
+  params:
+  - "قيمة: نسبة التقدّم من 0 إلى 1"
+  lookup_table: name_only
+- cpp_id: LAZY_COLUMN
+  canonical: عمود_كسول
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عمود_كسول
+  description_en: عمود_كسول
+  params:
+  - "الأبناء: عناصر قائمة عموديّة كسولة"
+  lookup_table: name_only
+- cpp_id: LAZY_ROW
+  canonical: صف_كسول
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صف_كسول
+  description_en: صف_كسول
+  params:
+  - "الأبناء: عناصر قائمة أفقيّة كسولة"
+  lookup_table: name_only
+- cpp_id: LIST_VIEW
+  canonical: قائمة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة
+  description_en: قائمة
+  params:
+  - "الأبناء: عناصر القائمة"
+  lookup_table: name_only
+- cpp_id: TEXT_AREA
+  canonical: منطقة_نص
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منطقة_نص
+  description_en: منطقة_نص
+  primary_prop: HINT
+  params:
+  - "تلميح: نصّ إرشاديّ افتراضيّ"
+  lookup_table: name_only
+- cpp_id: DRAWER
+  canonical: درج
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: درج
+  description_en: درج
+  params:
+  - "الأبناء: محتوى اللوحة الجانبيّة"
+  lookup_table: name_only
+- cpp_id: WINDOW
+  canonical: نافذة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نافذة
+  description_en: نافذة
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: TITLE_BAR
+  canonical: شريط_عنوان
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_عنوان
+  description_en: شريط_عنوان
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SCROLL_BAR
+  canonical: شريط_تمرير
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_تمرير
+  description_en: شريط_تمرير
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: TASKBAR
+  canonical: شريط_مهام
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_مهام
+  description_en: شريط_مهام
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: START_MENU
+  canonical: قائمة_ابدأ
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة_ابدأ
+  description_en: قائمة_ابدأ
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SYSTEM_TRAY
+  canonical: لوحة_نظام
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: لوحة_نظام
+  description_en: لوحة_نظام
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: MENU
+  canonical: قائمة_خيارات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة_خيارات
+  description_en: قائمة_خيارات
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: TOOLBAR
+  canonical: شريط_أدوات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_أدوات
+  description_en: شريط_أدوات
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SEGMENTED_CONTROL
+  canonical: تحكم_مقسم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحكم_مقسم
+  description_en: تحكم_مقسم
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: TREE_VIEW
+  canonical: عرض_شجري
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض_شجري
+  description_en: عرض_شجري
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SPLIT_VIEW
+  canonical: لوح_مقسم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: لوح_مقسم
+  description_en: لوح_مقسم
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: DATA_TABLE
+  canonical: جدول_بيانات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: جدول_بيانات
+  description_en: جدول_بيانات
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: BREADCRUMB
+  canonical: مسار_تنقل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مسار_تنقل
+  description_en: مسار_تنقل
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: PICKER
+  canonical: قائمة_منسدلة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة_منسدلة
+  description_en: قائمة_منسدلة
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: DATE_PICKER
+  canonical: منتقي_تاريخ
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منتقي_تاريخ
+  description_en: منتقي_تاريخ
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: STEPPER
+  canonical: خطوات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: خطوات
+  description_en: خطوات
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: RATING_BAR
+  canonical: تقييم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقييم
+  description_en: تقييم
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: ALERT
+  canonical: تنبيه
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنبيه
+  description_en: تنبيه
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SPIN_BOX
+  canonical: مربع_دوار
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مربع_دوار
+  description_en: مربع_دوار
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: GROUP_BOX
+  canonical: صندوق_تجميع
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صندوق_تجميع
+  description_en: صندوق_تجميع
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SPINNER
+  canonical: مؤشر_انشغال
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مؤشر_انشغال
+  description_en: مؤشر_انشغال
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: STATUS_BAR
+  canonical: شريط_حالة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط_حالة
+  description_en: شريط_حالة
+  params:
+  - "الأبناء: محتوى العنصر"
+  lookup_table: name_only
+- cpp_id: SAFE_AREA
+  canonical: منطقة_آمنة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منطقة_آمنة
+  description_en: منطقة_آمنة
+  params:
+  - "ابن: عنصر يتجنّب مناطق النظام"
+  lookup_table: name_only
+- cpp_id: SURFACE
+  canonical: سطح
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: سطح
+  description_en: سطح
+  params:
+  - "الأبناء: عناصر على السطح"
+  lookup_table: name_only
+- cpp_id: ENGINE
+  canonical: _محرك_واجهات
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: _محرك_واجهات
+  description_en: _محرك_واجهات
+  params:
+  - "جذر: عنصر الجذر (داخليّ)"
+  lookup_table: name_only
+- cpp_id: RUN_APP
+  canonical: تشغيل_تطبيق
+  namespace: UICore
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تشغيل_تطبيق
+  description_en: تشغيل_تطبيق
+  params:
+  - "جذر: عنصر الجذر للتطبيق (لقطة ثابتة)، أو دالّة بانية تُستدعى كلّ رسم فتُحدَّث المشاهد الزمنيّة حيًّا (م1-ب، نظير انتقل)"
+  lookup_table: name_only
+- cpp_id: PRINT_TREE
+  canonical: طباعة_شجرة
+  namespace: UICore
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: طباعة_شجرة
+  description_en: طباعة_شجرة
+  params:
+  - "عنصر: عنصر الواجهة لطباعة شجرته"
+  lookup_table: name_only
+- cpp_id: NAVIGATE
+  canonical: انتقل
+  namespace: UICore
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: انتقل
+  description_en: انتقل
+  params:
+  - "صفحة: عنصر أو دالّة تُرجع عنصرًا"
+  lookup_table: name_only
+- cpp_id: NAVIGATE_TRANSITION
+  canonical: انتقل_بتحريك
+  namespace: UICore
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: انتقل_بتحريك
+  description_en: انتقل_بتحريك
+  params:
+  - "صفحة: عنصر أو دالّة تُرجع عنصرًا"
+  - "نوع_الانتقال: اسم تأثير الانتقال"
+  - "المدة: زمن الانتقال بالثواني (اختياريّ)"
+  lookup_table: name_only
+- cpp_id: NAVIGATE_EXIT_TRANSITION
+  canonical: انتقل_بتحريك_كامل
+  namespace: UICore
+  arity:
+    min: 3
+    max: 4
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: انتقل_بتحريك_كامل
+  description_en: انتقل_بتحريك_كامل
+  params:
+  - "صفحة: عنصر أو دالّة تُرجع عنصرًا"
+  - "نوع_الدخول: تأثير الدخول"
+  - "نوع_الخروج: تأثير الخروج"
+  - "المدة: بالثواني (اختياريّ)"
+  lookup_table: name_only
+- cpp_id: BACK
+  canonical: عودة
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عودة
+  description_en: عودة
+  params: []
+  lookup_table: name_only
+- cpp_id: BACK_TRANSITION
+  canonical: عودة_بتحريك
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عودة_بتحريك
+  description_en: عودة_بتحريك
+  params:
+  - "نوع_الانتقال: اسم التأثير (اختياريّ)"
+  - "المدة: بالثواني (اختياريّ)"
+  lookup_table: name_only
+- cpp_id: BACK_TO_ROOT
+  canonical: عودة_للبداية
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عودة_للبداية
+  description_en: عودة_للبداية
+  params: []
+  lookup_table: name_only
+- cpp_id: REPLACE_PAGE
+  canonical: استبدل
+  namespace: UICore
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استبدل
+  description_en: استبدل
+  params:
+  - "صفحة: عنصر أو دالّة تحلّ محلّ الحاليّة"
+  lookup_table: name_only
+- cpp_id: TOGGLE_THEME
+  canonical: تبديل_الثيم
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تبديل_الثيم
+  description_en: تبديل_الثيم
+  params: []
+  lookup_table: name_only
+- cpp_id: DARK_MODE
+  canonical: وضع_داكن
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: وضع_داكن
+  description_en: وضع_داكن
+  params: []
+  lookup_table: name_only
+- cpp_id: LIGHT_MODE
+  canonical: وضع_فاتح
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: وضع_فاتح
+  description_en: وضع_فاتح
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_DARK
+  canonical: هل_داكن
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل_داكن
+  description_en: هل_داكن
+  params: []
+  lookup_table: name_only
+- cpp_id: UPDATE_STATE
+  canonical: تحديث_حالة
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحديث_حالة
+  description_en: تحديث_حالة
+  params: []
+  lookup_table: name_only
+- cpp_id: NEXT_KEY
+  canonical: التقط_مفتاح
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يعيد رمز آخر مفتاح لوحة مفاتيح منتظِر (يستهلكه) أو 0
+  description_en: التقط_مفتاح
+  params: []
+  lookup_table: name_only
+- cpp_id: STOP_PROPAGATION
+  canonical: أوقف_الانتشار
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يوقف انتشار الحدث الجاري (لا يبلغ الأجداد ولا بقيّة المعالِجات)
+  description_en: أوقف_الانتشار
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_TITLE
+  canonical: عنوان_النافذة
+  namespace: UICore
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عنوان_النافذة
+  description_en: عنوان_النافذة
+  params:
+  - "عنوان: نصّ عنوان النافذة"
+  lookup_table: name_only
+- cpp_id: PAGE_COUNT
+  canonical: عدد_الصفحات
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عدد_الصفحات
+  description_en: عدد_الصفحات
+  params: []
+  lookup_table: name_only
+- cpp_id: CURRENT_PAGE
+  canonical: الصفحة_الحالية
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الصفحة_الحالية
+  description_en: الصفحة_الحالية
+  params: []
+  lookup_table: name_only
+- cpp_id: CLOSE_WINDOW
+  canonical: أغلق_النافذة
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أغلق_النافذة
+  description_en: أغلق_النافذة
+  params: []
+  lookup_table: name_only
+- cpp_id: SET_STATE
+  canonical: عين_الحالة
+  namespace: UICore
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عين_الحالة
+  description_en: عين_الحالة
+  params:
+  - "دالّة: دالّة إغلاق تُنشئ حالة الصفحة"
+  lookup_table: name_only
+- cpp_id: GEN_WEB
+  canonical: توليد_ويب
+  namespace: UICore
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: توليد_ويب
+  description_en: توليد_ويب
+  params:
+  - "جذر: عنصر الجذر"
+  - "عنوان: عنوان صفحة الويب (اختياريّ)"
+  lookup_table: name_only
+# (AR) أبوابُ مولّدات المنصّات — نظائرُ توليد_ويب. قبلَها كانت مولّدات
+#      Compose/SwiftUI/AppKit تُبنى في كلّ ثنائيّ ولا يبلغها مستخدمُ لغةِ ص
+#      إلّا من C++ (ث٦ من تحقيق دعم المنصّات): آلافُ الأسطرِ بلا بابٍ في اللغة.
+#      كلٌّ يأخذ جذرًا (عنصرًا أو بانيًا) ووسيطًا ثانيًا اختياريًّا يُسمّي
+#      **المخرَجَ نفسَه** — لا الحزمةَ ولا الوحدة: دالّةَ Composable في كوتلن،
+#      وبنيةَ View في سويفت، ومتحكّمَ العرضِ في AppKit — ويُعيد نصَّ الكودِ
+#      المولَّد كتوليد_ويب تمامًا. أمّا اسمُ حزمةِ كوتلن (com.sad.app) فإعدادُ
+#      بناءٍ لا وسيطُ استدعاءٍ، ولا يُضبَط من لغةِ ص اليومَ (دَينٌ موثَّق).
+- cpp_id: GEN_ANDROID
+  canonical: توليد_أندرويد
+  namespace: UICore
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: توليد_أندرويد
+  description_en: توليد_أندرويد
+  params:
+  - "جذر: عنصر الجذر"
+  - "اسم: اسم دالّة Composable المولَّدة (اختياريّ)"
+  lookup_table: name_only
+- cpp_id: GEN_IOS
+  canonical: توليد_آي_أو_إس
+  namespace: UICore
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: توليد_آي_أو_إس
+  description_en: توليد_آي_أو_إس
+  params:
+  - "جذر: عنصر الجذر"
+  - "اسم: اسم بنية View المولَّدة (اختياريّ)"
+  lookup_table: name_only
+- cpp_id: GEN_MACOS
+  canonical: توليد_ماك
+  namespace: UICore
+  arity:
+    min: 1
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 1.0.0
+  status: stable
+  description_ar: توليد_ماك
+  description_en: توليد_ماك
+  params:
+  - "جذر: عنصر الجذر"
+  - "اسم: اسم متحكّم العرض المولَّد (اختياريّ)"
+  lookup_table: name_only
+
+# ══════════════════════════════════════════════════════════════════════════
+# (AR) مصانعُ العُقَدِ التي كانت تُرسَم في خمسةِ مساراتٍ ولا يستطيع برنامجُ ص
+#      إنشاءَها (ث٩): كودُ تصييرٍ مدفوعُ الثمنِ وغيرُ قابلٍ للوصول. تُخفَّض
+#      كلُّها إلى الأوپكودِ العامِّ BUILTIN_UI_WIDGET_BY_TYPE حاملًا رقمَ نوعِ
+#      العقدةِ من مصدرِ الحقيقة — لا أوپكودَ لكلِّ عنصر.
+# ══════════════════════════════════════════════════════════════════════════
+- cpp_id: COLOR_PICKER
+  canonical: منتقي_لون
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منتقي لون من طيف
+  description_en: منتقي_لون
+  primary_prop: VALUE
+  params:
+  - "قيمة: اللون المختار"
+  lookup_table: name_only
+- cpp_id: RADIO
+  canonical: زر_راديو
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: زرّ اختيار واحد من مجموعة
+  description_en: زر_راديو
+  primary_prop: VALUE
+  params:
+  - "قيمة: هل الخيار محدَّد"
+  lookup_table: name_only
+- cpp_id: LAZY_GRID
+  canonical: شبكة_كسولة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شبكة كسولة تبني أبناءها عند الحاجة
+  description_en: شبكة_كسولة
+  lookup_table: name_only
+- cpp_id: NAVIGATION_VIEW
+  canonical: عرض_تنقل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حاوية تنقّل بين الصفحات
+  description_en: عرض_تنقل
+  lookup_table: name_only
+- cpp_id: NAVIGATION_LINK
+  canonical: رابط_تنقل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رابط ينتقل إلى صفحة
+  description_en: رابط_تنقل
+  primary_prop: TITLE
+  params:
+  - "عنوان: نصّ الرابط"
+  lookup_table: name_only
+- cpp_id: TAB_VIEW
+  canonical: عرض_أقسام
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض أقسام بألسنة
+  description_en: عرض_أقسام
+  lookup_table: name_only
+- cpp_id: TAB_ITEM
+  canonical: قسم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قسم واحد داخل عرض الأقسام
+  description_en: قسم
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان القسم"
+  lookup_table: name_only
+- cpp_id: SECTION
+  canonical: قسم_قائمة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قسم بترويسة داخل قائمة
+  description_en: قسم_قائمة
+  primary_prop: TITLE
+  params:
+  - "عنوان: ترويسة القسم"
+  lookup_table: name_only
+- cpp_id: FOR_EACH
+  canonical: لكل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يكرّر بناء الأبناء على مجموعة
+  description_en: لكل
+  lookup_table: name_only
+- cpp_id: SHEET
+  canonical: ورقة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ورقة منبثقة فوق المحتوى
+  description_en: ورقة
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان الورقة"
+  lookup_table: name_only
+- cpp_id: CANVAS
+  canonical: لوحة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: لوحة رسم حرّ بأوامر رسم
+  description_en: لوحة
+  lookup_table: name_only
+- cpp_id: MAP_VIEW
+  canonical: عرض_خريطة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض خريطة
+  description_en: عرض_خريطة
+  primary_prop: SOURCE
+  params:
+  - "مصدر: مرجع الخريطة"
+  lookup_table: name_only
+- cpp_id: WEB_VIEW
+  canonical: عرض_ويب
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض صفحة ويب
+  description_en: عرض_ويب
+  primary_prop: SOURCE
+  params:
+  - "مصدر: رابط الصفحة"
+  lookup_table: name_only
+- cpp_id: VIDEO_PLAYER
+  canonical: مشغل_فيديو
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مشغّل فيديو
+  description_en: مشغل_فيديو
+  primary_prop: SOURCE
+  params:
+  - "مصدر: مسار الفيديو أو رابطه"
+  lookup_table: name_only
+- cpp_id: CUSTOM_WIDGET
+  canonical: عنصر_مخصص
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عنصر مخصّص يجمع أبناءه بلا كِسوة
+  description_en: عنصر_مخصص
+  lookup_table: name_only
+- cpp_id: CONDITIONAL
+  canonical: شرطي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يعرض أبناءه بحسب شرط
+  description_en: شرطي
+  lookup_table: name_only
+- cpp_id: GROUP
+  canonical: مجموعة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مجموعة منطقيّة بلا كِسوة
+  description_en: مجموعة
+  lookup_table: name_only
+- cpp_id: BADGE
+  canonical: شارة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شارة إشعار صغيرة
+  description_en: شارة
+  primary_prop: TEXT
+  params:
+  - "نص: محتوى الشارة"
+  lookup_table: name_only
+- cpp_id: CHIP
+  canonical: رقاقة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رقاقة قصيرة قابلة للاختيار
+  description_en: رقاقة
+  primary_prop: TEXT
+  params:
+  - "نص: نصّ الرقاقة"
+  lookup_table: name_only
+- cpp_id: AVATAR
+  canonical: صورة_رمزية
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صورة رمزيّة دائريّة
+  description_en: صورة_رمزية
+  primary_prop: TEXT
+  params:
+  - "نص: الحرف أو الرمز المعروض"
+  lookup_table: name_only
+- cpp_id: SEARCH_BAR
+  canonical: شريط_بحث
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط بحث
+  description_en: شريط_بحث
+  primary_prop: HINT
+  params:
+  - "تلميح: النصّ الافتراضيّ لحقل البحث"
+  lookup_table: name_only
+- cpp_id: BOTTOM_SHEET
+  canonical: ورقة_سفلية
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ورقة تنزلق من أسفل الشاشة
+  description_en: ورقة_سفلية
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان الورقة السفليّة"
+  lookup_table: name_only
+- cpp_id: PAGINATION
+  canonical: ترقيم_صفحات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترقيم صفحات
+  description_en: ترقيم_صفحات
+  primary_prop: VALUE
+  params:
+  - "قيمة: رقم الصفحة الحاليّة"
+  lookup_table: name_only
+- cpp_id: TIMELINE
+  canonical: خط_زمني
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: خطّ زمنيّ للأحداث
+  description_en: خط_زمني
+  lookup_table: name_only
+- cpp_id: CAROUSEL
+  canonical: عرض_دوار
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض دوّار للعناصر
+  description_en: عرض_دوار
+  lookup_table: name_only
+- cpp_id: RICH_TEXT
+  canonical: نص_غني
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نصّ منسَّق
+  description_en: نص_غني
+  primary_prop: TEXT
+  params:
+  - "نص: النصّ المنسَّق"
+  lookup_table: name_only
+- cpp_id: MARKDOWN
+  canonical: ماركداون
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عرض نصّ ماركداون
+  description_en: ماركداون
+  primary_prop: TEXT
+  params:
+  - "نص: مصدر ماركداون"
+  lookup_table: name_only
+- cpp_id: CODE_BLOCK
+  canonical: كتلة_كود
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: كتلة كود ملوَّنة نحويًّا
+  description_en: كتلة_كود
+  primary_prop: TEXT
+  params:
+  - "نص: الكود المعروض"
+  lookup_table: name_only
+- cpp_id: AUDIO_PLAYER
+  canonical: مشغل_صوت
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مشغّل صوت
+  description_en: مشغل_صوت
+  primary_prop: SOURCE
+  params:
+  - "مصدر: مسار الصوت أو رابطه"
+  lookup_table: name_only
+- cpp_id: IMAGE_GALLERY
+  canonical: معرض_صور
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: معرض صور
+  description_en: معرض_صور
+  lookup_table: name_only
+- cpp_id: SKELETON
+  canonical: هيكل_تحميل
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هيكل تحميل مؤقّت
+  description_en: هيكل_تحميل
+  lookup_table: name_only
+- cpp_id: SHIMMER
+  canonical: وميض
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: وميض تحميل متحرّك
+  description_en: وميض
+  lookup_table: name_only
+- cpp_id: ANIMATED_LIST
+  canonical: قائمة_متحركة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة بحركة عند التغيّر
+  description_en: قائمة_متحركة
+  lookup_table: name_only
+- cpp_id: EXPANDABLE
+  canonical: قابل_للتوسع
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قسم قابل للتوسّع
+  description_en: قابل_للتوسع
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان القسم القابل للتوسّع"
+  lookup_table: name_only
+- cpp_id: COLLAPSIBLE
+  canonical: قابل_للطي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قسم قابل للطيّ
+  description_en: قابل_للطي
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان القسم القابل للطيّ"
+  lookup_table: name_only
+- cpp_id: SWIPEABLE
+  canonical: قابل_للسحب
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عنصر قابل للسحب جانبًا
+  description_en: قابل_للسحب
+  lookup_table: name_only
+- cpp_id: TIME_PICKER
+  canonical: منتقي_وقت
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منتقي وقت
+  description_en: منتقي_وقت
+  primary_prop: VALUE
+  params:
+  - "قيمة: الوقت المختار"
+  lookup_table: name_only
+- cpp_id: CALENDAR
+  canonical: تقويم
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقويم
+  description_en: تقويم
+  primary_prop: VALUE
+  params:
+  - "قيمة: التاريخ المختار"
+  lookup_table: name_only
+- cpp_id: COLOR_WHEEL
+  canonical: عجلة_ألوان
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عجلة ألوان
+  description_en: عجلة_ألوان
+  primary_prop: VALUE
+  params:
+  - "قيمة: اللون المختار"
+  lookup_table: name_only
+- cpp_id: SIDE_NAV
+  canonical: تنقل_جانبي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنقّل جانبيّ
+  description_en: تنقل_جانبي
+  lookup_table: name_only
+- cpp_id: TABS
+  canonical: ألسنة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: شريط ألسنة
+  description_en: ألسنة
+  lookup_table: name_only
+- cpp_id: MEGA_MENU
+  canonical: قائمة_ضخمة
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة ضخمة متعدّدة الأقسام
+  description_en: قائمة_ضخمة
+  primary_prop: TITLE
+  params:
+  - "عنوان: عنوان القائمة"
+  lookup_table: name_only
+- cpp_id: GESTURE_DETECTOR
+  canonical: كاشف_إيماءات
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يلتقط الإيماءات دون كِسوة
+  description_en: كاشف_إيماءات
+  lookup_table: name_only
+- cpp_id: INK_WELL
+  canonical: حبر
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: منطقة نقر بتأثير تموّج
+  description_en: حبر
+  lookup_table: name_only
+- cpp_id: LIST_VIEW_WIDGET
+  canonical: قائمة_عرض
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قائمة عرض قابلة للتمرير
+  description_en: قائمة_عرض
+  lookup_table: name_only
+- cpp_id: FRACTIONALLY_SIZED_BOX
+  canonical: صندوق_نسبي
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صندوق بمقاس كسريّ من الأب
+  description_en: صندوق_نسبي
+  primary_prop: WIDTH_FACTOR
+  params:
+  - "عامل_العرض: كسر من عرض الأب (٠–١)"
+  lookup_table: name_only
+- cpp_id: CONSTRAINED_BOX
+  canonical: صندوق_مقيد
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صندوق بحدود دنيا وقصوى
+  description_en: صندوق_مقيد
+  primary_prop: MIN_WIDTH
+  params:
+  - "أدنى_عرض: الحدّ الأدنى للعرض"
+  lookup_table: name_only
+- cpp_id: ASPECT_RATIO
+  canonical: نسبة_عرض
+  returns: كائن
+  namespace: UIWidgets
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: صندوق يحفظ نسبة العرض إلى الارتفاع
+  description_en: نسبة_عرض
+  primary_prop: RATIO
+  params:
+  - "نسبة: نسبة العرض إلى الارتفاع"
+  lookup_table: name_only

@@ -14,7 +14,8 @@
 
 ## ⚠️ صفحات مُولَّدة — غير موجودة في git
 
-`src/reference/{keywords,operators,types,sadui-properties}.md` **مشتقّة بالكامل** من
+`src/reference/{keywords,operators,types,sadui-properties,builtins,errors}.md`
+**مشتقّة بالكامل** من
 `language-truth/` ولا تُودَع. تُولَّد عندك بأمرٍ واحد:
 
 ```bash

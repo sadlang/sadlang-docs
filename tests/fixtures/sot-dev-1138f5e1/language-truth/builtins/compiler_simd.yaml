@@ -1,0 +1,354 @@
+version: 1
+namespace_group: CompilerSimd
+description_ar: دوال مترجم CompilerSimd (22 دالة)
+description_en: Compiler builtins CompilerSimd (22)
+functions:
+- cpp_id: SIMD_0
+  canonical: متجه
+  namespace: CompilerSimd
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_1
+  canonical: متجه_بث
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_بث
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_2
+  canonical: متجه_ضرب_جمع
+  namespace: CompilerSimd
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_ضرب_جمع
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_3
+  canonical: متجه_جداء_قياسي
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_جداء_قياسي
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_4
+  canonical: متجه_عنصر
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_عنصر
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_5
+  canonical: متجه_ضع
+  namespace: CompilerSimd
+  arity:
+    min: 3
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: متجه_ضع
+  description_en: compiler builtin (builtins_simd)
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_6
+  canonical: متجه_جمع
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: جمع متجهين عنصرًا بعنصر
+  description_en: element-wise vector addition
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_7
+  canonical: متجه_طرح
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: طرح متجهين عنصرًا بعنصر
+  description_en: element-wise vector subtraction
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_8
+  canonical: متجه_ضرب
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ضرب متجهين عنصرًا بعنصر
+  description_en: element-wise vector multiplication
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_9
+  canonical: متجه_قسمة
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: قسمة متجهين عنصرًا بعنصر
+  description_en: element-wise vector division
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_10
+  canonical: متجه_أصغر
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أصغر القيمتين في كل عنصر من متجهين
+  description_en: element-wise vector minimum
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_11
+  canonical: متجه_أكبر
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أكبر القيمتين في كل عنصر من متجهين
+  description_en: element-wise vector maximum
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_12
+  canonical: متجه_و
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: «و» على البتات بين متجهين
+  description_en: element-wise bitwise AND
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_13
+  canonical: متجه_أو
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: «أو» على البتات بين متجهين
+  description_en: element-wise bitwise OR
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_14
+  canonical: متجه_حصري
+  namespace: CompilerSimd
+  arity:
+    min: 2
+    max: 2
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: «أو» الحصرية على البتات بين متجهين
+  description_en: element-wise bitwise XOR
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_15
+  canonical: متجه_جذر
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: الجذر التربيعي لكل عنصر — متجه عشري حصرًا
+  description_en: element-wise square root — float vectors only
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_16
+  canonical: متجه_مطلق
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: القيمة المطلقة لكل عنصر
+  description_en: element-wise absolute value
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_17
+  canonical: متجه_سالب
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: نفي كل عنصر
+  description_en: element-wise negation
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_18
+  canonical: متجه_جمع_عرضي
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: جمع كل عناصر المتجه في قيمة واحدة
+  description_en: horizontal sum reduction
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_19
+  canonical: متجه_ضرب_عرضي
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: ضرب كل عناصر المتجه في قيمة واحدة
+  description_en: horizontal product reduction
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_20
+  canonical: متجه_أدنى_عرضي
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أصغر عناصر المتجه
+  description_en: horizontal minimum reduction
+  params: []
+  lookup_table: name_only
+- cpp_id: SIMD_21
+  canonical: متجه_أقصى_عرضي
+  namespace: CompilerSimd
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: أكبر عناصر المتجه
+  description_en: horizontal maximum reduction
+  params: []
+  lookup_table: name_only

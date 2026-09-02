@@ -1,0 +1,434 @@
+version: 1
+namespace_group: ffi
+description_ar: وحدة ffi (33 دالة)
+description_en: ffi module (15 functions)
+functions:
+- cpp_id: LIB_LOAD
+  canonical: مكتبة_حمل
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: load library
+  description_en: load library
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_FREE
+  canonical: مكتبة_أفرغ
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: free library
+  description_en: free library
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_FUNC
+  canonical: مكتبة_دالة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library function
+  description_en: library function
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_CALL
+  canonical: مكتبة_استدع
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library call
+  description_en: library call
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_CALL_INT
+  canonical: مكتبة_استدع_رقم
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library call int
+  description_en: library call int
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_CALL_STR
+  canonical: مكتبة_استدع_نص
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library call string
+  description_en: library call string
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_SYMBOL
+  canonical: مكتبة_رمز
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library symbol
+  description_en: library symbol
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_PATH
+  canonical: مكتبة_مسار
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library path
+  description_en: library path
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_LIST
+  canonical: مكتبة_قائمة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library list
+  description_en: library list
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_COUNT
+  canonical: مكتبة_عدد
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library count
+  description_en: library count
+  params: []
+  lookup_table: name_only
+- cpp_id: TYPE_SIZE
+  canonical: نوع_حجم
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: type size
+  description_en: type size
+  params: []
+  lookup_table: name_only
+- cpp_id: TYPE_ALIGN
+  canonical: نوع_محاذاة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: type alignment
+  description_en: type alignment
+  params: []
+  lookup_table: name_only
+- cpp_id: TYPE_PTR
+  canonical: نوع_مؤشر
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: type pointer
+  description_en: type pointer
+  params: []
+  lookup_table: name_only
+- cpp_id: FFI_PLATFORM
+  canonical: منصة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: platform
+  description_en: platform
+  params: []
+  lookup_table: name_only
+- cpp_id: LIB_EXTENSION
+  canonical: امتداد_مكتبة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: library extension
+  description_en: library extension
+  params: []
+  lookup_table: name_only
+- cpp_id: C_PRINTF
+  canonical: طباعة_تنسيق
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C printf
+  description_en: C printf
+  params: []
+  lookup_table: name_only
+- cpp_id: C_MALLOC
+  canonical: حجز
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C malloc
+  description_en: C malloc
+  params: []
+  lookup_table: name_only
+- cpp_id: C_FREE
+  canonical: حرر
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C free
+  description_en: C free
+  params: []
+  lookup_table: name_only
+- cpp_id: C_REALLOC
+  canonical: اعد_حجز
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C realloc
+  description_en: C realloc
+  params: []
+  lookup_table: name_only
+- cpp_id: C_CALLOC
+  canonical: حجز_صفري
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C calloc
+  description_en: C calloc
+  params: []
+  lookup_table: name_only
+- cpp_id: C_STRLEN
+  canonical: طول_نص_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C strlen
+  description_en: C strlen
+  params: []
+  lookup_table: name_only
+- cpp_id: C_STRCPY
+  canonical: انسخ_نص_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C strcpy
+  description_en: C strcpy
+  params: []
+  lookup_table: name_only
+- cpp_id: C_STRCMP
+  canonical: قارن_نص_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C strcmp
+  description_en: C strcmp
+  params: []
+  lookup_table: name_only
+- cpp_id: C_STRCAT
+  canonical: الحق_نص_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C strcat
+  description_en: C strcat
+  params: []
+  lookup_table: name_only
+- cpp_id: C_FOPEN
+  canonical: افتح_ملف_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C fopen
+  description_en: C fopen
+  params: []
+  lookup_table: name_only
+- cpp_id: C_FCLOSE
+  canonical: اغلق_ملف_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C fclose
+  description_en: C fclose
+  params: []
+  lookup_table: name_only
+- cpp_id: C_FPUTS
+  canonical: اكتب_ملف_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C fputs
+  description_en: C fputs
+  params: []
+  lookup_table: name_only
+- cpp_id: C_FGETS
+  canonical: اقرأ_ملف_س
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C fgets
+  description_en: C fgets
+  params: []
+  lookup_table: name_only
+- cpp_id: C_SYSTEM
+  canonical: نفذ_امر
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C system
+  description_en: C system
+  params: []
+  lookup_table: name_only
+- cpp_id: C_GETENV
+  canonical: قيمة_بيئة
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C getenv
+  description_en: C getenv
+  params: []
+  lookup_table: name_only
+- cpp_id: C_ATOI
+  canonical: نص_لعدد
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C atoi
+  description_en: C atoi
+  params: []
+  lookup_table: name_only
+- cpp_id: C_ATOF
+  canonical: نص_لعشري
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C atof
+  description_en: C atof
+  params: []
+  lookup_table: name_only
+- cpp_id: C_SNPRINTF
+  canonical: تنسيق_نص
+  namespace: FFI
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: C snprintf
+  description_en: C snprintf
+  params: []
+  lookup_table: name_only

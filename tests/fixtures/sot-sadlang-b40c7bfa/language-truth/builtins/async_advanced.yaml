@@ -1,0 +1,421 @@
+version: 1
+namespace_group: async_advanced
+description_ar: وحدة تزامن_متقدم (32 دالة)
+description_en: async_advanced module (37 functions)
+functions:
+- cpp_id: ASYNC_SPAWN
+  canonical: أنشئ_مهمة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: async task spawn
+  description_en: async task spawn
+  params: []
+  lookup_table: name_only
+- cpp_id: ASYNC_AWAIT_TASK
+  canonical: انتظر_مهمة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: await task
+  description_en: await task
+  params: []
+  lookup_table: name_only
+- cpp_id: ASYNC_AWAIT
+  canonical: انتظر
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: await
+  description_en: await
+  params: []
+  lookup_table: name_only
+- cpp_id: ASYNC_YIELD
+  canonical: أنتج
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: yield
+  description_en: yield
+  params: []
+  lookup_table: name_only
+- cpp_id: ASYNC_SLEEP
+  canonical: نوم_غير_متزامن
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: async sleep
+  description_en: async sleep
+  params: []
+  lookup_table: name_only
+- cpp_id: CREATE_FUTURE_ALT
+  canonical: أنشئ_مستقبل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create future alt
+  description_en: create future alt
+  params: []
+  lookup_table: name_only
+- cpp_id: FUTURE_OFF
+  canonical: أوف_مستقبل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: future off
+  description_en: future off
+  params: []
+  lookup_table: name_only
+- cpp_id: FUTURE_RESOLVE
+  canonical: حقق_مستقبل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: resolve future
+  description_en: resolve future
+  params: []
+  lookup_table: name_only
+- cpp_id: FUTURE_GET
+  canonical: احصل_مستقبل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: get future
+  description_en: get future
+  params: []
+  lookup_table: name_only
+- cpp_id: CREATE_CHANNEL
+  canonical: أنشئ_قناة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create channel
+  description_en: create channel
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_SEND
+  canonical: أرسل_قناة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: channel send
+  description_en: channel send
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_SEND_ALT
+  canonical: أرسل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: send
+  description_en: send
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_RECV
+  canonical: استقبل_قناة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: channel receive
+  description_en: channel receive
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_RECV_ALT
+  canonical: استقبل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: receive
+  description_en: receive
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_CLOSE
+  canonical: أغلق_قناة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: close channel
+  description_en: close channel
+  params: []
+  lookup_table: name_only
+- cpp_id: CREATE_MUTEX
+  canonical: أنشئ_قفل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create mutex
+  description_en: create mutex
+  params: []
+  lookup_table: name_only
+- cpp_id: MUTEX_LOCK
+  canonical: اقفل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: lock
+  description_en: lock
+  params: []
+  lookup_table: name_only
+- cpp_id: MUTEX_UNLOCK
+  canonical: افتح_قفل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: unlock mutex
+  description_en: unlock mutex
+  params: []
+  lookup_table: name_only
+- cpp_id: CREATE_THREAD
+  canonical: أنشئ_خيط
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create thread
+  description_en: create thread
+  params: []
+  lookup_table: name_only
+- cpp_id: THREAD_ALT
+  canonical: خيط
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: thread
+  description_en: thread
+  params: []
+  lookup_table: name_only
+- cpp_id: THREAD_JOIN
+  canonical: انضم_خيط
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: join thread
+  description_en: join thread
+  params: []
+  lookup_table: name_only
+- cpp_id: CREATE_ATOMIC
+  canonical: أنشئ_ذري
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create atomic
+  description_en: create atomic
+  params: []
+  lookup_table: name_only
+- cpp_id: ATOMIC_LOAD
+  canonical: حمل_ذري
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: atomic load
+  description_en: atomic load
+  params: []
+  lookup_table: name_only
+- cpp_id: ATOMIC_STORE
+  canonical: خزن_ذري
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: atomic store
+  description_en: atomic store
+  params: []
+  lookup_table: name_only
+- cpp_id: ATOMIC_ADD
+  canonical: أضف_ذري
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: atomic add
+  description_en: atomic add
+  params: []
+  lookup_table: name_only
+- cpp_id: ATOMIC_CAS
+  canonical: قارن_وبدل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: compare and swap
+  description_en: compare and swap
+  params: []
+  lookup_table: name_only
+- cpp_id: WAIT_ANY
+  canonical: انتظر_أي
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: wait any
+  description_en: wait any
+  params: []
+  lookup_table: name_only
+- cpp_id: CHANNEL_SELECT
+  canonical: اختر_قناة
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: select channel
+  description_en: select channel
+  params: []
+  lookup_table: name_only
+- cpp_id: IS_INSTANCE
+  canonical: هو_مثيل
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: is instance
+  description_en: is instance
+  params: []
+  lookup_table: name_only
+- cpp_id: INSTANCE_OF
+  canonical: مثيل_من
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: instance of
+  description_en: instance of
+  params: []
+  lookup_table: name_only
+- cpp_id: OBJECT_TYPE
+  canonical: نوع_الكائن
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: object type
+  description_en: object type
+  params: []
+  lookup_table: name_only
+- cpp_id: OBJECT_FIELDS
+  canonical: حقول_الكائن
+  namespace: AsyncAdvanced
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASYNC
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: object fields
+  description_en: object fields
+  params: []
+  lookup_table: name_only

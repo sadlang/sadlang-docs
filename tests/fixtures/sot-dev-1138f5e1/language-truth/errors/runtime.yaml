@@ -1,0 +1,1277 @@
+version: '1.0'
+category: runtime
+description_ar: أخطاء runtime
+description_en: runtime errors
+errors:
+- code: RUN_DIVISION_BY_ZERO
+  id: RUN001
+  category: runtime
+  title:
+    ar: القسمة على صفر
+    en: Division by zero
+  brief:
+    ar: محاولة قسمة {a} على صفر
+    en: Attempting to divide {a} by zero
+  placeholders:
+  - a
+  fix_hint:
+    ar: 'تحقّق من المقام قبل القسمة: إذا (المقام != 0) ارجع البسط / المقام. للقسمة الآمنة استخدم تعبيراً ثلاثياً.'
+    en: 'Check denominator before dividing: إذا (denom != 0) ارجع num / denom. For safe division use a ternary expression.'
+  detailed:
+    ar: القسمة على صفر غير معرّفة رياضياً. لغة ص ترفع هذا الخطأ بدلاً من إنتاج قيمة لانهائية أو NaN كبعض اللغات. يحدث مع العامل '/' أو دالة قسمة. تأكّد دائماً من قيمة المقام قبل العملية.
+    en: Division by zero is mathematically undefined. Sad raises this error instead of producing infinity or NaN like some languages. Occurs with '/' operator or division functions. Always validate the denominator first.
+- code: RUN_INDEX_OUT_OF_RANGE
+  id: RUN002
+  category: runtime
+  title:
+    ar: فهرس خارج النطاق
+    en: Index out of range
+  brief:
+    ar: الفهرس {index} خارج نطاق {container} (الطول {length})
+    en: Index {index} is out of bounds for {container} (length {length})
+  placeholders:
+  - container
+  - index
+  - length
+  fix_hint:
+    ar: 'تحقّق من الفهرس قبل الوصول: إذا (الفهرس < طول(المصفوفة)). الفهارس تبدأ من 0 وتنتهي عند طول-1.'
+    en: 'Check index before access: إذا (i < طول(arr)). Indices start at 0 and end at length-1.'
+  detailed:
+    ar: المصفوفات في لغة ص ذات أحجام محدودة، والوصول لفهرس خارج النطاق [0، طول-1] يرفع هذا الخطأ بدلاً من قراءة ذاكرة عشوائية (أمان الذاكرة). للوصول الآمن استخدم 'في' أو فحص الطول مسبقاً.
+    en: Sad arrays have bounded sizes, and accessing an index outside [0, length-1] raises this error instead of reading random memory (memory safety). For safe access use 'في' or check length first.
+- code: RUN_NULL_REFERENCE
+  id: RUN003
+  category: runtime
+  title:
+    ar: مرجع فارغ
+    en: Null reference
+  brief:
+    ar: محاولة الوصول إلى '{member}' على كائن {class} فارغ ({reason})
+    en: Attempting to access '{member}' on null {class} object ({reason})
+  placeholders:
+  - class
+  - member
+  - reason
+  fix_hint:
+    ar: 'تحقّق من القيمة قبل الاستخدام: إذا (القيمة != لاشيء) ... . استخدم العامل الآمن ''?.'' عند توفّره.'
+    en: 'Check value before use: إذا (v != لاشيء) ... . Use safe-access operator ''?.'' when available.'
+  detailed:
+    ar: 'محاولة الوصول لخاصية أو استدعاء دالة على قيمة ''لاشيء'' (null) ترفع هذا الخطأ. السبب الشائع: دالة أرجعت لاشيء ولم تُفحص نتيجتها قبل الاستخدام.'
+    en: 'Attempting to access a property or call a method on ''لاشيء'' (null) raises this error. Common cause: a function returned null without the result being checked before use.'
+- code: RUN_STACK_OVERFLOW
+  id: RUN004
+  category: runtime
+  title:
+    ar: تجاوز سعة المكدس
+    en: Stack overflow
+  brief:
+    ar: تجاوز الحد الأقصى لعمق الاستدعاءات (تكرار غير منته؟)
+    en: Maximum call depth exceeded (infinite recursion?)
+  fix_hint:
+    ar: ابحث عن استدعاء ذاتي بدون شرط توقّف. كل دالة تكرارية تحتاج حالة أساس (base case) لإنهاء التكرار.
+    en: Look for self-recursion without a stopping condition. Every recursive function needs a base case to terminate.
+  detailed:
+    ar: 'مكدس الاستدعاءات محدود (عادةً 1MB-8MB حسب النظام). الاستدعاء التكراري بدون نهاية يستنفده. حلول: حوّل التكرار لحلقة، أو استخدم tail-call، أو زد حجم المكدس.'
+    en: 'The call stack is limited (~1MB-8MB system-dependent). Unbounded recursion exhausts it. Solutions: convert recursion to loop, use tail calls, or increase stack size.'
+- code: RUN_KEY_NOT_FOUND
+  id: RUN005
+  category: runtime
+  title:
+    ar: مفتاح غير موجود
+    en: Key not found
+  brief:
+    ar: المفتاح '{key}' غير موجود في القاموس
+    en: Key '{key}' not found in dictionary
+  placeholders:
+  - key
+  fix_hint:
+    ar: 'تحقّق من وجود المفتاح أوّلاً: إذا (الخريطة.يحتوي(''مفتاح''))، أو استخدم ''احصل'' مع قيمة افتراضية.'
+    en: 'Check key existence first: إذا (map.يحتوي(''key'')), or use ''احصل'' with a default value.'
+  detailed:
+    ar: الوصول بـ خريطة['مفتاح_غير_موجود'] يرفع هذا الخطأ بدلاً من إرجاع لاشيء بصمت. هذا السلوك متعمّد لكشف الأخطاء مبكراً. للحصول الآمن استخدم 'احصل(مفتاح، افتراضي)'.
+    en: Access via map['missing_key'] raises this error rather than silently returning null. This is intentional to surface bugs early. For safe access use 'احصل(key, default)'.
+- code: RUN_INVALID_CAST
+  id: RUN006
+  category: runtime
+  title:
+    ar: تحويل نوع غير صالح
+    en: Invalid type cast
+  brief:
+    ar: تعذّر تحويل القيمة إلى النوع المطلوب
+    en: Cannot convert the value to the requested type
+  fix_hint:
+    ar: 'تأكّد أن القيمة تحوي تمثيلاً صالحاً للنوع المطلوب. مثال: رقم(''abc'') يفشل لأن ''abc'' ليس رقماً.'
+    en: 'Ensure the value holds a valid representation of the target type. Example: رقم(''abc'') fails since ''abc'' isn''t numeric.'
+  detailed:
+    ar: دوال التحويل (رقم، عشري، نص، منطقي) تحاول تفسير القيمة كنوع آخر. إذا فشل التفسير (نص غير رقمي، رقم خارج النطاق، إلخ) يُرفع هذا الخطأ. للتحويلات المحفوفة بالمخاطر، أحط الاستدعاء بـ 'حاول/امسك'.
+    en: Conversion functions (رقم, عشري, نص, منطقي) try to reinterpret a value as another type. If interpretation fails (non-numeric string, out-of-range number, etc.), this error fires. For risky conversions, wrap in 'حاول/امسك'.
+- code: RUN_FILE_ERROR
+  id: RUN007
+  category: runtime
+  title:
+    ar: خطأ في الملف
+    en: File error
+  brief:
+    ar: 'تعذّر الوصول إلى الملف ''{path}'': {reason}'
+    en: 'Cannot access file ''{path}'': {reason}'
+  placeholders:
+  - path
+  - reason
+  fix_hint:
+    ar: 'تحقّق من: (1) صحّة المسار ''{path}''، (2) وجود الملف، (3) صلاحيات القراءة/الكتابة. السبب: {reason}'
+    en: 'Verify: (1) path ''{path}'' correctness, (2) file existence, (3) read/write permissions. Reason: {reason}'
+  detailed:
+    ar: 'عمليات الملفات (قراءة، كتابة، حذف، نسخ) تعتمد على نظام التشغيل. الأسباب الشائعة للفشل: ملف غير موجود، صلاحيات مرفوضة، قرص ممتلئ، اسم غير صالح، أو ملف مستخدَم من برنامج آخر. أحط عمليات I/O بـ ''حاول/امسك''.'
+    en: 'File operations (read, write, delete, copy) depend on the OS. Common failure causes: missing file, denied permissions, full disk, invalid name, or file locked by another program. Wrap I/O in ''حاول/امسك''.'
+- code: RUN_IMPORT_ERROR
+  id: RUN008
+  category: runtime
+  title:
+    ar: خطأ في الاستيراد
+    en: Import error
+  brief:
+    ar: 'تعذّر استيراد ''{module}'': {reason}'
+    en: 'Cannot import ''{module}'': {reason}'
+  placeholders:
+  - module
+  - reason
+  fix_hint:
+    ar: 'تحقّق من اسم الوحدة ''{module}'' وتثبيتها. للوحدات المحلّية تحقّق من المسار النسبي. السبب: {reason}'
+    en: 'Verify module name ''{module}'' and installation. For local modules check the relative path. Reason: {reason}'
+  detailed:
+    ar: 'الاستيراد يبحث عن الوحدة في: (1) الوحدات المدمجة، (2) مجلد المشروع، (3) مجلد المكتبات. الفشل غالباً بسبب إملاء خاطئ، وحدة غير مثبّتة، أو خطأ في كود الوحدة نفسها.'
+    en: 'Import searches for modules in: (1) built-ins, (2) project folder, (3) library folder. Failure usually stems from typos, uninstalled modules, or errors in the module''s own code.'
+- code: RUN_FLOOR_DIVISION_BY_ZERO
+  id: RUN009
+  category: runtime
+  title:
+    ar: قسمة صحيحة على صفر
+    en: Floor division by zero
+  brief:
+    ar: محاولة قسمة صحيحة لـ {a} على صفر
+    en: Attempting floor division of {a} by zero
+  placeholders:
+  - a
+  fix_hint:
+    ar: 'تحقّق من المقام قبل القسمة الصحيحة. القسمة الصحيحة في ص: استخدم رقم(أ / ب) أو (أ - أ % ب) / ب.'
+    en: Check denominator before integer division. For integer division in Sad use رقم(a / b) or (a - a % b) / b.
+  detailed:
+    ar: القسمة الصحيحة على صفر لا تختلف عن القسمة العادية في كونها غير معرّفة. هذا الخطأ خاص بالعملية التي تقطع الجزء العشري من الناتج. تحقّق من المقام دائماً.
+    en: Integer (floor) division by zero is undefined just like regular division. This error is specific to operations that truncate the result. Always validate the denominator.
+- code: RUN_MODULO_BY_ZERO
+  id: RUN010
+  category: runtime
+  title:
+    ar: باقي القسمة على صفر
+    en: Modulo by zero
+  brief:
+    ar: محاولة حساب باقي {a} % 0
+    en: Attempting to compute {a} % 0
+  placeholders:
+  - a
+  fix_hint:
+    ar: 'تحقّق من المقام قبل عملية الباقي (%). القاعدة: أ % ب تتطلّب ب ≠ 0.'
+    en: 'Check denominator before modulo (%). Rule: a % b requires b ≠ 0.'
+  detailed:
+    ar: عملية الباقي (modulo) تعتمد على القسمة، لذا تشترك معها في عدم تعريف القسمة على صفر. حتى مع الأعداد العشرية، الباقي على صفر يبقى غير معرّف.
+    en: Modulo depends on division, so it shares the undefined behavior for zero divisor. Even with floats, modulo by zero remains undefined.
+- code: RUN_NUMERIC_OVERFLOW
+  id: RUN011
+  category: runtime
+  title:
+    ar: تجاوز عددي
+    en: Numeric overflow
+  brief:
+    ar: العملية الحسابية أنتجت قيمة تتجاوز نطاق نوع رقم (64-بت)
+    en: The arithmetic operation produced a value exceeding the 64-bit integer range
+  fix_hint:
+    ar: استخدم نوع 'عشري' لمدى أوسع، أو قسّم العملية لخطوات أصغر، أو تحقّق من الحدود قبل الضرب/الجمع.
+    en: Use 'عشري' (float) for wider range, split the operation into smaller steps, or check bounds before multiply/add.
+  detailed:
+    ar: نوع 'رقم' هو عدد صحيح 64-بت، حدّه الأقصى ~9.2 × 10^18. العمليات التي تتجاوز هذا الحد ترفع تجاوزاً عددياً بدلاً من الالتفاف الصامت (wrap-around). للحسابات الكبيرة استخدم 'عشري' (53 بت دقّة، مدى أوسع بكثير).
+    en: '''رقم'' is a signed 64-bit integer, max ~9.2 × 10^18. Operations exceeding this raise overflow rather than silent wrap-around. For large arithmetic use ''عشري'' (53-bit precision, much wider range).'
+- code: RUN_STRING_INDEX_OUT_OF_RANGE
+  id: RUN012
+  category: runtime
+  title:
+    ar: فهرس النص خارج النطاق
+    en: String index out of range
+  brief:
+    ar: الفهرس {index} خارج نطاق النص (الطول {length} محرفاً)
+    en: Index {index} is out of range for string (length {length} characters)
+  placeholders:
+  - index
+  - length
+  fix_hint:
+    ar: 'تحقّق من فهرس النص قبل الوصول: إذا (الفهرس < طول(النص)). تذكّر أن الطول بعدد المحارف لا البايتات (UTF-8).'
+    en: 'Check string index before access: إذا (i < طول(s)). Length counts characters, not bytes (UTF-8 aware).'
+  detailed:
+    ar: النصوص في لغة ص مفهرسة بالمحارف وليس البايتات، لذا حرف عربي = موضع واحد رغم كونه عدّة بايتات في الذاكرة. الفهرس خارج الطول يُسبّب هذا الخطأ.
+    en: Sad strings are character-indexed not byte-indexed, so an Arabic letter = one position despite spanning multiple bytes. Out-of-range index triggers this error.
+- code: RUN_STRING_INDEX_NOT_INTEGER
+  id: RUN013
+  category: runtime
+  title:
+    ar: فهرس النص غير صحيح
+    en: String index not integer
+  brief:
+    ar: يجب أن يكون فهرس النص رقماً صحيحاً (موضع محرف)
+    en: String index must be an integer (character position)
+  fix_hint:
+    ar: 'حوّل الفهرس لرقم صحيح: رقم(الفهرس) قبل الوصول إلى النص.'
+    en: 'Convert index to integer: رقم(index) before string access.'
+  detailed:
+    ar: الفهرسة بالنصوص تتطلّب رقماً صحيحاً (موضع المحرف). تمرير عشري أو نص يرفع هذا الخطأ لمنع سلوك غامض.
+    en: String indexing requires an integer (character position). Passing a float or string raises this error to prevent ambiguous behavior.
+- code: RUN_TUPLE_INDEX_NOT_NUMBER
+  id: RUN014
+  category: runtime
+  title:
+    ar: فهرس الصف غير رقمي
+    en: Tuple index not numeric
+  brief:
+    ar: فهرس الصف يجب أن يكون رقماً، لكن المُدخل '{actual}'
+    en: Tuple index must be numeric, but got '{actual}'
+  placeholders:
+  - actual
+  fix_hint:
+    ar: الصفوف (tuples) تستخدم فهارس رقمية ثابتة. تأكّد من تمرير رقم صحيح في القوسين المربّعين.
+    en: Tuples use fixed numeric indices. Ensure you pass an integer in [].
+  detailed:
+    ar: الصفوف هي مجموعات ثابتة الحجم والترتيب، تُفهرس بأرقام صحيحة من 0 إلى الطول-1. لا تدعم الفهرسة بنص أو مفتاح.
+    en: Tuples are fixed-size ordered collections, indexed by integers 0 to length-1. They don't support string/key indexing.
+- code: RUN_ARRAY_INDEX_NOT_NUMBER
+  id: RUN015
+  category: runtime
+  title:
+    ar: فهرس المصفوفة غير رقمي
+    en: Array index not numeric
+  brief:
+    ar: فهرس المصفوفة يجب أن يكون رقماً، لكن المدخل {actual}
+    en: Array index must be numeric, but got {actual}
+  placeholders:
+  - actual
+  fix_hint:
+    ar: تأكّد أن الفهرس رقم صحيح. للقواميس استخدم القوسين المربّعين مع مفاتيح من أي نوع.
+    en: Ensure the index is an integer. For maps/dicts use [] with keys of any type.
+  detailed:
+    ar: المصفوفات تستخدم فهارس رقمية حصراً (0، 1، 2...). إن كنت تحاول البحث بمفتاح نصّي، فاستخدم خريطة (map) بدلاً من مصفوفة.
+    en: Arrays use numeric indices exclusively (0, 1, 2...). If you're looking up by string key, use a map instead of an array.
+- code: RUN_SLICE_STEP_ZERO
+  id: RUN016
+  category: runtime
+  title:
+    ar: خطوة الشريحة لا يمكن أن تكون صفر
+    en: Slice step cannot be zero
+  brief:
+    ar: خطوة الشريحة لا يمكن أن تكون صفر
+    en: Slice step cannot be zero
+  fix_hint:
+    ar: 'غيّر خطوة الشريحة لقيمة غير صفرية. مثال: مصفوفة[0..10..2] (خطوة 2). للعكس استخدم خطوة سالبة.'
+    en: 'Use a non-zero step. Example: arr[0..10..2] (step 2). For reverse iteration use a negative step.'
+  detailed:
+    ar: خطوة الشريحة بـ 0 ستسبّب حلقة لانهائية (لا تقدّم في المصفوفة). لغة ص ترفض هذا صراحة لمنع تجمّد البرنامج.
+    en: A step of 0 would cause an infinite loop (no progress through the array). Sad explicitly rejects this to prevent program freezes.
+- code: RUN_SLICE_TYPE_INVALID
+  id: RUN017
+  category: runtime
+  title:
+    ar: نوع غير قابل للتشريح
+    en: Type not sliceable
+  brief:
+    ar: الشرائح تعمل على المصفوفات والنصوص فقط، لكن النوع الممرّر '{type}'
+    en: Slicing works only on arrays and strings, but got type '{type}'
+  placeholders:
+  - type
+  fix_hint:
+    ar: الشرائح تعمل على المصفوفات والنصوص فقط. حوّل القيمة لمصفوفة أو نص أولاً.
+    en: Slices work on arrays and strings only. Convert to array/string first.
+  detailed:
+    ar: عملية الشريحة [بداية..نهاية] أو [بداية..نهاية..خطوة] محدّدة بأنواع التسلسلات المرتّبة (المصفوفات والنصوص). الخرائط والكائنات لا تدعمها.
+    en: Slice operation [start..end] or [start..end..step] is defined for ordered sequence types (arrays and strings). Maps and objects don't support it.
+- code: RUN_INDEX_ASSIGN_TYPE_INVALID
+  id: RUN018
+  category: runtime
+  title:
+    ar: إسناد بالفهرس غير مدعوم
+    en: Indexed assignment not supported
+  brief:
+    ar: الإسناد بالفهرس مدعوم للمصفوفات والقواميس فقط، لكن النوع الممرّر '{type}'
+    en: Indexed assignment works only on arrays and maps, but got type '{type}'
+  placeholders:
+  - type
+  fix_hint:
+    ar: الإسناد بالفهرس مدعوم فقط للمصفوفات (س[0] = ...) والقواميس (س['مفتاح'] = ...). النصوص غير قابلة للتعديل.
+    en: Index assignment works only for arrays (a[0] = ...) and maps (m['key'] = ...). Strings are immutable.
+  detailed:
+    ar: النصوص في لغة ص ثابتة (immutable) — لا يمكن تعديل محرف بفهرسه. لتعديل نص، أنشئ نصاً جديداً بـ '+'  أو استخدم دوال 'استبدل' و'شريحة'.
+    en: Sad strings are immutable — you can't modify a character by index. To 'modify', build a new string with '+' or use 'استبدل'/'شريحة' methods.
+- code: RUN_EMPTY_COLLECTION
+  id: RUN019
+  category: runtime
+  title:
+    ar: عملية على مجموعة فارغة
+    en: Operation on empty collection
+  brief:
+    ar: العملية '{operation}' تتطلّب عنصراً واحداً على الأقل
+    en: Operation '{operation}' requires at least one element
+  placeholders:
+  - operation
+  fix_hint:
+    ar: 'تحقّق من فراغ المجموعة قبل العملية: إذا (طول(المصفوفة) > 0). أو استخدم دالة ''فارغة()''.'
+    en: 'Check emptiness before the operation: إذا (طول(arr) > 0). Or use the ''فارغة()'' method.'
+  detailed:
+    ar: عمليات مثل 'أوّل()'، 'آخر()'، 'احذف_أخير()' تتطلّب وجود عنصر واحد على الأقل. تنفيذها على مجموعة فارغة يرفع هذا الخطأ لمنع قراءة غير معرّفة.
+    en: Operations like 'أوّل()', 'آخر()', 'احذف_أخير()' require at least one element. Running them on empty collections raises this error to prevent undefined reads.
+- code: RUN_CLASS_NOT_FOUND
+  id: RUN020
+  category: runtime
+  title:
+    ar: الصنف غير موجود
+    en: Class not found
+  brief:
+    ar: الصنف '{class}' غير معرّف في فضاء الأسماء الحالي
+    en: Class '{class}' is not defined in the current namespace
+  placeholders:
+  - class
+  fix_hint:
+    ar: عرّف الصنف بـ 'صنف ... نهاية' قبل الاستخدام، أو استورده. التعريفات في نفس الملف يجب أن تسبق الاستخدام.
+    en: Define the class with 'صنف ... نهاية' before use, or import it. Same-file definitions must precede usage.
+  detailed:
+    ar: محاولة إنشاء كائن بـ'جديد' أو فحص النوع بـ 'هو' لصنف غير موجود ترفع هذا الخطأ. تأكّد من تحميل الملف الذي يعرّف الصنف قبل استخدامه.
+    en: Attempting 'جديد' instantiation or 'هو' type check for an undefined class raises this error. Ensure the file defining the class is loaded before use.
+- code: RUN_BASE_CLASS_NOT_FOUND
+  id: RUN021
+  category: runtime
+  title:
+    ar: الصنف الأساسي غير موجود
+    en: Base class not found
+  brief:
+    ar: الصنف '{class}' يرث من '{base}' غير المعرّف
+    en: Class '{class}' inherits from undefined base '{base}'
+  placeholders:
+  - base
+  - class
+  fix_hint:
+    ar: تأكّد من تعريف الصنف الأساسي قبل الصنف الوارث، أو استيراده من الوحدة الصحيحة.
+    en: Ensure the base class is defined before the inheriting class, or imported from the right module.
+  detailed:
+    ar: في 'صنف فرعي يرث أساسي'، يجب أن يكون الصنف 'أساسي' معرّفاً ومتاحاً. وراثة من صنف غير موجود ترفع هذا الخطأ. غالباً بسبب ترتيب التحميل أو خطأ إملائي.
+    en: In 'صنف child يرث parent', the 'parent' class must be defined and available. Inheriting from a missing class raises this error. Often a load-order issue or typo.
+- code: RUN_METHOD_NOT_FOUND
+  id: RUN022
+  category: runtime
+  title:
+    ar: الطريقة غير موجودة
+    en: Method not found
+  brief:
+    ar: الطريقة '{method}' غير موجودة في الصنف '{class}'{suggestion_clause}
+    en: Method '{method}' not found in class '{class}'{suggestion_clause_en}
+  placeholders:
+  - class
+  - method
+  - suggestion_clause
+  - suggestion_clause_en
+  fix_hint:
+    ar: تحقّق من اسم الدالة (حسّاس لحالة الأحرف اللاتينية)، أو أنّ الكائن من الصنف الصحيح. استخدم 'هو' للفحص.
+    en: Check method name (case-sensitive for Latin), or that the object is of the right class. Use 'هو' to verify.
+  detailed:
+    ar: استدعاء كائن.دالة() على دالة غير موجودة في الصنف أو أصنافه الأساسية يرفع هذا الخطأ. تحقّق أيضاً من الوصول (دالة خاصّة من خارج الصنف ترفع SEM_PRIVATE_ACCESS بدلاً منها).
+    en: Calling obj.method() on a method not found in the class or its bases raises this error. Also check access (calling a private method from outside raises SEM_PRIVATE_ACCESS instead).
+- code: RUN_OBJECT_WITHOUT_CLASS
+  id: RUN023
+  category: runtime
+  title:
+    ar: كائن بدون صنف
+    en: Object without class
+  brief:
+    ar: استدعاء '{method}' على كائن بلا معلومات صنف
+    en: Calling '{method}' on an object missing class metadata
+  placeholders:
+  - method
+  fix_hint:
+    ar: هذا خطأ داخلي في وقت التشغيل. تأكّد من إنشاء الكائن بـ 'جديد صنف(...)'. إن استمرّت المشكلة فهي bug في المفسّر.
+    en: Internal runtime error. Ensure object created via 'جديد ClassName(...)'. If persistent, this is an interpreter bug.
+  detailed:
+    ar: كل كائن في وقت التشغيل يحمل مرجعاً لصنفه. غياب هذا المرجع يعني فساد بيانات أو إنشاء غير سليم. أبلغ عن هذا الخطأ مع الكود الذي أنتجه.
+    en: Every runtime object holds a reference to its class. Absence indicates data corruption or improper instantiation. Report with reproducing code.
+- code: RUN_CONSTRUCTOR_FAILED
+  id: RUN024
+  category: runtime
+  title:
+    ar: فشل تنفيذ الباني
+    en: Constructor failed
+  brief:
+    ar: فشل تنفيذ الباني
+    en: Constructor failed
+  fix_hint:
+    ar: افحص كود الباني ('باني(...)'). تأكّد من تمرير الوسائط الصحيحة وأن العمليات الداخلية لا ترمي خطأ.
+    en: Inspect the constructor ('باني(...)'). Ensure correct arguments and that internal operations don't throw.
+  detailed:
+    ar: الباني يُنفّذ عند 'جديد صنف(...)'. أي خطأ داخل الباني (قسمة على صفر، استدعاء فاشل، رمي صريح) يلغي إنشاء الكائن ويرفع هذا الخطأ. الاستثناء الأصلي عادةً متاح في تفاصيل الرسالة.
+    en: The constructor runs on 'جديد ClassName(...)'. Any error inside (division by zero, failed call, explicit throw) cancels instantiation and raises this error. The underlying exception is usually in the message details.
+- code: RUN_PROPERTY_NOT_FOUND
+  id: RUN025
+  category: runtime
+  title:
+    ar: خاصية غير موجودة
+    en: Property not found
+  brief:
+    ar: الخاصية '{member}' غير معرّفة في الصنف '{class}'
+    en: Property '{member}' is not defined in class '{class}'
+  placeholders:
+  - class
+  - member
+  fix_hint:
+    ar: تحقّق من اسم الخاصية وأنّها معرّفة في الصنف. للوصول للحقول الخاصّة استخدم دالة 'احصل' عامّة.
+    en: Check property name and that it's defined in the class. For private fields use a public 'احصل' (getter).
+  detailed:
+    ar: الوصول بـ كائن.خاصية لخاصية غير معرّفة يرفع هذا الخطأ بدلاً من إنشاء حقل ديناميكي بصمت. هذا يساعد على كشف الأخطاء الإملائية مبكراً.
+    en: Accessing obj.property for an undefined property raises this error rather than silently creating a dynamic field. This helps catch typos early.
+- code: RUN_INHERITANCE_CYCLE
+  id: RUN026
+  category: runtime
+  title:
+    ar: دورة في الوراثة
+    en: Inheritance cycle
+  brief:
+    ar: الصنف '{class}' يدخل في دورة وراثة عبر '{base}'
+    en: Class '{class}' is part of an inheritance cycle through '{base}'
+  placeholders:
+  - base
+  - class
+  fix_hint:
+    ar: أعد تنظيم سلسلة الوراثة. لا يمكن لصنف أن يرث من نفسه مباشرة أو بشكل غير مباشر عبر سلسلة.
+    en: Restructure the inheritance chain. A class cannot inherit from itself directly or transitively.
+  detailed:
+    ar: دورة الوراثة (أ يرث ب، ب يرث ج، ج يرث أ) مستحيلة منطقياً ودلالياً. لغة ص تكشفها عند تحميل الأصناف وترفض إنشاء أي كائن منها. حلّ المشكلة بـ تصميم composition بدل inheritance.
+    en: Inheritance cycles (A inherits B, B inherits C, C inherits A) are logically impossible. Sad detects them at class-load time and refuses instantiation. Solve via composition instead of inheritance.
+- code: RUN_ABSTRACT_INSTANTIATION
+  id: RUN027
+  category: runtime
+  title:
+    ar: إنشاء صنف مجرد
+    en: Abstract class instantiation
+  brief:
+    ar: لا يمكن إنشاء كائن من الصنف المجرد '{class}' (الدالة '{method}' غير منفّذة)
+    en: Cannot instantiate abstract class '{class}' (method '{method}' is not implemented)
+  placeholders:
+  - class
+  - method
+  fix_hint:
+    ar: لا تُنشئ كائناً من صنف 'مجرد'. أنشئ كائناً من صنف فرعي يُنفّذ كل الدوال المجرّدة، أو احذف 'مجرد' من الصنف.
+    en: Don't instantiate an 'مجرد' (abstract) class. Instantiate a concrete subclass that implements all abstract methods, or remove 'مجرد'.
+  detailed:
+    ar: 'الأصناف المجرّدة تمثّل عقوداً غير مكتملة — تحوي دوال مجرّدة بدون تنفيذ. إنشاء كائن منها يعني وجود دوال لا يمكن استدعاؤها. الحل: ورّث منها واملأ التنفيذات.'
+    en: 'Abstract classes represent incomplete contracts — they contain abstract methods without implementation. Instantiating them would mean uncallable methods exist. Solution: inherit and provide implementations.'
+- code: RUN_FUNCTION_NOT_FOUND
+  id: RUN028
+  category: runtime
+  title:
+    ar: الدالة غير موجودة
+    en: Function not found
+  brief:
+    ar: الدالة '{function}' غير معرّفة في وقت التشغيل
+    en: Function '{function}' is not defined at runtime
+  placeholders:
+  - function
+  fix_hint:
+    ar: تحقّق من إملاء اسم الدالة وتعريفها قبل الاستدعاء. استورد الوحدة المناسبة إن كانت الدالة منها.
+    en: Check function name spelling and that it's defined before the call. Import the right module if applicable.
+  detailed:
+    ar: 'استدعاء اسم لا يطابق أي دالة معرّفة أو مدمجة أو مستوردة. الفرق عن SEM_UNDEFINED_FUNCTION: هذا الخطأ يحدث في وقت التشغيل عند بحث ديناميكي (مثل استدعاء عبر متغيّر يحمل اسم الدالة).'
+    en: Calling a name matching no defined, built-in, or imported function. Differs from SEM_UNDEFINED_FUNCTION in being runtime-time during dynamic lookup (e.g., calling via a variable holding the name).
+- code: RUN_MISSING_REQUIRED_ARG
+  id: RUN029
+  category: runtime
+  title:
+    ar: معامل إلزامي مفقود
+    en: Missing required argument
+  brief:
+    ar: الدالة '{function}' استُدعيت دون المعامل الإلزامي '{param}'
+    en: Function '{function}' was called without the required parameter '{param}'
+  placeholders:
+  - function
+  - param
+  fix_hint:
+    ar: مرّر جميع المعاملات الإلزامية. للقيم الاختيارية، عرّف الدالة بمعاملات افتراضية.
+    en: Pass all required arguments. For optional values, define the function with default parameters.
+  detailed:
+    ar: 'الدالة تتوقّع معاملاً لم يُمرَّر ولا يملك قيمة افتراضية. في تعريف الدالة، يمكن تعيين قيم افتراضية: ''دالة س(أ، ب = 10)''.'
+    en: 'The function expects an argument that wasn''t passed and has no default. In the definition, defaults can be specified: ''دالة f(a, b = 10)''.'
+- code: RUN_TOO_MANY_ARGS
+  id: RUN030
+  category: runtime
+  title:
+    ar: وسائط أكثر من المطلوب
+    en: Too many arguments
+  brief:
+    ar: الدالة '{function}' تتوقّع {expected} وسيطاً، لكن تم تمرير {actual}
+    en: Function '{function}' expects {expected} arguments, but {actual} were passed
+  placeholders:
+  - actual
+  - expected
+  - function
+  fix_hint:
+    ar: احذف المعاملات الزائدة. لقبول عدد متغيّر استخدم '...اسم' في تعريف الدالة.
+    en: Remove excess arguments. To accept variadic args use '...name' in the function definition.
+  detailed:
+    ar: 'تمرير معاملات أكثر مما تتوقّع الدالة يرفع هذا الخطأ. لجعل دالة تقبل أي عدد من المعاملات بعد المعروفة، استخدم البنية المتغيّرة: ''دالة س(أ، ...الباقي)''.'
+    en: 'Passing more arguments than the function expects raises this error. To accept any number of arguments past the known ones, use variadic syntax: ''دالة f(a, ...rest)''.'
+- code: RUN_NOT_CALLABLE
+  id: RUN031
+  category: runtime
+  title:
+    ar: القيمة غير قابلة للاستدعاء
+    en: Value not callable
+  brief:
+    ar: محاولة استدعاء قيمة من نوع '{type}' (ليست دالة أو لامدا)
+    en: Attempting to call a value of type '{type}' (not a function or lambda)
+  placeholders:
+  - type
+  fix_hint:
+    ar: تحقّق أنّ القيمة دالة أو لامدا قبل استدعائها. استخدم 'نوع(القيمة)' لمعرفة نوعها.
+    en: Verify the value is a function or lambda before calling. Use 'نوع(value)' to check its type.
+  detailed:
+    ar: 'محاولة استدعاء قيمة ليست دالة (مثل رقم أو نص أو كائن بدون ''عامل ()'') يرفع هذا الخطأ. السبب الشائع: تظليل اسم دالة بمتغيّر يحمل قيمة أخرى.'
+    en: 'Attempting to call a non-function value (a number, string, or object without ''عامل ()'') raises this error. Common cause: shadowing a function name with a variable holding a different value.'
+- code: RUN_LAMBDA_RETURN_INVALID
+  id: RUN032
+  category: runtime
+  title:
+    ar: إرجاع لامدا غير صالح
+    en: Invalid lambda return
+  brief:
+    ar: جسم اللامدا لم يعد قيمة من النوع المتوقّع
+    en: The lambda body did not return a value of the expected type
+  fix_hint:
+    ar: تأكّد أن جسم اللامدا يرجع قيمة من النوع المتوقّع. تجنّب 'ارجع' بدون قيمة في لامدا تعبيرية.
+    en: Ensure the lambda body returns a value of the expected type. Avoid bare 'ارجع' in expression lambdas.
+  detailed:
+    ar: اللامدا التعبيرية (مع => أو ما يماثلها) تتوقّع تعبيراً يُنتج قيمة. الإرجاع الفارغ أو الخالي يخالف هذا التعاقد.
+    en: Expression lambdas expect an expression producing a value. Empty or void returns violate this contract.
+- code: RUN_OPERAND_TYPE_INVALID
+  id: RUN033
+  category: runtime
+  title:
+    ar: نوع المعامل غير صالح
+    en: Operand type invalid
+  brief:
+    ar: نوع المعامل '{type}' غير مدعوم في العملية '{operation}'
+    en: Operand type '{type}' is not supported in operation '{operation}'
+  placeholders:
+  - operation
+  - type
+  fix_hint:
+    ar: تحقّق من أنواع المعاملات قبل العملية. حوّل بـ رقم()، نص()، عشري() إذا لزم.
+    en: Verify operand types before the operation. Convert via رقم(), نص(), عشري() if needed.
+  detailed:
+    ar: كل عامل (+، -، *، <، == ...) معرّف لمجموعة محدّدة من الأنواع. تطبيقه على نوع غير مدعوم (مثل '<' بين دالة ودالة) يرفع هذا الخطأ. للأنواع المخصّصة، استخدم تحميل العامل (عامل overloading).
+    en: Each operator (+, -, *, <, == ...) is defined for specific type sets. Applying to unsupported types (e.g., '<' between two functions) raises this error. For custom types use operator overloading.
+- code: RUN_TYPE_CONVERSION_FAILED
+  id: RUN034
+  category: runtime
+  title:
+    ar: فشل تحويل النوع
+    en: Type conversion failed
+  brief:
+    ar: القيمة المعطاة لا يمكن تحويلها إلى النوع المستهدف
+    en: The supplied value cannot be converted to the target type
+  fix_hint:
+    ar: تحقّق من توافق الأنواع قبل التحويل، أو استخدم 'حاول/امسك' لمعالجة الفشل بأمان.
+    en: Check type compatibility before conversion, or use 'حاول/امسك' to handle failure safely.
+  detailed:
+    ar: بعض التحويلات لا تملك تمثيلاً مناسباً (مثل تحويل كائن لرقم بدون عامل محدّد). هذا الخطأ يكشف هذه الحالات بدلاً من إنتاج قيمة عشوائية أو افتراضية مضلّلة.
+    en: Some conversions have no meaningful representation (e.g., converting an object to number without a defined operator). This error surfaces such cases rather than producing misleading defaults.
+- code: RUN_IN_OPERATOR_RHS_INVALID
+  id: RUN035
+  category: runtime
+  title:
+    ar: يمين العامل 'في' غير صالح
+    en: '''in'' operator RHS invalid'
+  brief:
+    ar: عامل 'في' يتطلّب مصفوفة أو خريطة أو نص على اليمين، لكن الممرّر من نوع '{type}'
+    en: '''in'' operator requires array, map, or string on RHS, but got type ''{type}'''
+  placeholders:
+  - type
+  fix_hint:
+    ar: 'تأكّد أن يمين ''في'' هو مصفوفة أو خريطة أو نص. مثال: ''مفتاح'' في خريطة، أو محرف في نص، أو عنصر في مصفوفة.'
+    en: 'Ensure the right side of ''في'' is an array, map, or string. Example: ''key'' في map, char في string, item في array.'
+  detailed:
+    ar: 'عامل العضوية ''في'' يفحص وجود قيمة في مجموعة. الأنواع المدعومة: مصفوفات (بحث عن عنصر)، خرائط (بحث عن مفتاح)، نصوص (بحث عن سلسلة فرعية). الأنواع الأخرى ترفع هذا الخطأ.'
+    en: 'Membership operator ''في'' checks for value presence in a collection. Supported types: arrays (element search), maps (key search), strings (substring search). Other types raise this error.'
+- code: RUN_TYPE_CHECK_FAILED
+  id: RUN036
+  category: runtime
+  title:
+    ar: فشل فحص النوع
+    en: Type check failed
+  brief:
+    ar: النوع المتوقّع '{expected}' لكن المتلقّى '{actual}'
+    en: Expected type '{expected}' but got '{actual}'
+  placeholders:
+  - actual
+  - expected
+  fix_hint:
+    ar: 'افحص النوع بـ ''نوع(القيمة)''. للتحقّق من صنف معيّن استخدم ''هو'': إذا (القيمة هو اسم_الصنف).'
+    en: 'Inspect type via ''نوع(value)''. For class check use ''هو'': إذا (value هو ClassName).'
+  detailed:
+    ar: بعض السياقات (مثل قيود الأنواع 'حيث') تفرض أنواعاً محدّدة. عدم تطابق النوع المُمرَّر مع المتوقّع يرفع هذا الخطأ. للتحقّق الديناميكي قبل الاستدعاء استخدم 'نوع' أو 'هو'.
+    en: Some contexts (like 'حيث' type constraints) enforce specific types. A mismatch between passed and expected type raises this error. For dynamic check before call, use 'نوع' or 'هو'.
+- code: RUN_BUILTIN_REQUIRES_ARG
+  id: RUN037
+  category: runtime
+  title:
+    ar: الدالة المدمجة تتطلب وسيطاً
+    en: Builtin requires argument
+  brief:
+    ar: الدالة المدمجة '{func}' استُدعيت بوسائط ناقصة أو من نوع خاطئ
+    en: Built-in '{func}' called with missing or wrong-type arguments
+  placeholders:
+  - func
+  fix_hint:
+    ar: راجع توقيع الدالة المدمجة. كل دالة مدمجة لها عدد محدّد من المعاملات الإلزامية.
+    en: Check the built-in's signature. Each built-in has a specific number of required arguments.
+  detailed:
+    ar: الدوال المدمجة (طول، نوع، اطبع...) لها توقيعات صارمة. استدعاؤها بدون المعاملات الإلزامية يرفع هذا الخطأ. توثيق الدوال المدمجة في `.github/skills/sad-builtins/`.
+    en: Built-in functions (طول, نوع, اطبع...) have strict signatures. Calling without required args raises this error. Built-ins documented in `.github/skills/sad-builtins/`.
+- code: RUN_BUILTIN_REQUIRES_FUNCTION
+  id: RUN038
+  category: runtime
+  title:
+    ar: المدمجة تتطلب دالة
+    en: Builtin requires function
+  brief:
+    ar: الدالة المدمجة '{builtin}' تتوقّع دالة أو لامدا كمعامل
+    en: Built-in '{builtin}' expects a function or lambda as argument
+  placeholders:
+  - builtin
+  fix_hint:
+    ar: 'مرّر دالة أو لامدا. مثال: مصفوفة.خريطة(لامدا س => س * 2) أو مصفوفة.رشح(دالة_فحص).'
+    en: 'Pass a function or lambda. Example: arr.خريطة(لامدا x => x * 2) or arr.رشح(check_function).'
+  detailed:
+    ar: دوال البرمجة الوظيفية (خريطة، رشح، اختزل، لكل) تتوقّع دالة كمعامل. تمرير قيمة غير قابلة للاستدعاء (رقم، نص، كائن عادي) يرفع هذا الخطأ.
+    en: Functional programming methods (خريطة, رشح, اختزل, لكل) expect a function as argument. Passing a non-callable (number, string, plain object) raises this error.
+- code: RUN_BUILTIN_INVALID_INDEX
+  id: RUN039
+  category: runtime
+  title:
+    ar: فهرس غير صالح في مدمجة
+    en: Invalid index in builtin
+  brief:
+    ar: الفهرس الممرّر للدالة المدمجة خارج النطاق أو من نوع غير مدعوم
+    en: The index passed to the built-in is out of range or of unsupported type
+  fix_hint:
+    ar: تحقّق أن الفهرس المُمرَّر للدالة المدمجة ضمن النطاق الصحيح وأنّه رقم صحيح.
+    en: Verify the index passed to the built-in is within range and is an integer.
+  detailed:
+    ar: بعض الدوال المدمجة (شريحة، فهرس، إلخ) تتطلّب فهارس بقيود معيّنة. خرق هذه القيود (سالب غير مدعوم، أكبر من الطول، نوع غير صحيح) يرفع هذا الخطأ.
+    en: Some built-ins (شريحة, فهرس, etc.) require indices with specific constraints. Violating them (unsupported negatives, exceeding length, wrong type) raises this error.
+- code: RUN_BUILTIN_EMPTY_OPERATION
+  id: RUN040
+  category: runtime
+  title:
+    ar: عملية مدمجة على مجموعة فارغة
+    en: Builtin operation on empty collection
+  brief:
+    ar: الدالة المدمجة '{builtin}' تتطلّب عنصراً واحداً على الأقل
+    en: Built-in '{builtin}' requires at least one element
+  placeholders:
+  - builtin
+  fix_hint:
+    ar: 'تحقّق من فراغ المجموعة قبل العملية: إذا (طول(م) > 0) ثم العملية. أو استخدم ''فارغة()''.'
+    en: 'Check emptiness before the operation: إذا (طول(c) > 0) then operate. Or use ''فارغة()''.'
+  detailed:
+    ar: دوال مدمجة كـ 'أوّل'، 'آخر'، 'اختزل' بدون قيمة ابتدائية تتطلّب عنصراً واحداً على الأقل. تنفيذها على مجموعة فارغة يرفع هذا الخطأ.
+    en: Built-ins like 'أوّل', 'آخر', 'اختزل' without initial value require at least one element. Running on empty collections raises this error.
+- code: RUN_CONTRACT_PRECOND_FAILED
+  id: RUN041
+  category: runtime
+  title:
+    ar: فشل الشرط المسبق
+    en: Precondition failure
+  brief:
+    ar: 'الدالة ''{function}'' - فشل ''يتطلب'' #{index}: {expr}'
+    en: 'Function ''{function}'' - ''requires'' #{index} failed: {expr}'
+  placeholders:
+  - expr
+  - function
+  - index
+  fix_hint:
+    ar: قبل استدعاء الدالة، تأكّد من تحقيق شرطها المسبق 'يتطلب'. راجع شرط الدالة.
+    en: Before calling the function, ensure the 'يتطلب' precondition is satisfied. Review the function's contract.
+  detailed:
+    ar: 'العقود البرمجية (Design by Contract) تفرض شروطاً مسبقة على المعاملات. مثال: دالة قسمة(أ، ب) يتطلب ب != 0 — تمرير ب=0 يرفع هذا الخطأ قبل تنفيذ جسم الدالة.'
+    en: 'Design by Contract enforces preconditions on arguments. Example: ''دالة قسمة(a, b) يتطلب b != 0'' — passing b=0 raises this error before the body executes.'
+- code: RUN_CONTRACT_POSTCOND_FAILED
+  id: RUN042
+  category: runtime
+  title:
+    ar: فشل الشرط اللاحق
+    en: Postcondition failure
+  brief:
+    ar: 'الدالة ''{function}'' - فشل ''يضمن'' #{index}: {expr}'
+    en: 'Function ''{function}'' - ''ensures'' #{index} failed: {expr}'
+  placeholders:
+  - expr
+  - function
+  - index
+  fix_hint:
+    ar: هذا غالباً bug في تنفيذ الدالة (انتهك العقد الذي وعد به). راجع الكود وتأكّد أن النتيجة تحقّق شرط 'يضمن'.
+    en: Usually a bug inside the function (it broke its own promise). Review the code to ensure the result satisfies 'يضمن'.
+  detailed:
+    ar: العقد اللاحق 'يضمن' يصف ضماناً تقدّمه الدالة بعد التنفيذ. فشله يعني أن المنطق الداخلي خاطئ ولا ينتج ما وعد به. هذا خطأ مبرمج، ليس مستخدم.
+    en: The 'يضمن' postcondition describes a guarantee the function makes after execution. Failure means internal logic is wrong and doesn't produce the promised result. This is a programmer error, not a user one.
+- code: RUN_CONTRACT_WHERE_FAILED
+  id: RUN043
+  category: runtime
+  title:
+    ar: فشل قيد النوع (حيث)
+    en: Where clause failure
+  brief:
+    ar: الدالة '{function}' - فشل القيد '{constraint}'
+    en: Function '{function}' - constraint '{constraint}' failed
+  placeholders:
+  - constraint
+  - function
+  fix_hint:
+    ar: تأكّد من أن نوع المعامل الفعلي يحقّق القيود في 'حيث'. للفحص قبل الاستدعاء استخدم 'هو' أو 'نوع'.
+    en: Ensure actual argument type satisfies the 'حيث' constraint. To check before calling use 'هو' or 'نوع'.
+  detailed:
+    ar: 'قيود ''حيث'' تفرض شروطاً على أنواع المعاملات (مثل: ''حيث ت: قابل_للمقارنة''). تمرير نوع لا يحقّق القيد يرفع هذا الخطأ.'
+    en: '''حيث'' constraints enforce conditions on argument types (e.g., ''حيث T: قابل_للمقارنة''). Passing a non-satisfying type raises this error.'
+- code: RUN_ASYNC_TASK_ERROR
+  id: RUN044
+  category: runtime
+  title:
+    ar: خطأ في مهمة غير متزامنة
+    en: Async task error
+  brief:
+    ar: 'فشلت المهمة غير المتزامنة: {reason}'
+    en: 'The async task failed: {reason}'
+  placeholders:
+  - reason
+  fix_hint:
+    ar: أحط استدعاء 'انتظر' بـ 'حاول/امسك' لمعالجة أخطاء المهام غير المتزامنة. تحقّق أيضاً من حالة المهمة قبل الانتظار.
+    en: Wrap 'انتظر' in 'حاول/امسك' to handle async task errors. Also check task status before awaiting.
+  detailed:
+    ar: المهام غير المتزامنة قد تفشل أو تُلغى أو ترمي استثناءات. عند انتظار نتيجتها بـ 'انتظر'، يُعاد رمي الاستثناء في السياق الحالي ويرفع هذا الخطأ.
+    en: Async tasks may fail, get cancelled, or throw exceptions. When awaiting their result with 'انتظر', the exception re-throws in the current context and raises this error.
+- code: RUN_GENERATOR_TYPE_INVALID
+  id: RUN045
+  category: runtime
+  title:
+    ar: مصدر المولّد غير قابل للتكرار
+    en: Generator source not iterable
+  brief:
+    ar: تعبير المولّد يتوقّع قيمة قابلة للتكرار، لكن المتلقّى من نوع '{type}'
+    en: Generator expression expects an iterable, but got type '{type}'
+  placeholders:
+  - type
+  fix_hint:
+    ar: 'تأكّد أن المصدر في تعبير المولّد قابل للتكرار: مصفوفة، خريطة، نص، أو مولّد آخر.'
+    en: 'Ensure the source in the generator expression is iterable: array, map, string, or another generator.'
+  detailed:
+    ar: تعابير المولّدات (مع 'أنتج' أو 'لكل') تتطلّب مصدراً قابلاً للتكرار. الأرقام والكائنات العادية لا تدعم التكرار افتراضياً — يجب أن تنفّذ بروتوكول التكرار.
+    en: Generator expressions (with 'أنتج' or 'لكل') require an iterable source. Numbers and plain objects don't support iteration by default — they must implement the iteration protocol.
+- code: RUN_CHANNEL_OPERATION_FAILED
+  id: RUN046
+  category: runtime
+  title:
+    ar: فشل عملية على القناة
+    en: Channel operation failed
+  brief:
+    ar: 'العملية ''{operation}'' على القناة فشلت: {reason}'
+    en: 'Channel ''{operation}'' failed: {reason}'
+  placeholders:
+  - operation
+  - reason
+  fix_hint:
+    ar: 'تحقّق من حالة القناة قبل العملية: ق.مغلقة() قبل الإرسال، استخدم ''حاول_ارسل/حاول_استقبل'' للعمليات الآمنة.'
+    en: 'Check channel status before operating: ق.مغلقة() before send, use ''حاول_ارسل/حاول_استقبل'' for safe ops.'
+  detailed:
+    ar: 'العمليات على القنوات قد تفشل لأسباب: إرسال إلى قناة مغلقة، استقبال من قناة مغلقة وفارغة، أو انتهاء مهلة. عمليات ''حاول_'' بدائل آمنة بدون استثناءات.'
+    en: 'Channel operations may fail because: sending to a closed channel, receiving from a closed-empty channel, or timeout. ''حاول_'' variants are safe alternatives without exceptions.'
+- code: RUN_SECURITY_VIOLATION
+  id: RUN047
+  category: runtime
+  title:
+    ar: انتهاك أمني
+    en: Security violation
+  brief:
+    ar: العملية تنتهك إحدى سياسات الأمان المفروضة
+    en: The operation violates one of the enforced safety policies
+  fix_hint:
+    ar: راجع سياسات الأمان المطبّقة. لا تتجاوز فحوصات الأمان — أعد تصميم العملية لتعمل ضمن القيود.
+    en: Review applied security policies. Don't bypass security checks — redesign the operation to work within constraints.
+  detailed:
+    ar: لغة ص تطبّق سياسات أمان (تقييد I/O، التحقق من الذاكرة، حماية النطاقات). انتهاك أي سياسة يرفع هذا الخطأ. التجاوز الصحيح عبر '@غير_آمن' فقط للحالات المُبرَّرة.
+    en: Sad enforces security policies (I/O restrictions, memory checks, scope protection). Violating any raises this error. Proper override via '@غير_آمن' only for justified cases.
+- code: RUN_ASSERTION_FAILED
+  id: RUN048
+  category: runtime
+  title:
+    ar: فشل التأكيد
+    en: Assertion failed
+  brief:
+    ar: 'فشل التأكيد: {detail}'
+    en: 'Assertion failed: {detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: راجع المنطق قبل التأكيد. التأكيدات الفاشلة تشير لخطأ منطقي يجب إصلاحه، ليس إسكاته.
+    en: Review logic preceding the assertion. Failed assertions indicate a logic bug to fix, not silence.
+  detailed:
+    ar: '''تأكد'' يفرض شرطاً يجب أن يكون صحيحاً. فشله يعني انتهاك ثابت (invariant) في الكود. هذا يكشف bug — لا تحذف التأكيد، صلّح السبب الجذري.'
+    en: '''تأكد'' enforces a condition that must hold. Failure means an invariant violation. This surfaces a bug — don''t remove the assertion, fix the root cause.'
+- code: RUN_PANIC
+  id: RUN049
+  category: runtime
+  title:
+    ar: ذعر
+    en: Panic
+  brief:
+    ar: 'توقّف البرنامج بسبب ذعر غير قابل للتعافي: {message}'
+    en: 'The program halted due to an unrecoverable panic: {message}'
+  placeholders:
+  - message
+  fix_hint:
+    ar: ذعر يعني خطأً غير قابل للتعافي. حلّل أثر الاستدعاءات لمعرفة السبب الجذري وأصلحه على مستوى التصميم.
+    en: Panic indicates an unrecoverable error. Analyze the call trace to find the root cause and fix at design level.
+  detailed:
+    ar: الذعر (panic) يحدث عند انتهاك جوهري (فساد ذاكرة، حالة مستحيلة، إخفاق ثابت أساسي). البرنامج يتوقّف بأمان بدلاً من الاستمرار بحالة فاسدة. لا يمكن التقاطه بـ 'حاول/امسك'.
+    en: Panic occurs on fundamental violations (memory corruption, impossible state, core invariant failure). The program safely halts instead of continuing in a corrupted state. Cannot be caught with 'حاول/امسك'.
+- code: RUN_PERMISSION_DENIED
+  id: RUN050
+  category: runtime
+  title:
+    ar: صلاحية مرفوضة
+    en: Permission denied
+  brief:
+    ar: تم رفض الوصول إلى '{resource}'
+    en: Access to '{resource}' was denied
+  placeholders:
+  - resource
+  fix_hint:
+    ar: 'تحقّق من صلاحيات الملف/المجلد/المورد. على Windows: انقر يمين → خصائص → الأمان. على Unix: chmod/chown.'
+    en: 'Check file/folder/resource permissions. Windows: right-click → Properties → Security. Unix: chmod/chown.'
+  detailed:
+    ar: 'نظام التشغيل رفض العملية بسبب نقص الصلاحيات. أسباب شائعة: ملف للقراءة فقط، مجلد محمي، عملية تحتاج صلاحيات مدير. لا يمكن للبرنامج تجاوز هذا.'
+    en: 'The OS denied the operation due to insufficient permissions. Common causes: read-only file, protected folder, operation needs admin rights. The program cannot bypass this.'
+- code: RUN_OFFSET_OUT_OF_RANGE
+  id: RUN051
+  category: runtime
+  title:
+    ar: إزاحة خارج النطاق
+    en: Offset out of range
+  brief:
+    ar: الإزاحة {offset} خارج حدود المخزّن
+    en: Offset {offset} is outside buffer bounds
+  placeholders:
+  - offset
+  fix_hint:
+    ar: تحقّق من حدود الإزاحة قبل العملية. الإزاحة يجب أن تكون ضمن نطاق المصفوفة أو المخزّن.
+    en: Check offset bounds before the operation. Offset must be within the array or buffer range.
+  detailed:
+    ar: بعض العمليات (الشرائح، النسخ، البحث) تستخدم إزاحات بدلاً من فهارس مباشرة. الإزاحة السالبة أو الأكبر من الطول ترفع هذا الخطأ.
+    en: Some operations (slices, copies, searches) use offsets rather than direct indices. Negative offsets or offsets beyond length raise this error.
+- code: RUN_USER_THROWN
+  id: RUN052
+  category: runtime
+  title:
+    ar: قيمة مرمية بـ 'ارمي'
+    en: User-thrown value
+  brief:
+    ar: 'خطأ رماه الكود ولم يُلتقط بـ ''حاول/امسك'': {message}'
+    en: 'Error thrown by code and not caught by ''حاول/امسك'': {message}'
+  placeholders:
+  - message
+  fix_hint:
+    ar: هذه قيمة رماها المستخدم بـ 'ارمي' أو 'خطأ'. التقطها بـ 'حاول/امسك' وعالجها وفق منطق التطبيق.
+    en: This value was thrown by user code with 'ارمي'. Catch it with 'حاول/امسك' and handle per application logic.
+  detailed:
+    ar: '''ارمي قيمة'' يولّد استثناء يحمل القيمة المرماة. إذا لم يُلتقط بـ ''امسك'' في أي مستوى أعلى، يصل إلى أعلى مستوى ويُنهي البرنامج بهذا الخطأ. للتعافي، أحط الكود بـ ''حاول/امسك''.'
+    en: '''ارمي value'' generates an exception carrying the thrown value. If uncaught by ''امسك'' at any level, it propagates to top level and terminates with this error. For recovery, wrap in ''حاول/امسك''.'
+- code: RUN_NUMERIC_REQUIRED
+  id: RUN053
+  category: runtime
+  title:
+    ar: تتطلّب قيمة رقمية
+    en: Numeric value required
+  brief:
+    ar: العملية '{op}' تتطلّب قيمة رقمية
+    en: Operation '{op}' requires a numeric value
+  placeholders:
+  - op
+  fix_hint:
+    ar: تأكّد أن المعاملات أرقام؛ حوّل بـ رقم()/عشري().
+    en: Ensure operands are numbers; convert with رقم()/عشري().
+  detailed:
+    ar: طُبّقت العملية '{op}' على قيمة غير رقمية.
+    en: Operation '{op}' was applied to a non-numeric value.
+- code: RUN_COMPREHENSION_NEEDS_ARRAY
+  id: RUN054
+  category: runtime
+  title:
+    ar: الاستيعاب يتطلّب مصفوفة
+    en: Comprehension needs array
+  brief:
+    ar: الاستيعاب ({kind}) يتطلّب مصفوفة
+    en: Comprehension ({kind}) requires an array
+  placeholders:
+  - kind
+  fix_hint:
+    ar: مرّر مصفوفة كمصدر للاستيعاب.
+    en: Pass an array as the comprehension source.
+  detailed:
+    ar: الاستيعاب ({kind}) يمرّ على عناصر مصفوفة؛ وُصِل بنوع آخر.
+    en: The comprehension ({kind}) iterates an array; a non-array was supplied.
+- code: RUN_NOT_ITERABLE
+  id: RUN055
+  category: runtime
+  title:
+    ar: نوع غير قابل للتكرار
+    en: Type not iterable
+  brief:
+    ar: النوع '{type}' غير قابل للتكرار
+    en: Type '{type}' is not iterable
+  placeholders:
+  - type
+  fix_hint:
+    ar: استخدم نوعاً قابلاً للتكرار (مصفوفة/نص/قاموس/مولّد).
+    en: Use an iterable type (array/string/map/generator).
+  detailed:
+    ar: حاول الكود التكرار على قيمة لا تدعم التكرار ('{type}').
+    en: The code tried to iterate a non-iterable value ('{type}').
+- code: RUN_NULL_ASSERTION
+  id: RUN056
+  category: runtime
+  title:
+    ar: فشل تأكيد عدم الفراغ
+    en: Null assertion failed
+  brief:
+    ar: 'عامل التأكيد (مؤكَّد) طُبِّق على قيمة عدم'
+    en: 'Assertion operator (مؤكَّد) applied to a null value'
+  placeholders: []
+  fix_hint:
+    ar: تحقّق من عدم الفراغ قبل التأكيد (إذا (س != لاشيء)) أو استعمل '؟؟' لقيمة بديلة. التأكيد يعني يقينك بعدم الفراغ — إن فشل فالخطأ منطقيّ.
+    en: Guard against null before asserting (إذا (س != لاشيء)) or use '؟؟' for a fallback. Asserting means you are certain it is non-null — a failure is a logic bug.
+  detailed:
+    ar: عامل التأكيد 'مؤكَّد' (T؟ → T) يطرح هذا الخطأ عندما تكون القيمة عدمًا وقت التشغيل، إذ يَعِد أنّ القيمة حاضرة.
+    en: The assertion operator 'مؤكَّد' (T? → T) raises this error when the value is null at runtime, since it promises the value is present.
+- code: RUN_UI_LAUNCH_FAILED
+  id: RUN057
+  category: runtime
+  title:
+    ar: فشل تشغيل تطبيق الواجهة
+    en: UI application launch failed
+  brief:
+    ar: تعذّر تشغيل تطبيق الواجهة الرسوميّة (تشغيل_تطبيق)
+    en: Failed to launch the GUI application (تشغيل_تطبيق)
+  placeholders: []
+  fix_hint:
+    ar: تحقّق من توفّر نظام النوافذ (خادم عرض/شاشة) وأنّ العنصر الجذر صالح. في البيئات بلا واجهة (headless) لا يمكن فتح نافذة.
+    en: Ensure a window system (display server/screen) is available and the root widget is valid. Headless environments cannot open a window.
+  detailed:
+    ar: تُطلق دالة تشغيل_تطبيق نافذةً وحلقةَ أحداث عبر جسر الواجهة؛ يفشل ذلك إن غاب نظام النوافذ أو تعذّر إنشاء السياق الرسوميّ.
+    en: The تشغيل_تطبيق builtin opens a window and event loop via the UI bridge; it fails when no window system is present or the graphics context cannot be created.
+- code: RUN_UI_STATE_ERROR
+  id: RUN058
+  category: runtime
+  title:
+    ar: خطأ في عمليّة الحالة
+    en: State operation error
+  brief:
+    ar: 'فشلت عمليّة الحالة (عيّن_الحالة): {detail}'
+    en: 'State operation (عيّن_الحالة) failed: {detail}'
+  placeholders:
+  - detail
+  fix_hint:
+    ar: تحقّق من صحّة مفتاح الحالة والقيمة المُمرَّرة، ومن تهيئة نظام الحالة قبل الاستعمال.
+    en: Verify the state key and passed value are valid, and that the state system is initialized before use.
+  detailed:
+    ar: تعيّن دالة عيّن_الحالة قيمةً في نظام حالة الواجهة؛ يظهر هذا الخطأ عند رمي استثناء أثناء العمليّة (التفصيل في {detail}).
+    en: The عيّن_الحالة builtin sets a value in the UI state system; this error surfaces when an exception is thrown during the operation (detail in {detail}).
+- code: RUN_EXTERN_NOT_SUPPORTED
+  id: RUN059
+  category: runtime
+  title:
+    ar: دالة خارجية غير مدعومة في المفسّر
+    en: Extern function unsupported in the interpreter
+  brief:
+    ar: 'الدالة الخارجية ''{function}'' لا تُنفَّذ في المفسّر — لا قيمة تُرجَع'
+    en: 'Extern function ''{function}'' is not executed by the interpreter — no value is returned'
+  placeholders:
+  - function
+  fix_hint:
+    ar: صرّف البرنامج بـ sad-build بدل تشغيله بـ sad-run، أو استبدل الربط الخارجي بدالّة ص أو بدالّة مدمجة.
+    en: Compile with sad-build instead of running under sad-run, or replace the extern binding with a Sad function or a builtin.
+  detailed:
+    ar: 'كانت الدوالّ الخارجيّة (دالة خارجية) تُرجِع 0 صامتةً في المفسّر، فيبدو الاستدعاء ناجحاً وقيمتُه صفر — وهو أخطر أنواع الفشل: نتيجةٌ خاطئةٌ بلا تشخيص. صار الاستدعاء يرمي خطأً صريحاً. الربط الخارجيّ مُعدٌّ للمصرّف لا للمفسّر.'
+    en: 'Extern functions (دالة خارجية) used to silently return 0 in the interpreter, so a call appeared to succeed with value zero — the worst failure mode: a wrong result with no diagnosis. The call now throws explicitly. Extern bindings target the compiler, not the interpreter.'
+- code: RUN_FFI_CALL_UNSAFE
+  id: RUN060
+  category: runtime
+  title:
+    ar: استدعاء ربط خارجي بلا ترتيب وسائط
+    en: FFI call without argument marshalling
+  brief:
+    ar: 'استدعاء ''{function}'' معطَّل: ترتيب وسائط الربط الخارجي غير مُنفَّذ'
+    en: 'Call to ''{function}'' is disabled: FFI argument marshalling is not implemented'
+  placeholders:
+  - function
+  fix_hint:
+    ar: لا تعتمد على مكتبة_استدع حتى يُنفَّذ ترتيب الوسائط. استعمل دالّة مدمجة تغطّي حاجتك، أو أضف مدمجةً في مستودع اللغة.
+    en: Do not rely on مكتبة_استدع until argument marshalling lands. Use a builtin covering your need, or add one in the language repository.
+  detailed:
+    ar: 'كانت دوالّ مكتبة_استدع تصبّ المؤشّر إلى توقيعٍ بلا وسائط ثمّ تقفز إليه، أيّاً كان توقيعُ الدالّة الحقيقيّ — سلوكٌ غير معرَّف وإفسادٌ محتملٌ للمكدّس. عُطّل الاستدعاء صراحةً حتى ينفَّذ ترتيب الوسائط (libffi).'
+    en: 'The مكتبة_استدع functions cast the symbol pointer to a zero-argument signature and jumped to it regardless of the real signature — undefined behaviour and possible stack corruption. The call is now explicitly disabled until argument marshalling (libffi) lands.'
+- code: RUN_REGEX_UNKNOWN_FLAG
+  id: RUN061
+  category: runtime
+  title:
+    ar: رايةُ تعبيرٍ نمطيّ مجهولة
+    en: Unknown regular-expression flag
+  brief:
+    ar: 'الراية ''{flag}'' غير مدعومة في ''{function}'' — المدعوم: i (تجاهل الحالة)'
+    en: 'Flag ''{flag}'' is not supported in ''{function}'' — supported: i (ignore case)'
+  placeholders:
+  - flag
+  - function
+  fix_hint:
+    ar: استعمل رايةً مدعومة أو أزل وسيط الرايات. لا رايةَ عامّة (g) — دوالّ «الكل» تبحث في كلّ النصّ أصلاً.
+    en: Use a supported flag or drop the flags argument. There is no global (g) flag — the "find all" functions already scan the whole text.
+  detailed:
+    ar: 'كانت دوالّ التعابير النمطيّة تقبل وسيطاً ثالثاً وتُهمله صامتاً، فيظنّ المبرمج أنّه ضبط رايةً ولم يفعل — نجاحٌ كاذب. صارت الرايةُ المجهولة ترمي بدل أن تُبتلَع.'
+    en: 'The regex builtins used to accept a third argument and silently ignore it, so a programmer believed a flag was set when it was not — a false success. An unknown flag now throws instead of being swallowed.'
+- code: RUN_PROC_SPAWN_FAILED
+  id: RUN062
+  category: runtime
+  title:
+    ar: تعذّر تشغيل البرنامج
+    en: Failed to spawn program
+  brief:
+    ar: 'تعذّر تشغيل ''{path}'': {reason}'
+    en: 'Failed to spawn ''{path}'': {reason}'
+  placeholders:
+  - path
+  - reason
+  fix_hint:
+    ar: تحقّق من وجود الملفّ التنفيذيّ وصلاحيّة تنفيذه، أو مرّر مسارًا مطلقًا بدل الاعتماد على PATH.
+    en: Check that the executable exists and is executable, or pass an absolute path instead of relying on PATH.
+  detailed:
+    ar: 'يميّز شغل_برنامجا فشلَ execvp من فشلِ البرنامج نفسه عبر أنبوبٍ ذاتيّ (self-pipe) يحمل CLOEXEC: إن نجح exec أُغلق الأنبوب تلقائيًّا فيقرأ الأب نهاية ملفّ؛ وإن فشل كتب الابنُ رقمَ errno فيه قبل خروجه. لولا ذلك لبدا «مسارٌ غير موجود» رمزَ خروجٍ عاديًّا (127) لا يُفرَّق من برنامجٍ خرج بـ127 عمدًا — نجاحٌ كاذب في التشخيص.'
+    en: 'شغل_برنامجا distinguishes execvp failure from program failure via a CLOEXEC self-pipe: on success the pipe closes automatically and the parent reads EOF; on failure the child writes errno before exiting. Without it, a missing path would look like an ordinary exit code 127, indistinguishable from a program that deliberately exits 127.'
+- code: RUN_PROC_NOT_CHILD
+  id: RUN063
+  category: runtime
+  title:
+    ar: انتظار عمليّة ليست ابنًا
+    en: Waiting on a process that is not a child
+  brief:
+    ar: 'المعرّف ''{handle}'' لا يشير إلى عمليّةٍ قائمة — مجهول أو سبق انتظاره'
+    en: 'Handle ''{handle}'' does not refer to a live process — unknown or already awaited'
+  placeholders:
+  - handle
+  fix_hint:
+    ar: انتظر كلّ عمليّةٍ مرّةً واحدة، واحتفظ بالرمز المُعاد إن احتجته ثانيةً.
+    en: Await each process exactly once and keep the returned code if you need it again.
+  detailed:
+    ar: 'انتظارٌ مكرَّرٌ لعمليّةٍ سبق حصادها كان سيُرجع -1 من waitpid فيتحوّل إلى رمز خروجٍ زائف. الفشل صريح كي لا يُبنى قرارُ صدَفةٍ (‏&& أو ||) على رمزٍ مختلَق.'
+    en: 'Re-awaiting a reaped process would return -1 from waitpid and become a bogus exit code. Failing loudly keeps shell control flow (&& / ||) from branching on a fabricated status.'
+- code: RUN_PROC_BAD_DESCRIPTOR
+  id: RUN064
+  category: runtime
+  title:
+    ar: وصف ملفّ غير صالح
+    en: Invalid file descriptor
+  brief:
+    ar: 'الوصف ''{handle}'' غير معروف أو مُغلَق سلفًا'
+    en: 'Descriptor ''{handle}'' is unknown or already closed'
+  placeholders:
+  - handle
+  fix_hint:
+    ar: أغلق كلّ وصفٍ مرّةً واحدة، ولا تستعمل وصفًا بعد إغلاقه.
+    en: Close each descriptor exactly once and never use one after closing it.
+  detailed:
+    ar: 'الإغلاق المزدوج ليس عمليّةً محايدة: بين الإغلاقين قد تكون النواة أعادت استعمال الرقم لوصفٍ آخر، فيُغلق الإغلاقُ الثاني موردَ غيره — عطبٌ يظهر بعيدًا عن موضعه. لذلك يفشل صراحةً بدل أن يُبتلَع.'
+    en: 'A double close is not a no-op: between the two closes the kernel may have reused the number for another descriptor, so the second close destroys an unrelated resource — a defect that surfaces far from its cause. Hence the explicit failure.'
+- code: RUN_PROC_BAD_MODE
+  id: RUN065
+  category: runtime
+  title:
+    ar: وضع فتح مجهول
+    en: Unknown open mode
+  brief:
+    ar: 'الوضع ''{mode}'' غير مدعوم — المدعوم: قراءة · كتابة · إلحاق'
+    en: 'Mode ''{mode}'' is not supported — supported: قراءة · كتابة · إلحاق'
+  placeholders:
+  - mode
+  fix_hint:
+    ar: استعمل أحد الأوضاع الثلاثة. لا أعلام O_* خامّة في واجهة ص.
+    en: Use one of the three modes. There are no raw O_* flags in the Sad surface.
+  detailed:
+    ar: 'وضعٌ مجهولٌ يُعامَل معاملة «قراءة» صامتًا كان سيجعل «برنامج > ملفّ» يفشل فشلًا غامضًا عند أوّل كتابة بدل أن يُشخَّص عند الفتح.'
+    en: 'Silently treating an unknown mode as read would make "program > file" fail obscurely at the first write instead of being diagnosed at open time.'
+- code: RUN_PROC_UNSUPPORTED_PLATFORM
+  id: RUN066
+  category: runtime
+  title:
+    ar: بدائيّات العمليّات غير مدعومة على هذه المنصّة
+    en: Process primitives unsupported on this platform
+  brief:
+    ar: '''{function}'' غير مدعومة على هذا الهدف'
+    en: '''{function}'' is not supported on this target'
+  placeholders:
+  - function
+  fix_hint:
+    ar: 'الأهداف المدعومة ثلاثة ولا رابع — لينكس وماك وويندوز. ترجم إلى أحدها.'
+    en: 'Three targets are supported and no fourth — Linux, macOS and Windows. Target one of them.'
+  detailed:
+    ar: 'كان هذا الرمز يُرمى على ويندوز كلَّه، والحجّة أنّ دلالة البدائيّات مبنيّةٌ على فصل fork عن exec وأنّ _spawnvp لا يعطي تلك اللحظة الوسطى. والحجّة صحيحةٌ عن _spawnvp وحدها: CreateProcess تُمرّر التوجيه بيانًا في STARTUPINFO قبل الإنشاء فلا تحتاج لحظةً وسطى، وتُبلّغ فشلَ التشغيل متزامنًا فلا تحتاج أنبوبًا ذاتيًّا. فصار الرمز محصورًا فيما بقي بلا تنفيذ: هدفٌ خارج الثلاثة. ويُرفض في المصرّف زمنَ الترجمة لا زمنَ التشغيل — ثنائيٌّ يُبنى ثمّ يفتح الملفّ بعلمٍ آخر أسوأ من ترجمةٍ لا تتمّ.'
+    en: 'This code used to cover all of Windows, on the argument that the semantics rest on separating fork from exec and that _spawnvp offers no such intermediate moment. That argument was true of _spawnvp alone: CreateProcess passes redirection as data before creation, so no intermediate moment is needed, and reports spawn failure synchronously, so no self-pipe is needed. The code is now confined to what genuinely has no implementation: a target outside the supported three. The compiler rejects it at compile time — a binary that builds and then opens the file with a different flag is worse than a translation that does not complete.'
+- code: RUN_PROC_OPEN_FAILED
+  id: RUN067
+  category: runtime
+  title:
+    ar: تعذّر فتح وصف ملفّ
+    en: Failed to open file descriptor
+  brief:
+    ar: 'تعذّر فتح ''{path}'': {reason}'
+    en: 'Failed to open ''{path}'': {reason}'
+  placeholders:
+  - path
+  - reason
+  fix_hint:
+    ar: تحقّق من وجود المسار وصلاحيّات الكتابة عليه، ومن وجود المجلّد الحاوي.
+    en: Check the path exists, the containing directory exists, and permissions allow the mode.
+  detailed:
+    ar: 'رمزٌ منفصل عن «تعذّر تشغيل البرنامج» عمدًا: فشلُ فتح ملفٍّ ليس فشلَ تشغيل، وخلطُهما كان يُنتج رسالة «تعذّر تشغيل ''/مسار/ملف''» لملفٍّ لم يُقصد تشغيله أصلًا — تشخيصٌ يقود المستخدم إلى المكان الخطأ.'
+    en: 'Deliberately distinct from spawn failure: failing to open a file is not failing to run one, and conflating them produced "failed to spawn ''/path/file''" for a file never meant to be executed — a diagnosis pointing at the wrong place.'
+- code: RUN_PROC_PIPE_FAILED
+  id: RUN068
+  category: runtime
+  title:
+    ar: تعذّر إنشاء أنبوب
+    en: Failed to create pipe
+  brief:
+    ar: 'تعذّر إنشاء أنبوب: {reason}'
+    en: 'Failed to create a pipe: {reason}'
+  placeholders:
+  - reason
+  fix_hint:
+    ar: أغلق الوصفات التي لم تعد تحتاجها بـاغلق — النفاد (EMFILE) أشيع سبب.
+    en: Close descriptors you no longer need with اغلق — exhaustion (EMFILE) is the usual cause.
+  detailed:
+    ar: 'السبب الغالب نفادُ الوصفات (EMFILE) في حلقةٍ تنسى الإغلاق — وهو بالضبط ما تحذّر منه وثيقة اغلق. الرمز منفصلٌ كي تُقرأ العلّة من الرسالة لا تُستنتج.'
+    en: 'The usual cause is descriptor exhaustion (EMFILE) in a loop that forgets to close — exactly what the اغلق documentation warns about. A distinct code so the cause is read, not inferred.'
+- code: RUN_PROC_WAIT_FAILED
+  id: RUN069
+  category: runtime
+  title:
+    ar: فشل انتظار العمليّة
+    en: Waiting on the process failed
+  brief:
+    ar: 'فشل انتظار العمليّة ''{handle}'': {reason}'
+    en: 'Waiting on process ''{handle}'' failed: {reason}'
+  placeholders:
+  - handle
+  - reason
+  fix_hint:
+    ar: المقبض ما يزال صالحًا — أعد المحاولة. إن تكرّر الفشل فالعلّة في البيئة لا في البرنامج.
+    en: The handle is still valid — retry. Persistent failure indicates an environment problem, not a program one.
+  detailed:
+    ar: 'فشلٌ عابرٌ في waitpid بغير EINTR وECHILD كان يُبلَّغ سابقًا بـ«المعرّف مجهول أو سبق انتظاره» — وهو وصفٌ كاذب: المقبض معروفٌ ولم يُنتظَر، والقيد يُعاد إلى الجدول فعلًا. رمزٌ منفصل كي تُطابق الرسالةُ الواقع.'
+    en: 'A transient waitpid failure other than EINTR/ECHILD used to be reported as "unknown or already awaited" — a false description: the handle is known, was not awaited, and is in fact restored to the table. A distinct code so the message matches reality.'
+- code: RUN_PROC_BAD_STREAM_KEY
+  id: RUN070
+  category: runtime
+  title:
+    ar: مفتاح مجرًى غير صالح
+    en: Invalid stream key
+  brief:
+    ar: 'مفتاح المجرى ''{key}'' غير صالح — المسموح: "0" دخل · "1" مخرج · "2" خطأ'
+    en: 'Stream key ''{key}'' is invalid — allowed: "0" stdin · "1" stdout · "2" stderr'
+  placeholders:
+  - key
+  fix_hint:
+    ar: استعمل "0" أو "1" أو "2" مفتاحًا في خريطة التوجيه. المفاتيح نصوص لا أعداد.
+    en: Use "0", "1", or "2" as the redirection-map key. Keys are strings, not numbers.
+  detailed:
+    ar: 'رمزٌ منفصل عن «وصف غير صالح» عمدًا: العلّة في المفتاح لا في الوصف. كان الخطأ يُبلَّغ بـRUN064 «الوصف ''مفتاح مجرى: 3'' غير معروف أو مُغلَق سلفًا» — وهو وصفٌ كاذب مرّتين: الوصف معروفٌ ومفتوح، والمذكور بين علامتَي التنصيص ليس وصفًا أصلًا. فيذهب المستخدم يفتّش في وصفٍ سليم.'
+    en: 'Deliberately distinct from "invalid descriptor": the fault is in the key, not the descriptor. It used to be reported as RUN064, which was false twice over — the descriptor was known and open, and the quoted text was not a descriptor at all.'
+- code: RUN_PROC_REDIRECT_FAILED
+  id: RUN071
+  category: runtime
+  title:
+    ar: فشل توجيه المجاري في الابن
+    en: Child redirection failed
+  brief:
+    ar: 'فشل توجيه مجاري العمليّة قبل تشغيل ''{path}'': {reason}'
+    en: 'Redirecting the child streams before running ''{path}'' failed: {reason}'
+  placeholders:
+  - path
+  - reason
+  fix_hint:
+    ar: تحقّق من أنّ الوصفات المُمرَّرة في خريطة التوجيه ما تزال مفتوحة ولم تُغلق بـاغلق.
+    en: Check that the descriptors in the redirection map are still open and were not closed with اغلق.
+  detailed:
+    ar: 'الابن أبلغ فشلَ dup2 عبر الأنبوب الذاتيّ قبل بلوغ execvp. العلّة في الوصف لا في المسار، والبرنامج لم يُشغَّل أصلًا. كان يُبلَّغ بـRUN064 مع نصّ strerror مدسوسًا في موضع المقبض، فتُصاغ رسالةٌ تقول إنّ «الوصف ''توجيه مجرًى: Bad file descriptor'' غير معروف» — جملةٌ لا تصف شيئًا. رمزٌ منفصل كي تُطابق الرسالةُ الواقع.'
+    en: 'The child reported a dup2 failure through the self-pipe before reaching execvp: the fault is in the descriptor, not the path, and the program never ran. It used to be reported as RUN064 with strerror text stuffed into the handle slot, producing a sentence that described nothing.'
+- code: RUN_PROC_CLOSE_FAILED
+  id: RUN072
+  category: runtime
+  title:
+    ar: فشل إغلاق الوصف
+    en: Closing the descriptor failed
+  brief:
+    ar: 'فشل إغلاق الوصف ''{handle}'': {reason}'
+    en: 'Closing descriptor ''{handle}'' failed: {reason}'
+  placeholders:
+  - handle
+  - reason
+  fix_hint:
+    ar: الوصف حُذف من الجدول ولا يُعاد استعماله. فشلُ close بغير EINTR علّتُه في التخزين غالبًا (EIO على NFS مثلًا) لا في البرنامج.
+    en: The descriptor was removed from the table and will not be reused. A non-EINTR close failure usually indicates storage trouble (e.g. EIO on NFS), not a program defect.
+  detailed:
+    ar: 'فشلُ close الحقيقيّ كان يُبلَّغ بـRUN064 «الوصف غير معروف أو مُغلَق سلفًا» — كذبٌ صريح: الوصف كان معروفًا وقد سُحب من الجدول للتوّ، والنواة هي التي رفضت. نفس التمييز الذي أُقيم لـانتظر_عملية بـRUN069، منقولًا إلى جارته.'
+    en: 'A genuine close failure used to be reported as "unknown or already closed" — plainly false: the descriptor was known and had just been taken from the table; the kernel refused. The same distinction RUN069 established for انتظر_عملية, applied to its neighbour.'
+- code: RUN_PROC_HANDLE_KIND
+  id: RUN073
+  category: runtime
+  title:
+    ar: نوع المقبض غير متوقّع
+    en: Wrong handle kind
+  brief:
+    ar: 'المقبض ''{handle}'' {found}، والمتوقّع {expected}'
+    en: 'Handle ''{handle}'' is {found}, but {expected} was expected'
+  placeholders:
+  - handle
+  - expected
+  - found
+  fix_hint:
+    ar: مقابض العمليّات تُنتجها شغل_برنامجا وتُستهلك بـانتظر_عملية؛ والوصفات تُنتجها انبوب وافتح_وصفا وتُستهلك بـاغلق وبخريطة التوجيه. لا تخلط بينها.
+    en: Process handles come from شغل_برنامجا and are consumed by انتظر_عملية; descriptors come from انبوب / افتح_وصفا and are consumed by اغلق and the redirection map.
+  detailed:
+    ar: 'كان العدّادان يبدآن من ١ في فضاءٍ واحد، فأوّلُ وصفٍ وأوّلُ عمليّةٍ كلاهما ١: تمريرُ وصفٍ إلى انتظر_عملية كان يحصد عمليّةً أجنبيّة ويُرجع رمز خروجها، وتمريرُ عمليّةٍ إلى اغلق كان يُغلق وصفًا أجنبيًّا — ونجاحٌ في اليد بلا تحذير. وهو بعينه النجاحُ الكاذب الذي وُضعت هذه الوحدة لمحاربته، ونقضٌ لشرط المقترح أنّ المقبضين مبهمان. صار لكلّ نوعٍ وسمٌ في البتّات العليا، فالخلط يُكشف عند المدخل لا يُنفَّذ.'
+    en: 'Both counters started at 1 in a shared space, so the first descriptor and the first process were both 1: passing a descriptor to انتظر_عملية reaped an unrelated process and returned its exit code, and passing a process to اغلق closed an unrelated descriptor — a silent false success, the exact failure this module exists to prevent. Each kind now carries a tag in its high bits, so the mix-up is detected at entry rather than executed.'
+- code: RUN_MAP_FETCH_TYPE_MISMATCH
+  id: RUN074
+  category: runtime
+  title:
+    ar: الجلب المصنف وجد نوعا مغايرا
+    en: Typed map fetch found a different type
+  brief:
+    ar: الجلب المصنف '{func}' وجد المفتاح '{key}' حاضرا بقيمة من نوع '{found}' لا '{expected}' — الحضور بنوع مغاير أو بعدم مخزن خطأ صريح لا عدم صامت
+    en: Typed fetch '{func}' found key '{key}' present with a '{found}' value, not '{expected}' — presence with a different type or a stored null is an explicit error, never a silent null
+  placeholders:
+  - func
+  - key
+  - expected
+  - found
+  fix_hint:
+    ar: استعمل مدمج الجلب المطابق لنوع القيمة المخزنة، أو 'خريطة_احصل' للجلب الديناميكي. العدم في ناتج الجلب المصنف يعني الغياب حصرا.
+    en: Use the typed fetch matching the stored value's type, or 'خريطة_احصل' for dynamic fetch. Null in a typed fetch result means absence exclusively.
+  detailed:
+    ar: مدمجات الجلب المصنف (خريطة_اجلب_نص/رقم/منطقي) ترجع القيمة عند الحضور بنوع مطابق، وعدما عند الغياب حصرا. الحضور بنوع مغاير او بعدم مخزن يرفع هذا الخطأ كي لا تنتج قناتان للعدم (عقد الغياب في الجلب — RFC 58).
+    en: Typed fetch builtins (خريطة_اجلب_نص/رقم/منطقي) return the value on a type-matching hit and null exclusively on absence. Presence with a different type or a stored null raises this error so null never has two producing channels (absence-contract RFC 58).

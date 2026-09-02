@@ -1,0 +1,299 @@
+version: 1
+namespace_group: Assertions
+description_ar: وحدة تأكيدات (5 دوال)
+description_en: Assertions module (5 functions)
+functions:
+- cpp_id: ASSERT_EQ
+  canonical: تأكد_يساوي
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يجب أن يتساوى
+  description_en: Assert equal
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ASSERT_NEQ
+  canonical: تأكد_لا_يساوي
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يجب ألا يتساوى
+  description_en: Assert NEQ
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ASSERT_TRUE
+  canonical: تأكد_صحيح
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يجب صحيحاً
+  description_en: Assert true
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: ASSERT_FALSE
+  canonical: تأكد_خطأ
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يجب خطأ
+  description_en: Assert false
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: HASH
+  canonical: هاش
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    هاش SHA-256 (FIPS 180-4) لنصّ، يُعاد كسلسلة ست عشرية من 64 حرفًا.
+    التنفيذ مطابق حرفيًّا بين المفسّر (interpreter/src/builtins/builtin_module_assertions.cpp)
+    والمترجم (tools/compiler/runtime/sad_embedded_runtime.c، دالّة sad_security_hash) —
+    نفس المدخل يُنتج نفس الهاش عبر كلا المحرّكين.
+  description_en: >-
+    SHA-256 (FIPS 180-4) hash of a value, returned as a 64-character hex string.
+    Bit-identical between the interpreter (builtin_module_assertions.cpp) and the
+    compiler runtime (sad_embedded_runtime.c, sad_security_hash) — same input yields
+    the same hash across both engines.
+  params:
+  - نص — القيمة المراد حساب هاشها (تُحوَّل إلى نصّ عبر toString إن لم تكن نصًّا أصلًا)
+  examples:
+  - code: اطبع_سطر(هاش("مرحبا"))
+    runnable: true
+  lookup_table: MODULE_FUNCTION
+- cpp_id: SAFE_CHECK
+  canonical: آمن
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فحص آمن
+  description_en: Safe check
+  params: []
+  lookup_table: name_only
+- cpp_id: PANIC
+  canonical: ذعر
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذعر وإنهاء
+  description_en: Panic and exit
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_NULL
+  canonical: تأكد_لاشيء
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد أنه null
+  description_en: Assert null
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_NOT_NULL
+  canonical: تأكد_ليس_لاشيء
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد ليس null
+  description_en: Assert not null
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_LT
+  canonical: تأكد_أصغر
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد أصغر
+  description_en: Assert less than
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_GT
+  canonical: تأكد_أكبر
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد أكبر
+  description_en: Assert greater than
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_TYPE
+  canonical: تأكد_نوع
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تأكد النوع
+  description_en: Assert type
+  params: []
+  lookup_table: name_only
+- cpp_id: ENCRYPT
+  canonical: شفر
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    تشفير نصّ بمفتاح عبر تدفق SHA-256-CTR (SHA-256(مفتاح‖nonce‖عدّاد) كتيار مفاتيح
+    XOR مع النصّ). يُولَّد nonce عشوائيّ 8 بايت لكل استدعاء ويُضمَّن في مقدّمة الناتج
+    (8 بايت + النصّ المشفَّر)، والكلّ مُرمَّز ست عشريًّا. التنفيذ مطابق حرفيًّا بين
+    المفسّر والمترجم (tools/compiler/runtime/sad_embedded_runtime.c، sad_security_encrypt) —
+    ما يُشفَّر بأحد المحرِّكين يُفكّ بالآخر (تبادليّة كاملة). طول المفتاح غير محدود.
+    ⚠️ للاستخدام الخفيف فقط — ليس بديلًا عن معايير معتمَدة كـAES-GCM لحماية بيانات حسّاسة
+    حقًّا (لا مصادقة/AEAD، ولا nonce مُولَّد بمولّد عشوائيّ مُعتمَد تشفيريًّا).
+  description_en: >-
+    Encrypt text with a key via a SHA-256-CTR stream cipher (SHA-256(key‖nonce‖counter)
+    used as an XOR keystream). An 8-byte random nonce is generated per call and
+    prepended to the output; the whole buffer is hex-encoded. Bit-identical between
+    the interpreter and the compiler runtime (sad_embedded_runtime.c,
+    sad_security_encrypt) — ciphertext from either engine decrypts correctly with
+    the other. Key length is unbounded. ⚠️ Lightweight use only — not a substitute
+    for a vetted standard like AES-GCM for genuinely sensitive data (no
+    authentication/AEAD, no cryptographically-secure nonce source).
+  params:
+  - نص — النصّ الأصليّ المراد تشفيره
+  - مفتاح — مفتاح التشفير (أيّ طول)
+  examples:
+  - code: شفّر("سرّي", "مفتاحي")
+    runnable: true
+  lookup_table: name_only
+- cpp_id: DECRYPT
+  canonical: فك_تشفير
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    فكّ تشفير ناتج «شفر» — يقرأ nonce الـ8 بايت من مقدّمة السلسلة الست عشرية، ثمّ يعيد
+    توليد تيار مفاتيح SHA-256-CTR بنفس المفتاح لاستعادة النصّ الأصليّ. ⚠️ مسار الخطأ
+    عند إدخال ست عشريّ غير صالح (طول فرديّ/أقصر من 16 حرفًا/رموز غير ست عشرية) **متباعد
+    حاليًّا بين المحرِّكين**: المفسّر يرمي استثناءً قابلًا للالتقاط بـ`حاول`/`امسك`؛
+    المترجم يطبع رسالة على stderr ويُعيد المدخل كما هو دون رمي استثناء لغويّ — فجوة
+    توحيد معروفة غير مُغلَقة بعد (راجع RISK.md لقسم 09_المكتبة_القياسية/04_تشفير).
+    المسار السعيد (فكّ تشفير ناتج صحيح من «شفر») مطابق حرفيًّا بين المحرِّكين.
+  description_en: >-
+    Decrypt output produced by «شفر»/ENCRYPT — reads the 8-byte nonce from the head
+    of the hex string, then regenerates the SHA-256-CTR keystream with the same key
+    to recover the original text. ⚠️ The error path for invalid hex input (odd
+    length/shorter than 16 chars/non-hex digits) **currently diverges between
+    engines**: the interpreter throws a catchable exception (`حاول`/`امسك`); the
+    compiler prints to stderr and returns the input unchanged without raising a
+    language-level exception — a known, unresolved unification gap (see RISK.md
+    under 09_المكتبة_القياسية/04_تشفير). The happy path (decrypting valid ENCRYPT
+    output) is bit-identical across both engines.
+  params:
+  - نص_مشفر — الناتج الست عشريّ من «شفر»
+  - مفتاح — نفس المفتاح المُستخدَم في التشفير
+  examples:
+  - code: فك_تشفير(شفّر("سرّي", "مفتاحي"), "مفتاحي")
+    runnable: true
+  lookup_table: name_only
+- cpp_id: SANITIZE
+  canonical: نظف
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنظيف مدخلات
+  description_en: Sanitize
+  params: []
+  lookup_table: name_only
+- cpp_id: SECURE_RANDOM
+  canonical: عشوائي_آمن
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يُرجع عددًا صحيحًا عشوائيًّا ضمن المدى [الحدّ_الأدنى، الحدّ_الأقصى]
+    (كلاهما شامل)، مصدره CSPRNG حقيقيّ لنظام التشغيل — BCryptGenRandom على
+    Windows، /dev/urandom على Linux/macOS — لا مولِّد أرقام شبه عشوائيّ عاديّ
+    (rand()/srand()). مطابق بين المفسّر والمترجم منذ توحيد جولة توسيع مكتبة
+    التشفير (المرحلة ٠). مناسب لتوليد nonces/رموز جلسة/مفاتيح مؤقّتة؛ ليس
+    توليدًا لمفاتيح تشفير طويلة الأمد بحدّ ذاته (استعمل اشتقاق مفتاح مخصَّص
+    لذلك عند توفّره).
+  description_en: >-
+    Returns a random integer in [min, max] (inclusive) sourced from a real OS
+    CSPRNG — BCryptGenRandom on Windows, /dev/urandom on Linux/macOS — not a
+    plain PRNG (rand()/srand()). Identical behavior on interpreter and
+    compiler since the crypto-library-expansion RFC's phase 0. Suitable for
+    nonces/session tokens/short-lived keys; not a long-term key-generation
+    primitive by itself.
+  params:
+    - الحدّ_الأدنى — أصغر قيمة ممكنة للناتج (شاملة).
+    - الحدّ_الأقصى — أكبر قيمة ممكنة للناتج (شاملة).
+  examples:
+    - code: |
+        استورد تأكيدات
+        اطبع_سطر(عشوائي_آمن(1، 100) >= 1)
+      runnable: true
+  lookup_table: name_only
+- cpp_id: BASE64_ENCODE
+  canonical: ترميز_64
+  namespace: Assertions
+  category: MODULE_FUNCTION
+  require_import: true
+  module: ASSERTIONS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترميز Base64
+  description_en: Base64 encode
+  params: []
+  lookup_table: name_only

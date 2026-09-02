@@ -1,0 +1,265 @@
+version: 1
+namespace_group: KernelMemory
+description_ar: وحدة نواة memory (20 دالة)
+description_en: Kernel memory module (20 functions)
+functions:
+- cpp_id: MEM_0
+  canonical: ذاكرة_خصص
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_خصص
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_1
+  canonical: ذاكرة_حرر
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_حرر
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_2
+  canonical: ذاكرة_إحصائيات
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_إحصائيات
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_3
+  canonical: ذاكرة_حجم
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_حجم
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_4
+  canonical: ذاكرة_ذروة
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_ذروة
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_5
+  canonical: ذاكرة_صفر
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_صفر
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_6
+  canonical: انسخ_ذاكرة
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: انسخ_ذاكرة
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_7
+  canonical: ذاكرة_أعد_حجم
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_أعد_حجم
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_8
+  canonical: ذاكرة_محاذاة
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_محاذاة
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_9
+  canonical: ذاكرة_تسرب
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_تسرب
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_10
+  canonical: قمامة_اجمع
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_اجمع
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_11
+  canonical: قمامة_إحصائيات
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_إحصائيات
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_12
+  canonical: قمامة_فعل
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_فعل
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_13
+  canonical: قمامة_عطل
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_عطل
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_14
+  canonical: قمامة_عتبة
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_عتبة
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_15
+  canonical: قمامة_كائنات_حية
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_كائنات_حية
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_16
+  canonical: قمامة_حجم_كومة
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_حجم_كومة
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_17
+  canonical: قمامة_أقصى_توقف
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قمامة_أقصى_توقف
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_18
+  canonical: ذاكرة_عدد_تخصيصات
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_عدد_تخصيصات
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only
+- cpp_id: MEM_19
+  canonical: ذاكرة_إجمالي
+  namespace: KernelMemory
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ذاكرة_إجمالي
+  description_en: kernel memory function
+  params: []
+  lookup_table: name_only

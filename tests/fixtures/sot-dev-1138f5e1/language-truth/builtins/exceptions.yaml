@@ -1,0 +1,135 @@
+version: 1
+namespace_group: exceptions
+description_ar: وحدة exceptions (10 دالة)
+description_en: exceptions module (10 functions)
+functions:
+- cpp_id: EXC_NEW
+  canonical: استثناء_جديد
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: create exception
+  description_en: create exception
+  params: []
+  lookup_table: name_only
+- cpp_id: EXC_MESSAGE
+  canonical: استثناء_رسالة
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: exception message
+  description_en: exception message
+  params: []
+  lookup_table: name_only
+- cpp_id: STACK_TRACE
+  canonical: مكدس_تتبع
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: stack trace
+  description_en: stack trace
+  params: []
+  lookup_table: name_only
+- cpp_id: STACK_DEPTH
+  canonical: مكدس_عمق
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: stack depth
+  description_en: stack depth
+  params: []
+  lookup_table: name_only
+- cpp_id: TYPE_ERROR
+  canonical: خطأ_نوع
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: type error
+  description_en: type error
+  params: []
+  lookup_table: name_only
+- cpp_id: SECURITY_CHECK
+  canonical: أمان_فحص
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: security check
+  description_en: security check
+  params: []
+  lookup_table: name_only
+- cpp_id: SECURITY_PERMS
+  canonical: أمان_قائمة_أذونات
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: security permissions list
+  description_en: security permissions list
+  params: []
+  lookup_table: name_only
+- cpp_id: SECURITY_MODE
+  canonical: أمان_وضع
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: security mode
+  description_en: security mode
+  params: []
+  lookup_table: name_only
+- cpp_id: ASSERT_ERROR
+  canonical: خطأ_تأكيد
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: assertion error
+  description_en: assertion error
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST_ERROR
+  canonical: خطأ_آخر
+  namespace: Exceptions
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: last error
+  description_en: last error
+  params: []
+  lookup_table: name_only

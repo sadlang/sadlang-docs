@@ -1,0 +1,1340 @@
+version: 1
+namespace_group: Maps
+description_ar: وحدة خرائط (90 دالة)
+description_en: Maps module (83 functions)
+functions:
+- cpp_id: JSON_PARSE
+  canonical: تحليل_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحليل JSON
+  description_en: Parse JSON
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: JSON_STRINGIFY
+  canonical: نص_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل لـ JSON
+  description_en: JSON stringify
+  params: []
+  lookup_table: MODULE_FUNCTION
+- cpp_id: JSON_PRETTY
+  canonical: تنسيق_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: JSON منسَّق
+  description_en: Pretty JSON
+  params: []
+  lookup_table: name_only
+- cpp_id: XML_PARSE
+  canonical: تحليل_وسائم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحليل XML
+  description_en: Parse XML
+  params: []
+  lookup_table: name_only
+- cpp_id: XML_STRINGIFY
+  canonical: تحويل_وسائم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحويل لـ XML
+  description_en: XML stringify
+  params: []
+  lookup_table: name_only
+- cpp_id: REGEX
+  canonical: تعبير_مطابقة
+  namespace: Maps
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مطابقة regex
+  description_en: Regex match
+  params:
+    - name: نص
+      type: نص
+    - name: نمط
+      type: نص
+    - name: رايات
+      type: نص
+      optional: true
+  lookup_table: MODULE_FUNCTION
+- cpp_id: REGEX_SEARCH
+  canonical: تعبير_بحث
+  namespace: Maps
+  arity:
+    min: 2
+    max: 3
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: بحث regex
+  description_en: Regex search
+  params:
+    - name: نص
+      type: نص
+    - name: نمط
+      type: نص
+    - name: رايات
+      type: نص
+      optional: true
+  lookup_table: name_only
+- cpp_id: REGEX_REPLACE
+  canonical: تعبير_استبدال
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: استبدال regex
+  description_en: Regex replace
+  params:
+    - name: نص
+      type: نص
+    - name: نمط
+      type: نص
+    - name: بديل
+      type: نص
+    - name: رايات
+      type: نص
+      optional: true
+  lookup_table: name_only
+- cpp_id: REGEX_FIND_ALL
+  canonical: تعبير_جد_الكل
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: كل تطابقات regex
+  description_en: Regex find all
+  params:
+    - name: نص
+      type: نص
+    - name: نمط
+      type: نص
+    - name: رايات
+      type: نص
+      optional: true
+  lookup_table: name_only
+- cpp_id: NOW
+  canonical: الآن
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الوقت الحالي (طابع زمني يونكس بالثواني منذ 1970)
+  description_en: Current time (Unix timestamp in seconds since 1970)
+  params: []
+  lookup_table: MODULE_FUNCTION
+  # (AR) مدعوم في المفسّر والمترجم والوضع الحرّ. مصدر الوقت يتبع **حلقة الامتياز
+  #      والمعمارية**، لا مجرّد وجود المكتبة القياسيّة — أربع حالات:
+  #        • مستضاف: time(NULL) من libc.
+  #        • حرّ + معدن عارٍ x86 (مثل i686-unknown-elf): جسر عتاد مبثوث داخل الوحدة
+  #          يقرأ ساعة CMOS الحقيقيّة (منافذ 0x70/0x71) بلا libc.
+  #        • حرّ + لينكس (x86_64/i386): نداء نظام `time` مبثوث داخل الوحدة — يعمل
+  #          مع libc وبدونها. لا CMOS: البرنامج عمليّةُ مستخدم في الحلقة 3 حيث
+  #          تعليمتا in/out ممتازتان (#GP ⇒ SIGSEGV).
+  #        • حرّ + معدن عارٍ بمعمارية أخرى (aarch64/riscv64) أو نظام آخر: كعب ضعيف
+  #          يعيد صفرًا تتجاوزه حزمة دعم اللوحة / أو يُترك للـCRT.
+  #      «الآن» في ص بلا معاملات (تستدعي time(NULL))، فلا يُلاحَظ tloc من اللغة؛
+  #      لكنّ الجسر يحترم عقد C على مستوى ABI كاملًا (مؤشّر غير عدميّ ⇒ كتابة عبره)
+  #      كي يطابق دالّة libc تمامًا لو استُدعي الرمز من كود C خارجيّ يربط الوحدة.
+  # (EN) Supported in interpreter, compiler, and freestanding. The time source
+  #      follows the *privilege ring and architecture*, not merely the presence of
+  #      a standard library — four cases:
+  #        • Hosted: libc time(NULL).
+  #        • Freestanding + x86 bare metal (e.g. i686-unknown-elf): an in-module
+  #          hardware bridge reads the CMOS RTC (ports 0x70/0x71), no libc.
+  #        • Freestanding + Linux (x86_64/i386): an in-module `time` syscall —
+  #          works with and without libc. No CMOS: the program is a ring-3
+  #          userspace process where in/out are privileged (#GP → SIGSEGV).
+  #        • Freestanding + other bare metal (aarch64/riscv64) or another OS: a
+  #          weak stub returning zero for the BSP to override, or left to the CRT.
+  #      «الآن» takes no parameters (it calls time(NULL)), so tloc is not observable
+  #      from the language; the bridge still honours the C ABI contract fully (non-null
+  #      pointer ⇒ written through) to match libc if the symbol is called from external
+  #      C linked against the module.
+  freestanding: true
+  # (AR) تباين معروف: المفسّر يعيد عشريًّا (double) بدقّة أقلّ من الثانية، بينما
+  #      المترجم يعيد صحيحًا (i64) بثوانٍ كاملة — توحيد النوع قرار لغويّ معلّق.
+  # (EN) Known divergence: interpreter returns a double (sub-second), compiler
+  #      returns i64 whole seconds — full type unification is a pending language decision.
+  runtime_note: current-time-bridge
+- cpp_id: NOW_MS
+  canonical: الآن_مللي
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الوقت بمللي ثانية
+  description_en: Time ms
+  params: []
+  lookup_table: name_only
+- cpp_id: DATE_FORMAT
+  canonical: صيغة_تاريخ
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنسيق تاريخ
+  description_en: Format date
+  params: []
+  lookup_table: name_only
+- cpp_id: DATE_COMPONENTS
+  canonical: مكونات_تاريخ
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مكونات التاريخ
+  description_en: Date parts
+  params: []
+  lookup_table: name_only
+- cpp_id: YEAR
+  canonical: سنة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: السنة
+  description_en: Year
+  params: []
+  lookup_table: name_only
+- cpp_id: MONTH
+  canonical: شهر
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الشهر
+  description_en: Month
+  params: []
+  lookup_table: name_only
+- cpp_id: DAY
+  canonical: يوم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: اليوم
+  description_en: Day
+  params: []
+  lookup_table: name_only
+- cpp_id: HOUR
+  canonical: ساعة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الساعة
+  description_en: Hour
+  params: []
+  lookup_table: name_only
+- cpp_id: MINUTE
+  canonical: دقيقة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الدقيقة
+  description_en: Minute
+  params: []
+  lookup_table: name_only
+- cpp_id: SECOND
+  canonical: ثانية
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الثانية
+  description_en: Second
+  params: []
+  lookup_table: name_only
+- cpp_id: WEEKDAY
+  canonical: يوم_الأسبوع
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: يوم الأسبوع
+  description_en: Weekday
+  params: []
+  lookup_table: name_only
+- cpp_id: TIME_DIFF
+  canonical: فرق_وقت
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فرق وقت
+  description_en: Time diff
+  params: []
+  lookup_table: name_only
+- cpp_id: FILE_SIZE
+  canonical: حجم_ملف
+  namespace: Maps
+  arity:
+    min: 1
+    max: 1
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حجم ملف
+  description_en: File size
+  params: []
+  lookup_table: name_only
+- cpp_id: PATH_JOIN
+  canonical: ضم_مسار
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: دمج مسار
+  description_en: Join path
+  params: []
+  lookup_table: name_only
+- cpp_id: PATH_DIRNAME
+  canonical: مجلد_مسار
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مجلد الملف
+  description_en: Dirname
+  params: []
+  lookup_table: name_only
+- cpp_id: PATH_BASENAME
+  canonical: اسم_ملف
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: اسم الملف
+  description_en: Basename
+  params: []
+  lookup_table: name_only
+- cpp_id: PATH_EXT
+  canonical: امتداد_ملف
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: امتداد الملف
+  description_en: Extension
+  params: []
+  lookup_table: name_only
+- cpp_id: BASE64_ENCODE
+  canonical: ترميز_قاعدة64
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترميز Base64
+  description_en: Base64 encode
+  params: []
+  lookup_table: name_only
+- cpp_id: BASE64_DECODE
+  canonical: فك_قاعدة64
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فك Base64
+  description_en: Base64 decode
+  params: []
+  lookup_table: name_only
+- cpp_id: HEX_ENCODE
+  canonical: ترميز_ست_عشري
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترميز سداسي
+  description_en: Hex encode
+  params: []
+  lookup_table: name_only
+- cpp_id: URL_ENCODE
+  canonical: ترميز_عنوان
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترميز URL
+  description_en: URL encode
+  params: []
+  lookup_table: name_only
+- cpp_id: URL_DECODE
+  canonical: فك_عنوان
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فك URL
+  description_en: URL decode
+  params: []
+  lookup_table: name_only
+- cpp_id: ENV_GET
+  canonical: متغير_بيئة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: متغير بيئة
+  description_en: Env var
+  params: []
+  lookup_table: name_only
+- cpp_id: CWD
+  canonical: المجلد_الحالي
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: المجلد الحالي
+  description_en: CWD
+  params: []
+  lookup_table: name_only
+- cpp_id: ERROR_FN
+  canonical: خطأ
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء خطأ
+  description_en: Create error
+  params: []
+  lookup_table: name_only
+- cpp_id: TEXT_REPEAT
+  canonical: تكرار_نص
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تكرار نص
+  description_en: Repeat text
+  params: []
+  lookup_table: name_only
+- cpp_id: PAD_START
+  canonical: حشو_بداية
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حشو بداية
+  description_en: Pad start
+  params: []
+  lookup_table: name_only
+- cpp_id: PAD_END
+  canonical: حشو_نهاية
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حشو نهاية
+  description_en: Pad end
+  params: []
+  lookup_table: name_only
+- cpp_id: REVERSE_TEXT
+  canonical: عكس_نص
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عكس نص
+  description_en: Reverse text
+  params: []
+  lookup_table: name_only
+- cpp_id: CHAR_CODE
+  canonical: رمز_حرف
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رمز حرف (خرائط)
+  description_en: Char code
+  params: []
+  returns: رقم
+  lookup_table: name_only
+- cpp_id: FROM_CHAR_CODE
+  arity:
+    min: 1
+    max: 1
+  canonical: حرف_من_رمز
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حرف من رمز
+  description_en: From char code
+  params: []
+  returns: نص
+  lookup_table: name_only
+- cpp_id: COUNT
+  canonical: عد
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عد تكرارات
+  description_en: Count
+  params: []
+  lookup_table: name_only
+- cpp_id: FORMAT
+  canonical: تنسيق
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنسيق نص
+  description_en: Format
+  params: []
+  lookup_table: name_only
+- cpp_id: STRIP_DIACRITICS
+  arity:
+    min: 1
+    max: 1
+  canonical: ازل_تشكيل
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إزالة تشكيل
+  description_en: Strip diacritics
+  params: []
+  returns: نص
+  lookup_table: name_only
+- cpp_id: COMPARE_TEXT
+  canonical: مقارنة_نص
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مقارنة نصين
+  description_en: Compare text
+  params: []
+  lookup_table: name_only
+- cpp_id: UNICODE_CODEPOINTS
+  canonical: نص_يونيكود
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نقاط Unicode
+  description_en: Unicode pts
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_CTOR
+  canonical: خريطة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء خريطة
+  description_en: Create map
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_GET
+  arity:
+    min: 2
+    max: 3
+  canonical: خريطة_احصل
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: احصل على قيمة من الخريطة؛ غياب المفتاح يرجع «فراغ» (لا «لاشيء») أو البديل الثالث إن أعطي
+  description_en: Get value from map; a missing key returns Void (not Null), or the third default argument if given
+  params:
+  - خريطة — الخريطة المقروءة.
+  - مفتاح — المفتاح المطلوب.
+  - "بديل — اختياريّ: يُرجَع عند غياب المفتاح بدل «فراغ» (منفَّذ في المحرّكين معًا)."
+  lookup_table: name_only
+- cpp_id: MAP_FETCH_STR
+  arity:
+    min: 2
+    max: 2
+  canonical: خريطة_اجلب_نص
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: جلب مصنف نصي؛ الغياب «لاشيء» حصرا، والحضور بنوع مغاير أو بعدم مخزن خطأ تشغيل صريح (RUN074)
+  description_en: Typed string fetch; absence returns Null exclusively, presence with a different type or a stored null is an explicit runtime error (RUN074)
+  params:
+  - خريطة — الخريطة المقروءة.
+  - مفتاح — المفتاح المطلوب.
+  lookup_table: name_only
+- cpp_id: MAP_FETCH_NUM
+  arity:
+    min: 2
+    max: 2
+  canonical: خريطة_اجلب_رقم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: جلب مصنف رقمي؛ الغياب «لاشيء» حصرا، والحضور بنوع مغاير أو بعدم مخزن خطأ تشغيل صريح (RUN074)
+  description_en: Typed integer fetch; absence returns Null exclusively, presence with a different type or a stored null is an explicit runtime error (RUN074)
+  params:
+  - خريطة — الخريطة المقروءة.
+  - مفتاح — المفتاح المطلوب.
+  lookup_table: name_only
+- cpp_id: MAP_FETCH_BOOL
+  arity:
+    min: 2
+    max: 2
+  canonical: خريطة_اجلب_منطقي
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: جلب مصنف منطقي؛ الغياب «لاشيء» حصرا، والحضور بنوع مغاير أو بعدم مخزن خطأ تشغيل صريح (RUN074)
+  description_en: Typed boolean fetch; absence returns Null exclusively, presence with a different type or a stored null is an explicit runtime error (RUN074)
+  params:
+  - خريطة — الخريطة المقروءة.
+  - مفتاح — المفتاح المطلوب.
+  lookup_table: name_only
+- cpp_id: MAP_SET
+  arity:
+    min: 3
+    max: 3
+  canonical: خريطة_عين
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تعيين قيمة في الخريطة
+  description_en: Set map value
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_KEYS
+  arity:
+    min: 1
+    max: 1
+  canonical: خريطة_مفاتيح
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مفاتيح الخريطة
+  description_en: Map keys
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_VALUES
+  arity:
+    min: 1
+    max: 1
+  canonical: خريطة_قيم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قيم الخريطة
+  description_en: Map values
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_HAS_KEY
+  arity:
+    min: 2
+    max: 2
+  canonical: خريطة_تحتوي
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل تحتوي المفتاح؟
+  description_en: Map has key
+  params: []
+  returns: منطقي
+  lookup_table: name_only
+- cpp_id: MAP_DELETE
+  arity:
+    min: 2
+    max: 2
+  canonical: خريطة_احذف
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حذف مفتاح
+  description_en: Delete from map
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_SIZE
+  arity:
+    min: 1
+    max: 1
+  canonical: خريطة_حجم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: حجم الخريطة
+  description_en: Map size
+  params: []
+  returns: رقم
+  lookup_table: name_only
+- cpp_id: MAP_ENTRIES
+  canonical: خريطة_عناصر
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: الأزواج كقائمة
+  description_en: Map entries
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_MERGE
+  canonical: خريطة_دمج
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: دمج خريطتين
+  description_en: Merge maps
+  params: []
+  lookup_table: name_only
+- cpp_id: MAP_FN
+  canonical: تخطيط
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تخطيط على مصفوفة
+  description_en: Map function
+  params: []
+  lookup_table: name_only
+- cpp_id: FILTER
+  canonical: تصفية
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تصفية مصفوفة
+  description_en: Filter
+  params: []
+  lookup_table: name_only
+- cpp_id: REDUCE
+  canonical: اختزال
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: اختزال مصفوفة
+  description_en: Reduce
+  params: []
+  lookup_table: name_only
+- cpp_id: FOR_EACH
+  canonical: لكل_عنصر
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تطبيق دالة على كل عنصر
+  description_en: For each
+  params: []
+  lookup_table: name_only
+- cpp_id: FLAT_MAP
+  canonical: تخطيط_مسطح
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تخطيط ثم تسطيح
+  description_en: Flat map
+  params: []
+  lookup_table: name_only
+- cpp_id: ZIP
+  arity:
+    min: 2
+    max: 2
+  canonical: زاوج
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: اقتران مصفوفتين في أزواج
+  description_en: Zip
+  params: []
+  lookup_table: name_only
+- cpp_id: ANY_ELEMENT
+  canonical: أي_عنصر
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل يوجد عنصر يطابق؟
+  description_en: Any element
+  params: []
+  lookup_table: name_only
+- cpp_id: ALL_ELEMENTS
+  canonical: كل_العناصر
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل كل العناصر تطابق؟
+  description_en: All elements
+  params: []
+  lookup_table: name_only
+- cpp_id: UNIQUE
+  canonical: فريد
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إزالة التكرار
+  description_en: Unique
+  params: []
+  lookup_table: name_only
+- cpp_id: UNION
+  canonical: اتحاد
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: اتحاد مصفوفتين
+  description_en: Union
+  params: []
+  lookup_table: name_only
+- cpp_id: INTERSECT
+  canonical: تقاطع
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقاطع مصفوفتين
+  description_en: Intersect
+  params: []
+  lookup_table: name_only
+- cpp_id: DIFFERENCE
+  canonical: فرق
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: فرق بين مصفوفتين
+  description_en: Difference
+  params: []
+  lookup_table: name_only
+- cpp_id: FLATTEN
+  canonical: تسطيح
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تسطيح مصفوفة متداخلة
+  description_en: Flatten
+  params: []
+  lookup_table: name_only
+- cpp_id: CHUNK
+  canonical: تقطيع
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تقطيع لأجزاء بحجم محدد
+  description_en: Chunk
+  params: []
+  lookup_table: name_only
+- cpp_id: TAKE
+  canonical: خذ
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أخذ أول N عنصر
+  description_en: Take N
+  params: []
+  lookup_table: name_only
+- cpp_id: DROP
+  canonical: اترك
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تجاهل أول N عنصر
+  description_en: Drop N
+  params: []
+  lookup_table: name_only
+- cpp_id: ENUMERATE
+  canonical: رقم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترقيم العناصر
+  description_en: Enumerate
+  params: []
+  lookup_table: name_only
+- cpp_id: AVERAGE
+  canonical: متوسط
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: متوسط المصفوفة
+  description_en: Average
+  params: []
+  lookup_table: name_only
+- cpp_id: MIN_ARRAY
+  canonical: أصغر_المصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أصغر عنصر
+  description_en: Min array
+  params: []
+  lookup_table: name_only
+- cpp_id: MAX_ARRAY
+  canonical: أكبر_المصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أكبر عنصر
+  description_en: Max array
+  params: []
+  lookup_table: name_only
+- cpp_id: SORT_ARRAY
+  canonical: ترتيب_مصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: ترتيب مصفوفة
+  description_en: Sort array
+  params: []
+  lookup_table: name_only
+- cpp_id: REVERSE_ARRAY
+  canonical: عكس_مصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عكس مصفوفة
+  description_en: Reverse array
+  params: []
+  lookup_table: name_only
+- cpp_id: JOIN
+  canonical: ربط
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: دمج عناصر كنص
+  description_en: Join
+  params: []
+  lookup_table: name_only
+- cpp_id: MATRIX_NEW
+  canonical: مصفوفة_جديدة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء مصفوفة ثنائية
+  description_en: New matrix
+  params: []
+  lookup_table: name_only
+- cpp_id: MATRIX_IDENTITY
+  canonical: مصفوفة_وحدة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: مصفوفة الوحدة
+  description_en: Identity matrix
+  params: []
+  lookup_table: name_only
+- cpp_id: ARANGE
+  canonical: نطاق_مصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: نطاق كمصفوفة
+  description_en: Array range
+  params: []
+  lookup_table: name_only
+- cpp_id: SHAPE
+  canonical: أبعاد_مصفوفة
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: أبعاد المصفوفة
+  description_en: Array shape
+  params: []
+  lookup_table: name_only
+- cpp_id: TRANSPOSE
+  canonical: قلب_محوري
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: قلب مصفوفة محوري
+  description_en: Transpose
+  params: []
+  lookup_table: name_only
+- cpp_id: JSON_PARSE_ALT
+  canonical: حلل_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: parse JSON (alt)
+  description_en: parse JSON (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: JSON_STRINGIFY_ALT
+  canonical: تحويل_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: stringify JSON (alt)
+  description_en: stringify JSON (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: JSON_PRETTY_ALT
+  canonical: صيغة_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: pretty JSON (alt)
+  description_en: pretty JSON (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: JSON_MINIFY
+  canonical: صغ_جيسون
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: minify JSON
+  description_en: minify JSON
+  params: []
+  lookup_table: name_only
+- cpp_id: XML_PARSE_ALT
+  canonical: حلل_وسائم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: parse XML (alt)
+  description_en: parse XML (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: XML_PRETTY_ALT
+  canonical: صيغة_وسائم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: pretty XML (alt)
+  description_en: pretty XML (alt)
+  params: []
+  lookup_table: name_only
+- cpp_id: XML_MINIFY
+  canonical: صغ_وسائم
+  namespace: Maps
+  category: MODULE_FUNCTION
+  require_import: true
+  module: MAPS
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: minify XML
+  description_en: minify XML
+  params: []
+  lookup_table: name_only

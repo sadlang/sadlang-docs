@@ -1,0 +1,161 @@
+version: 1
+namespace_group: NetworkUtils
+description_ar: وحدة شبكة أدوات (12 دالة)
+description_en: Network utils (12 functions)
+functions:
+- cpp_id: INIT
+  canonical: جهز_الشبكة
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تهيئة الشبكة
+  description_en: Init network
+  params: []
+  lookup_table: name_only
+- cpp_id: CLEANUP
+  canonical: نظف_الشبكة
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تنظيف الشبكة
+  description_en: Cleanup network
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST_ERROR_CODE
+  canonical: رمز_آخر_خطأ
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رمز آخر خطأ
+  description_en: Last error code
+  params: []
+  lookup_table: name_only
+- cpp_id: LAST_ERROR_MSG
+  canonical: وصف_آخر_خطأ
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: وصف آخر خطأ
+  description_en: Last error msg
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_NEW
+  canonical: عنوان
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء عنوان IPv4
+  description_en: New address
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_NEW_V6
+  canonical: عنوان_حديث
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: إنشاء عنوان IPv6
+  description_en: New IPv6 addr
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_FREE
+  canonical: حرر_عنوان
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: تحرير عنوان
+  description_en: Free address
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_IP
+  canonical: رقم_الجهاز
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: عنوان IP
+  description_en: IP address
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_PORT
+  canonical: رقم_المنفذ
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: رقم المنفذ
+  description_en: Port number
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_IS_V4
+  canonical: هل_عنوان_قديم
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل IPv4؟
+  description_en: Is IPv4
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_IS_V6
+  canonical: هل_عنوان_حديث
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: هل IPv6؟
+  description_en: Is IPv6
+  params: []
+  lookup_table: name_only
+- cpp_id: ADDR_STR
+  canonical: العنوان_كنص
+  namespace: NetworkUtils
+  category: MODULE_FUNCTION
+  require_import: true
+  module: NETWORK
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: العنوان كنص
+  description_en: Address as string
+  params: []
+  lookup_table: name_only

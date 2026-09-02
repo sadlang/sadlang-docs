@@ -1,0 +1,201 @@
+version: 1
+namespace_group: Processes
+description_ar: وحدة عمليات — بدائيّات تشغيل العمليّات (fork/execvp، waitpid، pipe، close، open) لتُكتب الصدَفة ببرنامج ص
+description_en: Processes module — process primitives (fork/execvp, waitpid, pipe, close, open) so a shell can be written as a Sad program
+functions:
+- cpp_id: PROC_SPAWN
+  canonical: شغل_برنامجا
+  namespace: Processes
+  category: MODULE_FUNCTION
+  require_import: true
+  module: PROCESSES
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يشغّل برنامجًا خارجيًّا بمسارٍ ووسائط ويُرجع معرّف عمليّة (رقمًا) يُنتظَر بـانتظر_عملية.
+    بخلاف نفذ_امر (وهي system() ⇒ تستدعي /bin/sh وسيطًا وتأخذ سلسلةً واحدة قابلةً للحقن)
+    تأخذ هذه الدالّة قائمة وسائط منفصلة وتنفّذ execvp مباشرةً — بلا صدَفةٍ وسيطة وبلا
+    تأويلٍ للمحارف الخاصّة. الوسيط الثالث اختياريّ: خريطةُ إعادة توجيه المجاري
+    {رقم_المجرى: وصف} حيث 0 دخل و1 مخرج و2 خطأ، وقيمتها وصفٌ من انبوب أو افتح_وصفا؛
+    فيبقى dup2 تفصيلًا داخليًّا لا يُكشف. كلّ وصفٍ يُنشئه الرنتايم يحمل CLOEXEC، فلا
+    يتسرّب إلى الابن إلّا ما وُجّه صراحةً. يميّز فشلَ execvp من فشلِ البرنامج نفسه عبر
+    أنبوبٍ ذاتيّ (self-pipe) — فمسارٌ غير موجود يرمي خطأً صريحًا لا يُرجع رمز خروجٍ
+    مضلّلًا. **المنصّاتُ الثلاث** — بمسارين لا بمحاكاة: fork+execvp وأنبوبٌ ذاتيٌّ على
+    POSIX، وCreateProcess بـSTARTUPINFO على ويندوز. وكان يُرمى RUN_PROC_UNSUPPORTED_PLATFORM
+    هناك بحجّة أنّ _spawnvp لا تعطي فصلَ fork/exec الذي يقوم عليه التوجيه — وهي حجّةٌ
+    صحيحةٌ عن _spawnvp وحدَها: CreateProcess تُمرِّرُ التوجيهَ بيانًا قبل الإنشاء فلا
+    تحتاج لحظةً وسطى، وتُبلّغُ فشلَ التشغيل متزامنًا فلا تحتاج أنبوبًا ذاتيًّا. ويبقى
+    RUN_PROC_UNSUPPORTED_PLATFORM لهدفٍ خارج الثلاثة (يُرفض زمنَ الترجمة في المصرّف).
+    **ثلاثةُ فروقٍ معلَنةٍ على ويندوز، في النظام لا في التنفيذ**: (١) انتظر_عملية تُرجع
+    رمزَ الخروج خامًّا إذ لا نظيرَ لاصطلاح 128+الإشارة (لا يقتلُ ويندوزُ بإشارات)؛
+    (٢) البحثُ عن البرنامج بقواعد CreateProcess لا execvp — المجلّدُ الجاري داخلٌ فيه
+    واللواحقُ (.exe/.bat) تُكمَّل؛ (٣) الوسائطُ تُبنى سطرَ أوامرَ واحدًا بقواعد اقتباس
+    CommandLineToArgvW، فيعودُ التقسيمُ في الابن إلى ما أرسله المستعمل.
+    **دَينٌ معلَنٌ خاصٌّ بويندوز**: bInheritHandles=TRUE تُورّث كلَّ مقبضٍ موروثٍ لا الثلاثةَ
+    المذكورةَ وحدَها؛ وكلُّ وصفٍ يُنشئه الرنتايم _O_NOINHERIT فلا يتسرّبُ منّا شيء، لكنّ
+    شوكتين متزامنتين يمكن أن ترثَ إحداهما نسخةَ الأخرى. المفسّرُ يُغلقُ النافذةَ بقفل؛
+    والمصرَّفُ لا. الإغلاقُ التامّ PROC_THREAD_ATTRIBUTE_HANDLE_LIST.
+    **بوّابة أمان**: محجوبةٌ برميِ RUN_PERMISSION_DENIED حين enableSecurity، اتّساقًا مع
+    نفذ_امر — أي أنّ صدَفةً بص تتعطّل كلّيًّا لا جزئيًّا تحت الوضع الآمن؛ والوضع الآمن
+    يُفعَّل براية --أمان فالحلُّ إزالتُها. وهذا قرارُ مالكٍ مفتوحٌ في المقترح لا خيارٌ
+    محسوم. ووسيطٌ ثانٍ ليس قائمةً أو ثالثٌ ليس خريطةً يفشل صراحةً (SEM_TYPE_MISMATCH) لا
+    يُبتلَع صامتًا — وفي المصرّف يُرفض زمنَ الترجمة لا زمنَ التشغيل، إذ النوعُ معروفٌ هناك.
+    **منفَّذةٌ في المحرّكين**: المصرّف يولّد fork+execvp وأنبوبًا ذاتيًّا في الوحدة
+    المُصدَرة نفسِها (لا مكتبةَ زمنِ تشغيلٍ تُربَط)، والتطابق مقيسٌ باختبارات مزدوجة.
+    **حدودُ المصرّف المعلَنة**: (١) لينكس/glibc حصرًا — أعلامُ O_* وأرقامُ الإشارات
+    ثوابتُ مُثبَّتة، وهدفٌ آخر يُرفض زمنَ الترجمة؛ (٢) لا بوّابةَ أمان: --أمان رايةُ
+    المفسّر ولا نظيرَ لها في ثنائيٍّ مُصدَر، فالحجبُ لا يسري على المُصرَّف؛ (٣) سعةُ
+    جدولِ المقابض ١٠٢٤ حيًّا (المفسّر بلا حدّ) والتجاوزُ يفشل صاخبًا.
+    **دَينٌ معلَن ٢ — «2>&1» المجرّدة غير قابلةٍ للتعبير**: خريطةُ التوجيه تقبل وصفًا من
+    انبوب أو افتح_وصفا حصرًا، ولا بدائيّةَ تُعطي وصفًا للمجاري القياسيّة الموروثة؛ فـ
+    «أمر 2>&1» بمعناها الشائع (الخطأ يتبع مخرجَ الأب) لا تُكتب. ويزيد أنّ الخريطة غير
+    مرتّبة ودلالةُ 2>&1 حسّاسةٌ للترتيب (‏cmd 2>&1 >ملف ≠ cmd >ملف 2>&1)، فالعجزُ في
+    الواجهة لا في التنفيذ. المُعبَّر عنه اليوم: {"1": و, "2": و} أي «>و 2>&1» وحدها.
+    وعليه فقولُ «تكفي لكتابة صدَفةٍ كاملة» غيرُ دقيق: تكفي لكلّ ما في نظير
+    shell_executor.cpp عدا هذه. إغلاقُ الثغرة يحتاج بدائيّةً تُرجع وصفًا لمجرًى قائم
+    (‏نظير dup)، أو قائمةَ توجيهاتٍ مرتّبةً بدل خريطة — وكلاهما توسيعٌ يحتاج قرارَ مالك.
+    **دَينٌ معلَن ٣ — لا حصادَ تلقائيًّا ولا قتل**: عمليّةٌ لم تُنتظَر تبقى زومبيًّا
+    ومقبضُها باقٍ في الجدول، ولا بدائيّةَ قتلٍ ولا انتظارٍ غير حاجب. وفي حلقةِ صدَفةٍ
+    تلتقط الأخطاء بـحاول/التقط يمكن أن تتراكم الزومبيّات بلا إشارة.
+  description_en: >-
+    Spawns an external program by path and argument list, returning a process handle
+    (a number) to be awaited with انتظر_عملية. Unlike نفذ_امر (system(), which goes
+    through /bin/sh and takes one injectable string), this takes a separate argument
+    vector and calls execvp directly. Optional third argument is a redirection map
+    {fd: descriptor} (0/1/2), keeping dup2 an internal detail. All runtime-created
+    descriptors are CLOEXEC. execvp failure is distinguished from program failure via
+    a self-pipe. Implemented on all three platforms: fork+execvp with a self-pipe on
+    POSIX, CreateProcess with STARTUPINFO on Windows — where redirection is passed as
+    data before creation and spawn failure is reported synchronously, so neither the
+    intermediate moment nor the self-pipe is needed. Three declared Windows semantic
+    differences: raw exit codes, CreateProcess search rules, command-line quoting.
+  params:
+  - مسار — مسار الملفّ التنفيذيّ (يُبحث في PATH كما في execvp إن لم يحوِ فاصل مسار).
+  - وسائط — قائمة نصوص، تُمرَّر كما هي بلا تأويل. لا تتضمّن اسم البرنامج (يُضاف تلقائيًّا argv[0]).
+  - "توجيه — اختياريّ: خريطة {رقم_المجرى: وصف}، المفاتيح 0 أو 1 أو 2."
+  examples:
+  - code: |
+      استورد عمليات
+      متغير م = شغل_برنامجا("/bin/echo", ["مرحبا"])
+      اطبع_سطر("رمز الخروج: " + نص(انتظر_عملية(م)))
+    runnable: false
+  lookup_table: name_only
+- cpp_id: PROC_WAIT
+  canonical: انتظر_عملية
+  namespace: Processes
+  category: MODULE_FUNCTION
+  require_import: true
+  module: PROCESSES
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    ينتظر انتهاء عمليّةٍ أنشأها شغل_برنامجا ويُرجع رمز خروجها مفكوكًا بـWEXITSTATUS.
+    إن أُنهيت العمليّة بإشارة يُرجع 128 + رقم الإشارة (اصطلاح الصدَفات). يعالج EINTR
+    بإعادة المحاولة، فلا يفشل انتظارٌ لمجرّد وصول إشارةٍ أثناءه. انتظارُ معرّفٍ مجهول أو
+    عمليّةٍ سبق انتظارها يرمي RUN_PROC_NOT_CHILD — لا يُرجع صفرًا صامتًا. **منفَّذةٌ في
+    المحرّكين** والتطابقُ مقيسٌ باختباراتٍ مزدوجة.
+    **على ويندوز** (‏WaitForSingleObject + GetExitCodeProcess): يُرجع رمزَ الخروج **خامًّا**.
+    اصطلاحُ «128+الإشارة» لا نظيرَ له — ويندوز لا يقتل بإشارات، والإنهاءُ القسريّ يظهر
+    رمزًا كبيرًا (0xC000013A مثلًا) لا رقمًا صغيرًا يُجمَع؛ فتحويلُه إلى الاصطلاح كان
+    سيخترع إشارةً لم تقع. ولا نظيرَ لـECHILD كذلك: مقبضُ العمليّة هناك يبقى صالحًا بعد
+    موتها فلا تختفي «الابنيّة» من تحت اليد. وتحييدُ SIGINT/SIGQUIT نظيرُه
+    SetConsoleCtrlHandler، بعدّادِ عمقٍ للسبب نفسه (الحالةُ عامّةٌ للعمليّة لا للخيط).
+    الاسم
+    «انتظر_عملية» لا «انتظر» لأنّ الأخير مأخوذ لانتظار مهمّةٍ غير متزامنة في وحدة
+    تزامن_متقدم، وسجلّ المدمجات يفهرس بالاسم القانونيّ وحده فيدهس التكرارُ بصمت.
+  description_en: >-
+    Waits for a process created by شغل_برنامجا and returns its exit code (WEXITSTATUS).
+    Signal termination returns 128 + signal number, per shell convention. EINTR is
+    retried. Waiting on an unknown or already-reaped handle throws rather than
+    silently returning zero. On Windows the exit code is returned raw: there are no
+    signal deaths, so the 128+signal convention would invent a signal that never
+    fired. Named انتظر_عملية because انتظر is taken by async.
+  params:
+  - عملية — معرّف العمليّة المُعاد من شغل_برنامجا.
+  lookup_table: name_only
+- cpp_id: PROC_PIPE
+  canonical: انبوب
+  namespace: Processes
+  category: MODULE_FUNCTION
+  require_import: true
+  module: PROCESSES
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    ينشئ أنبوبًا ويُرجع خريطةً بمفتاحين — «قراءة» و«كتابة» — قيمتاهما وصفان يُمرَّران
+    في خريطة توجيه شغل_برنامجا لربط مخرج عمليّةٍ بمدخل أخرى. الطرفان يُنشآن بـCLOEXEC
+    (عبر pipe2 حيث توفّر — وهي غير موجودة على ماك — وإلّا pipe + FD_CLOEXEC؛ وعلى
+    ويندوز ‎_pipe بـ‎_O_NOINHERIT وهو نظيرُ CLOEXEC حرفًا، مع ‎_O_BINARY كي تكون
+    البايتاتُ العابرةُ للأنبوب هي هي على المنصّتين إذ لا ترجمةَ أسطرٍ في POSIX)،
+    فلا يرث ابنٌ طرفًا لم يُوجَّه إليه
+    صراحةً — وهو شرط إغلاقِ الأنبوب: طرفُ كتابةٍ متسرّبٌ في ابنٍ يمنع القارئ من رؤية
+    نهاية الملفّ فيتعلّق إلى الأبد. على المستدعي أن يُغلق الطرفين بـاغلق بعد التشغيل.
+    فشلُ الإنشاء (‏EMFILE غالبًا) يرمي RUN_PROC_PIPE_FAILED. **منفَّذةٌ في المحرّكين**
+    (المصرّف يولّدها في الوحدة المُصدَرة؛ لينكس حصرًا).
+  description_en: >-
+    Creates a pipe and returns a map with keys قراءة (read) and كتابة (write), whose
+    values are descriptors usable in a شغل_برنامجا redirection map. Both ends are
+    CLOEXEC (pipe2 where available), so no child inherits an end it was not explicitly
+    given — a leaked write end would prevent the reader from ever seeing EOF. The
+    caller must close both ends with اغلق.
+  params: []
+  lookup_table: name_only
+- cpp_id: PROC_CLOSE
+  canonical: اغلق
+  namespace: Processes
+  category: MODULE_FUNCTION
+  require_import: true
+  module: PROCESSES
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يُغلق وصفًا أنشأه انبوب أو افتح_وصفا. إغلاقُ وصفٍ مجهولٍ أو مُغلَقٍ سلفًا يرمي
+    RUN_PROC_BAD_DESCRIPTOR — لا يُبتلَع صامتًا، إذ إنّ إغلاقًا مزدوجًا في برنامجٍ
+    متعدّد الخيوط قد يُغلق وصفًا أعادت النواة استعماله لغرضٍ آخر. الوصفات المتبقّية
+    تُغلق حتمًا عند انتهاء البرنامج، لكنّ الاعتماد على ذلك في صدَفةٍ حلقيّةٍ استنزافٌ
+    مؤكَّد للوصفات. **منفَّذةٌ في المحرّكين** (المصرّف يولّدها في الوحدة المُصدَرة؛
+    لينكس حصرًا).
+  description_en: >-
+    Closes a descriptor from انبوب or افتح_وصفا. Closing an unknown or already-closed
+    descriptor throws rather than being swallowed — a double close in a threaded
+    program can close a descriptor the kernel has since reused. Remaining descriptors
+    are closed at program exit, but relying on that inside a shell loop exhausts them.
+  params:
+  - وصف — الوصف المراد إغلاقه.
+  lookup_table: name_only
+- cpp_id: PROC_OPEN_FD
+  canonical: افتح_وصفا
+  namespace: Processes
+  category: MODULE_FUNCTION
+  require_import: true
+  module: PROCESSES
+  compiler_strategy: RUNTIME_CALL
+  since: 0.1.0
+  status: stable
+  description_ar: >-
+    يفتح ملفًّا ويُرجع وصفًا صالحًا لخريطة توجيه شغل_برنامجا — وهو ما يعجز عنه
+    افتح_ملف_س، فذاك يُرجع معرّف FILE* لا يمكن اشتقاق وصفٍ منه فلا يخدم التوجيه.
+    الوضع من مجموعةٍ مغلقة — «قراءة» أو «كتابة» أو «إلحاق» — لا أعلام O_* خامّة في
+    واجهة ص. «كتابة» تقتطع الملفّ أو تنشئه (نظير >)، و«إلحاق» تنشئه وتكتب في آخره
+    (نظير >>). الوصف يحمل CLOEXEC (وعلى ويندوز ‎_O_NOINHERIT + ‎_O_BINARY: إغفالُ
+    الأخير كان يُقحم ‎\r في كلّ كتابة فيختلف **محتوى الملفّ** بين المنصّتين بلا خطأ).
+    وضعٌ خارج المجموعة يرمي RUN_PROC_BAD_MODE — لا
+    يُعامَل معاملة «قراءة» صامتًا. **بوّابة أمان**: محجوبةٌ برميِ RUN_PERMISSION_DENIED
+    حين enableSecurity (فتحُ وصفٍ خامّ قدرةٌ نظاميّة كتشغيل العمليّة). وفشلُ الفتح يرمي
+    RUN_PROC_OPEN_FAILED لا رمزَ التشغيل — فشلُ فتحِ ملفٍّ ليس فشلَ تشغيله.
+    **منفَّذةٌ في المحرّكين** (المصرّف يولّدها في الوحدة المُصدَرة؛ لينكس حصرًا، وبلا
+    بوّابةِ أمانٍ لأنّ --أمان رايةُ المفسّر لا نظيرَ لها في ثنائيٍّ مُصدَر).
+  description_en: >-
+    Opens a file and returns a descriptor usable in a شغل_برنامجا redirection map —
+    which افتح_ملف_س cannot provide, since it returns a FILE* handle with no
+    derivable fd. The mode is a closed set — قراءة / كتابة / إلحاق — with no raw O_*
+    flags in the Sad surface. كتابة truncates-or-creates (like >), إلحاق appends
+    (like >>). The descriptor is CLOEXEC. An unknown mode throws.
+  params:
+  - مسار — مسار الملفّ.
+  - وضع — "قراءة" أو "كتابة" أو "إلحاق".
+  lookup_table: name_only

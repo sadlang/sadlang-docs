@@ -1,0 +1,413 @@
+# internal.yaml — أخطاء المترجم الداخلية (ICE) في لغة ص
+# ============================================================================
+# (AR) أخطاء "لا ينبغي أن تحدث" في المترجم (sadc): تمثيل وسيط (SIR/IR) مشوّه،
+#      معاملات غير صالحة، مراجع غير معرَّفة، فشل في الواجهة الخلفية (LLVM).
+#      مبدأ صالح (saleh): مطوّر المترجم يستحق شرحاً غنياً مثل المستخدم — لذا كل
+#      رمز يحمل title/brief/fix_hint/detailed موجَّهة لمن يُصلح المترجم نفسه،
+#      ويُوسَم صراحةً كـICE يُبلَّغ. كلها من YAML — لا نصّ رسالة يدوي في C++.
+#      placeholders تحمل بياناتٍ فقط ({op}/{name}/{detail}) لا نثراً.
+# (EN) "Should never happen" compiler (sadc) errors: malformed SIR/IR, invalid
+#      operands, undefined refs, LLVM backend failures. Each carries rich,
+#      developer-oriented bilingual guidance (how to fix it in the compiler).
+# ============================================================================
+
+version: "1.0"
+category: internal
+description_ar: "أخطاء المترجم الداخلية (ICE) — خلل في المترجم نفسه، تُبلَّغ مع شرح للمطوّر"
+description_en: "Internal compiler errors (ICE) — compiler defects, reported with developer guidance"
+
+errors:
+  - code: INT_COMPILER_NULL_IR
+    id: INT001
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — عقدة تمثيل وسيط فارغة
+      en: Internal compiler error — null IR node
+    brief:
+      ar: 'خطأ مترجم داخلي: عنصر تمثيل وسيط فارغ ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal compiler error: null IR element ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: ابحث عن نقطة بناء {detail} في باني SIR/IR وتحقّق من عدم تمرير nullptr (أضِف فحص توليد قبلها). للمستخدم: ليست علّة في برنامجك — أبلِغ، وجرّب المفسر مؤقتاً.'
+      en: 'Compiler dev: find where {detail} is built in the SIR/IR builder and ensure no nullptr is passed (add a generation-time check). User: not your bug — report it; use the interpreter meanwhile.'
+    detailed:
+      ar: حاول المترجم إدراج عنصر فارغ (null) في التمثيل الوسيط ({detail}). يعني انتهاك ثابت داخلي في توليد الكود — غالباً مسار توليد لم يُنشئ العقدة قبل استخدامها. لا علاقة له بصحّة كود ص.
+      en: The compiler tried to insert a null element into the IR ({detail}). An internal codegen invariant was violated — usually a generation path that did not create the node before use. Unrelated to your ص code.
+
+  - code: INT_COMPILER_INVALID_OPERANDS
+    id: INT002
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — عدد معاملات تعليمة غير صحيح
+      en: Internal compiler error — wrong instruction operand count
+    brief:
+      ar: 'خطأ مترجم داخلي: التعليمة ({detail}) وصلت بعدد معاملات غير متوقَّع — يُرجى الإبلاغ'
+      en: 'Internal compiler error: instruction ({detail}) reached codegen with an unexpected operand count — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: تحقّق من باني SIR للتعليمة {detail} (عدد المعاملات المُصدَر) وأن التحليل الدلالي يفرض الـarity قبل التوليد. للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: check the SIR builder for {detail} (emitted operand count) and that semantic analysis enforces arity before codegen. User: compiler bug — report it.'
+    detailed:
+      ar: تعليمة في التمثيل الوسيط ({detail}) بلغت مولِّد الكود بعدد معاملات لا يطابق عقدها. التحليل الدلالي يُفترض أن يمنع هذا قبل التوليد؛ وصولها هنا يعني خللاً في بناء SIR.
+      en: An SIR instruction ({detail}) reached codegen with an operand count that violates its contract. Semantic analysis should prevent this earlier; reaching codegen indicates a defect in SIR construction.
+
+  - code: INT_SIR_OPERAND_RESOLVE
+    id: INT003
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — تعذّر حلّ معامل تعليمة
+      en: Internal compiler error — failed to resolve an instruction operand
+    brief:
+      ar: 'خطأ مترجم داخلي: تعذّر حلّ معامل للتعليمة ({detail}) في خريطة القيم — يُرجى الإبلاغ'
+      en: 'Internal compiler error: could not resolve an operand for ({detail}) in the value map — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: المعامل غير موجود في خريطة SSA/القيم عند خفض {detail}. تحقّق من ترتيب التعريف-قبل-الاستخدام وأن القيمة المصدر سُجّلت في valueMap. للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: the operand is absent from the SSA/value map when lowering {detail}. Check def-before-use ordering and that the source value was registered in the valueMap. User: compiler bug — report.'
+    detailed:
+      ar: أثناء خفض التعليمة ({detail}) إلى LLVM، لم يجد المولِّد قيمة LLVM المقابلة لأحد معاملاتها في خريطة القيم. غالباً القيمة المصدر لم تُولَّد بعد أو لم تُسجَّل (انتهاك SSA).
+      en: While lowering ({detail}) to LLVM, the generator could not find the LLVM value for one of its operands in the value map. Usually the source value was not yet generated or not registered (SSA violation).
+
+  - code: INT_SIR_UNDEFINED_REF
+    id: INT004
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — مرجع غير معرَّف في التمثيل الوسيط
+      en: Internal compiler error — undefined reference in IR
+    brief:
+      ar: 'خطأ مترجم داخلي: مرجع غير معرَّف ({detail}) أثناء التوليد — يُرجى الإبلاغ'
+      en: 'Internal compiler error: undefined reference ({detail}) during codegen — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: الرمز {detail} (سجلّ/عام/دالة/صنف/كائن) لم يُسجَّل قبل استخدامه. تحقّق من ترتيب التصريحات وتعبئة جداول الرموز (globals/functions/classes) قبل الخفض. للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: the symbol {detail} (register/global/function/class/object) was not registered before use. Verify declaration order and that symbol tables (globals/functions/classes) are populated before lowering. User: compiler bug — report.'
+    detailed:
+      ar: حاول المولِّد الإشارة إلى رمز ({detail}) غير موجود في جداول الرموز. غالباً تصريح مفقود أو ترتيب خفض خاطئ (استُخدم الرمز قبل تسجيله).
+      en: The generator referenced a symbol ({detail}) absent from the symbol tables. Usually a missing declaration or wrong lowering order (symbol used before registration).
+
+  - code: INT_SIR_FIELD_LAYOUT
+    id: INT005
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — تعذّر حلّ تخطيط حقل/بنية صنف
+      en: Internal compiler error — failed class field/struct layout
+    brief:
+      ar: 'خطأ مترجم داخلي: تعذّر حلّ تخطيط صنف/حقل ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal compiler error: could not resolve class/field layout ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: بنية LLVM للصنف أو أسماء حقوله ({detail}) غير مُسجَّلة. تحقّق من تسجيل تخطيط الأصناف (struct mapping + fieldOrder) قبل emitLoad/emitStore. للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: the class LLVM struct or its field names ({detail}) are not registered. Verify class layout registration (struct mapping + fieldOrder) before emitLoad/emitStore. User: compiler bug — report.'
+    detailed:
+      ar: أثناء توليد وصول لحقل كائن ({detail})، لم يجد المولِّد بنية LLVM للصنف أو ترتيب حقوله. يعني أن تخطيط الصنف لم يُبنَ/يُسجَّل قبل استخدامه في تحميل/تخزين الحقل.
+      en: While generating object field access ({detail}), the generator could not find the class LLVM struct or its field order. The class layout was not built/registered before the field load/store.
+
+  - code: INT_BACKEND_EMIT
+    id: INT006
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — فشل الواجهة الخلفية في إصدار المخرجات
+      en: Internal compiler error — backend failed to emit output
+    brief:
+      ar: 'خطأ مترجم داخلي: فشل إصدار مخرجات الواجهة الخلفية ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal compiler error: backend output emission failed ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: تحقّق من تهيئة الوحدة وآلة الهدف (TargetMachine) قبل الإصدار، ومن صلاحيات/مسار ملف الإخراج ({detail}). قد يكون الهدف (target triple) غير مدعوم. للمستخدم: تحقّق من مسار الإخراج وصلاحياته، وأبلِغ إن تكرّر.'
+      en: 'Compiler dev: verify the module and TargetMachine are initialized before emission, and the output file path/permissions ({detail}). The target triple may be unsupported. User: check the output path/permissions; report if it persists.'
+    detailed:
+      ar: فشلت الواجهة الخلفية (LLVM) في إصدار كائن/تجميع ({detail}) — إمّا لعدم تهيئة الوحدة/آلة الهدف، أو تعذّر فتح ملف الإخراج، أو هدف غير قادر على الإصدار. هذا مزيج من حالة داخلية وبيئة تشغيل.
+      en: The LLVM backend failed to emit object/assembly ({detail}) — either the module/target machine was not initialized, the output file could not be opened, or the target cannot emit. A mix of internal state and runtime environment.
+
+  - code: INT_INTERP_NAMELESS_DEFINITION
+    id: INT008
+    category: internal
+    title:
+      ar: خطأ داخلي في المفسر — تعريف دالة بلا اسم
+      en: Internal interpreter error — nameless function definition
+    brief:
+      ar: 'خطأ داخلي في المفسر: محاولة تسجيل دالة بلا اسم ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal interpreter error: attempt to register a nameless function ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المفسر: مُستدعي تسجيل الدالة ({detail}) مرّر اسماً فارغاً إلى FunctionManager. تحقّق من بناء الاسم قبل التسجيل. للمستخدم: علّة مفسر — أبلِغ.'
+      en: 'Interpreter dev: the registration caller ({detail}) passed an empty name to FunctionManager. Check name construction before registration. User: interpreter bug — report.'
+    detailed:
+      ar: حاول المفسر تسجيل دالة (أو دالة مضمنة) باسم فارغ في FunctionManager. هذا ثابت داخلي — التسجيل يتطلّب اسماً غير فارغ دائماً. لا علاقة له بكود ص.
+      en: The interpreter tried to register a function (or builtin) with an empty name in FunctionManager. An internal invariant — registration always requires a non-empty name. Unrelated to your ص code.
+
+  - code: INT_INTERP_SCOPE_STACK
+    id: INT009
+    category: internal
+    title:
+      ar: خطأ داخلي في المفسر — خلل في مكدّس النطاقات
+      en: Internal interpreter error — scope stack violation
+    brief:
+      ar: 'خطأ داخلي في المفسر: عملية غير صالحة على مكدّس النطاقات ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal interpreter error: invalid scope-stack operation ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المفسر: عدم توازن enterScope/exitScope ({detail}) — محاولة إزالة النطاق العام أو الإزالة من مكدّس فارغ. دقّق أزواج الدخول/الخروج في الموزّع. للمستخدم: علّة مفسر — أبلِغ.'
+      en: 'Interpreter dev: enterScope/exitScope imbalance ({detail}) — removing the global scope or popping an empty stack. Audit enter/exit pairs in the dispatcher. User: interpreter bug — report.'
+    detailed:
+      ar: عملية على مكدّس النطاقات انتهكت ثابتاً ({detail}) — مثل إزالة النطاق العام (الجذر) أو الإزالة من مكدّس فارغ. يشير لعدم توازن في أزواج enterScope/exitScope داخل المفسر.
+      en: A scope-stack operation violated an invariant ({detail}) — e.g., removing the global (root) scope or popping an empty stack. Indicates an enterScope/exitScope imbalance inside the interpreter.
+
+  - code: INT_SIR_TYPE_CONSTRAINT
+    id: INT007
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — انتهاك قيد نوع أثناء التوليد
+      en: Internal compiler error — type constraint violated during codegen
+    brief:
+      ar: 'خطأ مترجم داخلي: انتهاك قيد نوع أثناء التوليد ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal compiler error: type constraint violated during codegen ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: التعليمة ({detail}) تتطلّب نوعاً محدّداً (مثل عدد صحيح لشرط switch) لكن وصل نوع مخالف. كان يجب أن يلتقطه التحليل الدلالي/الأنواع قبل التوليد. للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: the instruction ({detail}) requires a specific type (e.g., integer for a switch condition) but a different type arrived. Type/semantic analysis should have caught this before codegen. User: compiler bug — report.'
+    detailed:
+      ar: بلغت تعليمة ({detail}) مولِّد الكود بنوع معامل يخالف قيدها. التحقّق من الأنواع يُفترض أن يمنع هذا قبل التوليد؛ وصوله يعني فجوة في فحص الأنواع.
+      en: An instruction ({detail}) reached codegen with an operand type that violates its constraint. Type checking should prevent this before codegen; reaching here indicates a gap in type checking.
+
+  - code: INT_MODULE_VERIFY
+    id: INT011
+    category: internal
+    title:
+      ar: خطأ مترجم داخلي — فشل التحقّق من سلامة وحدة LLVM
+      en: Internal compiler error — LLVM module verification failed
+    brief:
+      ar: 'خطأ مترجم داخلي: وحدة LLVM المولَّدة غير سليمة ({detail}) — يُرجى الإبلاغ'
+      en: 'Internal compiler error: the generated LLVM module is invalid ({detail}) — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المترجم: شغّل الترجمة مع --emit-llvm ومرّر الناتج إلى llvm-as/opt -verify لرؤية التشخيص الكامل ({detail})، ثم تتبّع الباني الذي أصدر البنية المخالفة (تعارض توقيعات/أنواع غالباً). للمستخدم: علّة مترجم — أبلِغ.'
+      en: 'Compiler dev: run with --emit-llvm and feed the output to llvm-as/opt -verify for the full diagnostic ({detail}), then trace the builder that emitted the offending construct (usually signature/type conflicts). User: compiler bug — report.'
+    detailed:
+      ar: فشل مدقّق LLVM ‏(verifyModule) بعد اكتمال التوليد ({detail}) — الوحدة تحوي IR مخالفًا للمواصفة (مثل تعارض توقيعَي دالة أو أنواع معاملات). كان هذا الفشل يمرّ صامتًا قبل أن يُجعَل قاطعًا؛ وصوله يعني عيبًا في أحد البُناة لا في كود ص.
+      en: LLVM verifyModule failed after codegen completed ({detail}) — the module contains spec-violating IR (e.g., conflicting function signatures or operand types). This used to pass silently before being made fatal; reaching it indicates a defect in a builder, not in the ص code.
+
+  - code: INT_INTERP_UNEXPECTED_TOKEN
+    id: INT010
+    category: internal
+    title:
+      ar: خطأ داخلي في المفسر — نوع رمز حرفي غير متوقَّع
+      en: Internal interpreter error — unexpected literal token type
+    brief:
+      ar: 'خطأ داخلي في المفسر: نوع رمز غير حرفي ({detail}) وصل لمُقيِّم القيم الحرفية — يُرجى الإبلاغ'
+      en: 'Internal interpreter error: a non-literal token type ({detail}) reached the literal-value evaluator — please report'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر المفسر: المُحلِّل (parser) سلّم لـtokenToValue رمزاً ({detail}) ليس حرفيّاً. تحقّق من أن بناء عقدة التعبير الحرفي يقتصر على أنواع الرموز الحرفية. للمستخدم: علّة مفسر — أبلِغ، وليست علّة في برنامجك.'
+      en: 'Interpreter dev: the parser handed tokenToValue a token ({detail}) that is not a literal. Ensure literal-expression node construction is restricted to literal token types. User: interpreter bug — report; not an error in your code.'
+    detailed:
+      ar: حاول المفسر تحويل رمز ({detail}) إلى قيمة حرفية، لكن نوع الرمز ليس من الأنواع الحرفية المعروفة (عدد/نص/منطقي/فراغ). ثابت داخلي — المُحلِّل يُفترض ألّا يُنشئ عقدة تعبير حرفي إلا لرمز حرفي. لا علاقة له بصحّة كود ص.
+      en: The interpreter tried to convert a token ({detail}) into a literal value, but the token type is not among the known literal types (number/string/boolean/null). An internal invariant — the parser should only build a literal-expression node for a literal token. Unrelated to your ص code.
+
+  # ── الخلفيّة السياديّة الأصليّة (بلا LLVM): حدودُ التخفيض الأدنى (MVP) ──
+  #    ليست عللًا تُبلَّغ، بل بنى لم يدعمها المخفّضُ الأدنى بعد؛ fix_hint يوجّه
+  #    مطوّرَ الخلفيّة لتوسيع الجدول/المخصِّص لا للإبلاغ. البيانات في {detail} فقط.
+  - code: INT_NATIVE_NO_ENTRY
+    id: INT012
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — لا دالّة دخول
+      en: Native lowering — no entry function
+    brief:
+      ar: 'التخفيض الأصليّ (بلا LLVM): لم تُوجَد دالّةُ دخولٍ (رئيسية/main/__sad_main) لتخفيضها'
+      en: 'Native lowering (no LLVM): no entry function (رئيسية/main/__sad_main) found to lower'
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: يخفّض المخفّضُ الأصليّ دالّةَ الدخول وحدها؛ تأكّد أنّ الوحدة تحوي «رئيسية» أو أنّ جملَ المستوى الأعلى لُفّت في __sad_main. للمستخدم: عرّف «دالة رئيسية() … نهاية» تُرجع عددًا.'
+      en: 'Backend dev: the native lowering targets the entry function only; ensure the module defines رئيسية or that top-level statements were wrapped in __sad_main. User: define «دالة رئيسية() … نهاية» returning an integer.'
+    detailed:
+      ar: بحث المخفّضُ الأصليّ عن دالّة الدخول (رئيسية ثمّ main ثمّ __sad_main ثمّ أوّل دالّة) فلم يجد أيًّا منها في وحدة SIR. لا شيفرةَ تُولَّد بلا دالّة دخول.
+      en: The native lowerer looked for the entry function (رئيسية, then main, then __sad_main, then the first function) and found none in the SIR module. No code can be generated without an entry.
+
+  - code: INT_NATIVE_UNSUPPORTED
+    id: INT013
+    category: internal
+    title:
+      ar: التخفيض الأصليّ الأدنى — بنية غير مدعومة
+      en: Minimal native lowering — unsupported construct
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): بنيةٌ غير مدعومة بعد ({detail})'
+      en: 'Minimal native lowering (no LLVM): construct not yet supported ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: المخفّضُ الأدنى يدعم كتلةً واحدةً وأوپكودات MOVE/ADD_I64/SUB_I64/RET بأعدادٍ صحيحة. لدعم ({detail}): أضِف حالةً في lowerInstruction أو صيغةً في جدول الترميز (instructions.yaml)، أو طبقةَ CFG/انسكاب. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: the minimal lowerer supports one basic block and MOVE/ADD_I64/SUB_I64/RET over integers. To support ({detail}): add a case in lowerInstruction or a form in the encoding table (instructions.yaml), or a CFG/spill layer. Not a bug to report.'
+    detailed:
+      ar: بلغ المخفّضَ الأصليّ الأدنى بناءٌ خارج مجموعته المدعومة ({detail}) — كأوپكود غير مُخفَّض، أو ثابتٍ غير صحيح، أو نوع معاملٍ غير مدعوم، أو كتلةٍ لا تنتهي بـRET. هذا حدُّ MVP معلَن لا خلل؛ يُوسَّع بإضافة الدعم في الجدول/المخفّض.
+      en: A construct outside the minimal lowerer's supported set reached it ({detail}) — an unlowered opcode, a non-integer constant, an unsupported operand kind, or a block not ending in RET. This is a declared MVP boundary, not a defect; extend the table/lowerer to support it.
+
+  - code: INT_NATIVE_REGALLOC_EXHAUSTED
+    id: INT014
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — نفاد سجلّات الحوض
+      en: Native lowering — register pool exhausted
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): نفدت سجلّاتُ الحوض — لا انسكابَ في هذا الحدّ ({detail})'
+      en: 'Minimal native lowering (no LLVM): register pool exhausted — no spilling at this boundary ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: نموذج «كلٌّ في سجلّ» بلا انسكاب يكفي التعابيرَ الصغيرة فقط. لدعم تعابير أكبر أضِف طبقةَ انسكابٍ (تخزين/تحميل من المكدّس عبر ادفع/اسحب/mov [rbp±إزاحة]) أو مخصِّص خطّيّ. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: the everything-in-registers model without spilling only fits small expressions. For larger ones add a spill layer (stack store/load via push/pop/mov [rbp±disp]) or a linear-scan allocator. Not a bug to report.'
+    detailed:
+      ar: تجاوز عددُ السجلّات الافتراضيّة الحيّة سعةَ حوض السجلّات الفيزيائيّة ({detail})، والمخفّضُ الأدنى لا يسكب إلى المكدّس. رفضٌ صريحٌ خيرٌ من دهسِ سجلٍّ حيٍّ صامتًا.
+      en: The number of live virtual registers exceeded the physical register pool ({detail}), and the minimal lowerer does not spill to the stack. Failing explicitly is better than silently clobbering a live register.
+
+  - code: INT_NATIVE_IMM_RANGE
+    id: INT015
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — فوريّ خارج المدى
+      en: Native lowering — immediate out of range
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): قيمةٌ فوريّةٌ خارج مدى الترميز المتاح ({detail})'
+      en: 'Minimal native lowering (no LLVM): immediate value out of the available encoding range ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: صيغُ الفوريّ الحاليّة mov r32,imm32 (‏[0, 2³²)) وadd/sub r64,imm32 (‏[−2³¹, 2³¹)). للمدى الأوسع أضِف mov r64,imm64 (‏movabs) أو mov r64,imm32 الممتدّ إشاريًّا إلى الجدول. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: current immediate forms are mov r32,imm32 ([0, 2³²)) and add/sub r64,imm32 ([−2³¹, 2³¹)). For a wider range add mov r64,imm64 (movabs) or sign-extended mov r64,imm32 to the table. Not a bug to report.'
+    detailed:
+      ar: قيمةٌ فوريّةٌ ({detail}) لا تُمثَّل في الصيغة المختارة (mov r32,imm32 يمتدّ صفريًّا؛ add/sub r64,imm32 يمتدّ إشاريًّا). بترُها الصامت يُنتج قيمةً خاطئة، فنرفضها صراحةً حتّى تُضاف صيغةٌ أوسع.
+      en: An immediate ({detail}) is not representable in the chosen form (mov r32,imm32 zero-extends; add/sub r64,imm32 sign-extends). Silent truncation would produce a wrong value, so it is rejected until a wider form is added.
+
+  - code: INT_NATIVE_ENCODING_MISSING
+    id: INT016
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — لا صيغة ترميز
+      en: Native lowering — no encoding spec
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): لا صيغة ترميزٍ أصليّة لهذه التعليمة في الجدول ({detail})'
+      en: 'Minimal native lowering (no LLVM): no native encoding spec for this instruction in the table ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: جدولُ الترميز يربط كلَّ نمطِ تعليمةٍ (mnemonic + أنواع المعاملات) بمواصفة بايتات. غيابُ المدخل يعني أنّ النمط لم يُضَف بعد. أضِف مدخلًا في جدول صيغ الترميز الأصليّة. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: the encoding table maps each instruction shape (mnemonic + operand types) to a byte spec. A missing entry means that shape has not been added yet. Add an entry to the native encoding-spec table. Not a bug to report.'
+    detailed:
+      ar: طلب المخفّضُ صيغةَ ترميزٍ لتعليمةٍ ({detail}) لا مدخلَ لها في جدول الصيغ الأصليّة، فتعذّر إصدارُ بايتاتها. رفضٌ صريحٌ خيرٌ من إصدارِ بايتاتٍ عشوائيّة.
+      en: The lowerer requested an encoding spec for an instruction ({detail}) that has no entry in the native spec table, so its bytes could not be emitted. Failing explicitly is better than emitting arbitrary bytes.
+
+  - code: INT_NATIVE_UNDEF_VREG
+    id: INT017
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — سجلّ افتراضيّ غير معرَّف
+      en: Native lowering — undefined virtual register
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): سجلٌّ افتراضيٌّ مُستعمَل قبل تعريفه ({detail})'
+      en: 'Minimal native lowering (no LLVM): a virtual register is used before it is defined ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: يجب أن يُنتِج كلُّ سجلٍّ افتراضيٍّ من تعليمةٍ سابقة قبل قراءته (كلُّ سجلٍّ يُعرَّف قبل قراءته). لو أنتجه بانِي SIR فتحقّق من ترتيب التعليمات؛ وإلّا فالمدخلُ ناقصٌ في خريطة تخصيص السجلّات. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: every virtual register must be produced by an earlier instruction before it is read (each register defined before it is used). If the SIR builder produced it, check instruction ordering; otherwise the register-allocation map is missing an entry. Not a bug to report.'
+    detailed:
+      ar: قرأ المخفّضُ سجلًّا افتراضيًّا ({detail}) لا تعريفَ سابقًا له في خريطة السجلّات، فتعذّر ربطُه بسجلٍّ فيزيائيّ. رفضٌ صريحٌ خيرٌ من قراءةِ سجلٍّ عشوائيّ.
+      en: The lowerer read a virtual register ({detail}) that has no prior definition in the register map, so it could not be bound to a physical register. Failing explicitly is better than reading an arbitrary register.
+
+  - code: INT_NATIVE_LABEL_UNDEFINED
+    id: INT018
+    category: internal
+    title:
+      ar: التخفيض الأصليّ — لصيقةُ قفزٍ غير معرَّفة
+      en: Native lowering — undefined branch label
+    brief:
+      ar: 'التخفيض الأصليّ الأدنى (بلا LLVM): لصيقةُ قفزٍ لا تشير إلى كتلةٍ معرَّفة ({detail})'
+      en: 'Minimal native lowering (no LLVM): a branch label targets no defined block ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'لمطوّر الخلفيّة: مرورُ الترقيع (fixup) يربط كلَّ قفزٍ بإزاحةِ كتلته الهدف عبر خريطة اللصائق. غيابُ الهدف يعني أنّ الكتلة لم تُضَف إلى الدالّة أو أنّ اسمها لا يطابق. تحقّق من بانِي SIR (addBasicBlock) وتطابُق أسماء اللصائق. ليس عطلًا يُبلَّغ.'
+      en: 'Backend dev: the fixup pass binds each jump to its target block offset via the label map. A missing target means the block was not added to the function or its name does not match. Check the SIR builder (addBasicBlock) and label-name consistency. Not a bug to report.'
+    detailed:
+      ar: أشار قفزٌ إلى لصيقةٍ ({detail}) لا كتلةَ لها في خريطة اللصائق، فتعذّر حسابُ الإزاحة النسبيّة. رفضٌ صريحٌ خيرٌ من ترقيعِ قفزٍ بإزاحةٍ عشوائيّة.
+      en: A jump referenced a label ({detail}) with no block in the label map, so its relative displacement could not be computed. Failing explicitly is better than patching a jump with an arbitrary displacement.
+
+  - code: INT_NATIVE_OUTPUT_WRITE
+    id: INT019
+    category: internal
+    title:
+      ar: الخلفيّة الأصليّة — تعذّرت كتابة الثنائيّ
+      en: Native backend — could not write the binary
+    brief:
+      ar: 'الخلفيّة الأصليّة (بلا LLVM): تعذّرت كتابةُ ثنائيّ ELF64 إلى ({detail})'
+      en: 'Native backend (no LLVM): could not write the ELF64 binary to ({detail})'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'للمستخدم: تحقّق من صلاحيّة المسار ({detail}) ومن وجود مجلّده وأنّ الملفّ ليس مقفلًا بعمليّةٍ أخرى، ثمّ أعِد الترجمة. لمطوّر الخلفيّة: كتابةُ المخرَج تفتح المسار بنمطٍ ثنائيّ وتكتب بايتات ELF دفعةً واحدة؛ الفشلُ هنا فشلُ نظامِ ملفّاتٍ لا فشلُ تخفيض.'
+      en: 'User: check that the path ({detail}) is valid, its directory exists, and the file is not locked by another process, then recompile. Backend dev: output writing opens the path in binary mode and writes the ELF bytes in one shot; a failure here is a filesystem failure, not a lowering failure.'
+    detailed:
+      ar: اكتمل التخفيضُ الأصليّ وأُنتِجت بايتاتُ ELF64 كاملةً، لكنّ كتابتَها إلى المسار ({detail}) أخفقت. الشيفرةُ صحيحة؛ العائقُ في نظام الملفّات (مسارٌ غير موجود، أو صلاحيّةٌ ناقصة، أو ملفٌّ مقفل).
+      en: Native lowering completed and produced the full ELF64 bytes, but writing them to ({detail}) failed. The generated code is valid; the obstacle is in the filesystem (missing path, insufficient permission, or a locked file).
+
+  - code: INT_NATIVE_TARGET_UNSUPPORTED
+    id: INT020
+    category: internal
+    title:
+      ar: الخلفيّة الأصليّة — هدفٌ غير مدعوم
+      en: Native backend — unsupported target
+    brief:
+      ar: 'الخلفيّة الأصليّة (بلا LLVM): الهدف ({detail}) غير مدعوم — المدعومُ x86_64 وaarch64 على linux أو none'
+      en: 'Native backend (no LLVM): target ({detail}) is unsupported — only x86_64 and aarch64 on linux or none'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'للمستخدم: الخلفيّةُ الأصليّةُ تُصدِر ELF64 لمعماريّتين فقط. مرّر «--هدف=x86_64-unknown-linux-gnu» أو «--هدف=aarch64-unknown-linux-gnu»، أو أسقِط «--خلفية-أصلية» لتستعمل مسارَ LLVM لهدفك. لمطوّر الخلفيّة: توسيعُ الدعم يلزمه مخفّضٌ للمعماريّة وكاتبُ صيغةٍ لنظامها (ELF ليس صيغةَ ويندوز ولا ماك).'
+      en: 'User: the native backend emits ELF64 for two architectures only. Pass "--هدف=x86_64-unknown-linux-gnu" or "--هدف=aarch64-unknown-linux-gnu", or drop "--خلفية-أصلية" to use the LLVM path for your target. Backend dev: widening support needs a lowerer for the architecture and a container writer for its OS (ELF is neither the Windows nor the macOS format).'
+    detailed:
+      ar: 'طُلبت الخلفيّةُ الأصليّةُ لهدفٍ ({detail}) لا مخفّضَ له أو لا يستعمل ELF. الرفضُ صريحٌ عمداً: إنتاجُ ELF x86-64 لهدفٍ آخر يعطي ملفًّا لا يعمل على المنصّة المطلوبة بلا أيّ إنذار.'
+      en: 'The native backend was requested for a target ({detail}) that has no lowerer or does not use ELF. The rejection is deliberate: emitting an x86-64 ELF for another target would silently yield a file that cannot run on the requested platform.'
+
+  - code: INT_NATIVE_OUTPUT_TYPE
+    id: INT021
+    category: internal
+    title:
+      ar: الخلفيّة الأصليّة — نوعُ مخرَجٍ متعارض
+      en: Native backend — conflicting output type
+    brief:
+      ar: 'الخلفيّة الأصليّة (بلا LLVM): لا تُنتج إلّا تنفيذيًّا ساكناً؛ نوعُ المخرَج المطلوب ({detail}) متعارض'
+      en: 'Native backend (no LLVM): it produces only a static executable; the requested output type ({detail}) conflicts'
+    placeholders:
+    - detail
+    fix_hint:
+      ar: 'للمستخدم: «--خلفية-أصلية» تُخرِج ثنائيًّا تنفيذيًّا واحداً؛ لا ملفَّ كائنٍ ولا تجميعَ ولا LLVM IR ولا مكتبةً مشتركةً أو ساكنة (لا رابطَ ولا مُجمِّعَ في هذا المسار). أسقِط عَلَمَ نوعِ المخرَج، أو أسقِط «--خلفية-أصلية» لتستعمل مسارَ LLVM.'
+      en: 'User: "--خلفية-أصلية" emits a single executable binary — no object file, assembly, LLVM IR, or shared/static library (this path has neither linker nor assembler). Drop the output-type flag, or drop "--خلفية-أصلية" to use the LLVM path.'
+    detailed:
+      ar: 'طُلب مع الخلفيّة الأصليّة نوعُ مخرَجٍ ({detail}) لا تنتجه. الرفضُ صريحٌ عمداً: الكتابةُ الصامتة لثنائيّ تنفيذيّ باسمٍ يوحي بملفّ كائنٍ أو مكتبةٍ تُضلِّل الأدواتِ التالية في السلسلة.'
+      en: 'An output type ({detail}) the native backend does not produce was requested alongside it. The rejection is deliberate: silently writing an executable under a name implying an object file or library would mislead every downstream tool.'
+
+  - code: INT_NATIVE_NO_MODULE
+    id: INT022
+    category: internal
+    title:
+      ar: الخلفيّة الأصليّة — لا وحدة SIR
+      en: Native backend — no SIR module
+    brief:
+      ar: 'الخلفيّة الأصليّة (بلا LLVM): بلغت الخلفيّةَ بلا وحدةِ SIR تُخفَّض'
+      en: 'Native backend (no LLVM): reached the backend with no SIR module to lower'
+    fix_hint:
+      ar: 'لمطوّر المترجم: تُبنى وحدةُ SIR في المرحلة التحليليّة (SIRBuilder::buildModule) قبل الخلفيّة؛ بلوغُ الخلفيّة بمؤشّرٍ عدميّ يعني أنّ إخفاقَ البناء لم يوقف الخطّ. تحقّق من بوّابة النجاح بعد buildModule. للمستخدم: علّةُ مترجم — أبلِغ، وليست علّةً في برنامجك.'
+      en: 'Compiler dev: the SIR module is built in the analysis phase (SIRBuilder::buildModule) before the backend; reaching the backend with a null pointer means a build failure did not stop the pipeline. Check the success gate after buildModule. User: a compiler bug — report it; not an error in your code.'
+    detailed:
+      ar: استُدعيت الخلفيّةُ الأصليّةُ ومؤشّرُ وحدة SIR عدميّ. لا شيفرةَ تُخفَّض من لا شيء؛ الرفضُ الصريحُ خيرٌ من انهيارٍ عند فكِّ المؤشّر.
+      en: The native backend was invoked with a null SIR-module pointer. Nothing can be lowered from nothing; failing explicitly beats crashing on dereference.

@@ -1,0 +1,83 @@
+version: 1
+namespace_group: CompilerEmbed
+description_ar: دوال مترجم CompilerEmbed (6 دالة)
+description_en: Compiler builtins CompilerEmbed (6)
+functions:
+- cpp_id: EMBED_0
+  canonical: تسلسلي_هيئ
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تسلسلي_هيئ
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
+- cpp_id: EMBED_1
+  canonical: تسلسلي_ارسل
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تسلسلي_ارسل
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
+- cpp_id: EMBED_2
+  canonical: تسلسلي_استقبل
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تسلسلي_استقبل
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
+- cpp_id: EMBED_3
+  canonical: تسلسلي_جاهز
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: تسلسلي_جاهز
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
+- cpp_id: EMBED_4
+  canonical: مؤقت_هيئ
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: مؤقت_هيئ
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
+- cpp_id: EMBED_5
+  canonical: نقل_مباشر_هيئ
+  namespace: CompilerEmbed
+  category: MODULE_FUNCTION
+  require_import: false
+  module: NONE
+  compiler_strategy: INLINE
+  since: 0.1.0
+  status: stable
+  description_ar: نقل_مباشر_هيئ
+  description_en: compiler builtin (builtins_embedded)
+  params: []
+  lookup_table: name_only
